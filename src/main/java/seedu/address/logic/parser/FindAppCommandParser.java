@@ -31,13 +31,22 @@ public class FindAppCommandParser implements Parser<FindAppCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE));
         }
 
+        // Check if status value is empty
+        String statusValue = argMultimap.getValue(PREFIX_STATUS).get();
+        if (statusValue.trim().isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE));
+        }
+
         List<Predicate<Application>> predicates = new ArrayList<>();
 
         try {
-            int status = Integer.parseInt(argMultimap.getValue(PREFIX_STATUS).get());
+            int status = Integer.parseInt(statusValue);
             predicates.add(new ApplicationStatusPredicate(status));
         } catch (NumberFormatException e) {
             throw new ParseException("Status should be a valid integer");
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE));
         }
 
         return new FindAppCommand(predicates);
