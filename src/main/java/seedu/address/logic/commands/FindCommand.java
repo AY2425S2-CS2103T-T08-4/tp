@@ -51,12 +51,12 @@ public class FindCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        
+
         Predicate<Person> combinedPredicate = person -> {
             if (predicates.isEmpty()) {
                 return true; // No predicates means no filtering
             }
-            
+
             boolean result = combiner == PredicateCombiner.AND;
             for (Predicate<Person> predicate : predicates) {
                 if (combiner == PredicateCombiner.AND) {
@@ -73,7 +73,7 @@ public class FindCommand extends Command {
             }
             return result;
         };
-        
+
         model.updateFilteredPersonList(combinedPredicate);
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
@@ -84,7 +84,7 @@ public class FindCommand extends Command {
         if (!(other instanceof FindCommand otherFindCommand)) {
             return false;
         }
-        
+
         return this.predicates.equals(otherFindCommand.predicates)
                 && this.combiner.equals(otherFindCommand.combiner);
     }

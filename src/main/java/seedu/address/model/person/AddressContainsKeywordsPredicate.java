@@ -33,7 +33,7 @@ public class AddressContainsKeywordsPredicate implements Predicate<Person> {
             return false;
         }
 
-        AddressContainsKeywordsPredicate otherAddressContainsKeywordsPredicate = 
+        AddressContainsKeywordsPredicate otherAddressContainsKeywordsPredicate =
                 (AddressContainsKeywordsPredicate) other;
         return keywords.equals(otherAddressContainsKeywordsPredicate.keywords);
     }
@@ -42,4 +42,4 @@ public class AddressContainsKeywordsPredicate implements Predicate<Person> {
     public String toString() {
         return new ToStringBuilder(this).add("keywords", keywords).toString();
     }
-} 
+}

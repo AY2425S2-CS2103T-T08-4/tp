@@ -23,7 +23,6 @@ public class TagContainsPredicate implements Predicate<Person> {
         Collection<String> personTags = person.getTags().stream()
                 .map(tag -> tag.tagName())
                 .collect(Collectors.toList());
-                
         // Check if any of the required tag keywords match any of the person's tags
         return tagKeywords.stream()
                 .anyMatch(keyword -> personTags.stream()
@@ -49,4 +48,4 @@ public class TagContainsPredicate implements Predicate<Person> {
     public String toString() {
         return new ToStringBuilder(this).add("tagKeywords", tagKeywords).toString();
     }
-} 
+}
