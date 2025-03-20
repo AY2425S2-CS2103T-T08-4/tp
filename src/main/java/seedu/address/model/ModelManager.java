@@ -282,6 +282,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public List<Application> getApplicationList() {
+        return applicationsManager.getApplicationList();
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;

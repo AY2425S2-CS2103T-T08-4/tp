@@ -210,4 +210,7 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredApplicationList(Predicate<Application> predicate);
+
+    /** Returns an unmodifiable list of all applications in the address book */
+    List<Application> getApplicationList();
 }
