@@ -9,8 +9,6 @@ import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
-import seedu.address.logic.commands.Command;
-import seedu.address.logic.commands.CommandResult;
 import seedu.address.model.Model;
 import seedu.address.model.application.Application;
 import seedu.address.model.person.Person;
@@ -23,7 +21,8 @@ public class FindAppCommand extends Command {
 
     public static final String COMMAND_WORD = "findapp";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons who have applications with the specified status "
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Finds all persons who have applications with the specified status "
             + "and displays them as a list with index numbers.\n"
             + "Parameters: st/STATUS\n"
             + "Example: " + COMMAND_WORD + " st/1";

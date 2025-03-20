@@ -55,4 +55,4 @@ public class ApplicationStatusPredicateTest {
         predicate = new ApplicationStatusPredicate(5);
         assertFalse(predicate.test(new ApplicationBuilder().withApplicationStatus(3).build()));
     }
-} 
+}

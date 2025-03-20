@@ -51,4 +51,4 @@ public class FindAppCommandParser implements Parser<FindAppCommand> {
 
         return new FindAppCommand(predicates);
     }
-} 
+}

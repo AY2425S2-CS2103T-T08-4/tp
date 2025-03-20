@@ -64,4 +64,4 @@ public class ApplicationBuilder {
     public Application build() {
         return new Application(applicant, job, applicationStatus);
     }
-} 
+}

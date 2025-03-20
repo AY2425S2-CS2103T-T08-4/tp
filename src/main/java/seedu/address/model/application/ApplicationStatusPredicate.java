@@ -28,4 +28,4 @@ public class ApplicationStatusPredicate implements Predicate<Application> {
         ApplicationStatusPredicate otherPredicate = (ApplicationStatusPredicate) other;
         return status == otherPredicate.status;
     }
-} 
+}

@@ -34,7 +34,7 @@ import seedu.address.model.person.Person;
  */
 public class FindAppCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), getTypicalApplicationsManager(), new UserPrefs());
-    private Model expectedModel = new ModelManager(getTypicalAddressBook(), getTypicalApplicationsManager(), 
+    private Model expectedModel = new ModelManager(getTypicalAddressBook(), getTypicalApplicationsManager(),
             new UserPrefs());
 
     @Test
@@ -66,14 +66,16 @@ public class FindAppCommandTest {
         assertFalse(findFirstCommand.equals(findSecondCommand));
 
         // Different combiner -> returns false
-        FindAppCommand findFirstCommandAnd = new FindAppCommand(firstPredicateList, FindAppCommand.PredicateCombiner.AND);
+        FindAppCommand findFirstCommandAnd = new FindAppCommand(firstPredicateList,
+                FindAppCommand.PredicateCombiner.AND);
         FindAppCommand findFirstCommandOr = new FindAppCommand(firstPredicateList, FindAppCommand.PredicateCombiner.OR);
         assertFalse(findFirstCommandAnd.equals(findFirstCommandOr));
     }
 
     @Test
     public void execute_singlePredicate_multiplePersonsFound() {
-        // Filter for applications with status 1, which should return CARL, ELLE, and ALICE (for her Microsoft application)
+        // Filter for applications with status 1,
+        // which should return CARL, ELLE, and ALICE (for her Microsoft application)
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
         ApplicationStatusPredicate predicate = new ApplicationStatusPredicate(1);
         FindAppCommand command = new FindAppCommand(Collections.singletonList(predicate));
@@ -81,7 +83,7 @@ public class FindAppCommandTest {
         // Getting persons with status 1 applications
         Set<Person> matchingPersons = getPersonsWithApplicationStatus(1);
         Predicate<Person> expectedPredicate = person -> matchingPersons.contains(person);
-        
+
         expectedModel.updateFilteredPersonList(expectedPredicate);
         assertCommandSuccess(command, expectedMessage, Arrays.asList(ALICE, CARL, ELLE));
     }
@@ -96,7 +98,7 @@ public class FindAppCommandTest {
         // Getting persons with status 4 applications
         Set<Person> matchingPersons = getPersonsWithApplicationStatus(4);
         Predicate<Person> expectedPredicate = person -> matchingPersons.contains(person);
-        
+
         expectedModel.updateFilteredPersonList(expectedPredicate);
         assertCommandSuccess(command, expectedMessage, Collections.singletonList(BENSON));
     }
@@ -116,20 +118,20 @@ public class FindAppCommandTest {
     public void execute_multiplePredicatesWithOr_multiplePersonsFound() {
         // Filter for applications with status 1 or 2, which should return multiple persons
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 4);
-        
+
         List<Predicate<Application>> predicates = new ArrayList<>();
         predicates.add(new ApplicationStatusPredicate(1));
         predicates.add(new ApplicationStatusPredicate(2));
-        
+
         FindAppCommand command = new FindAppCommand(predicates, FindAppCommand.PredicateCombiner.OR);
 
         // Getting persons with status 1 or 2 applications
         Set<Person> matchingPersons = new HashSet<>();
         matchingPersons.addAll(getPersonsWithApplicationStatus(1));
         matchingPersons.addAll(getPersonsWithApplicationStatus(2));
-        
+
         Predicate<Person> expectedPredicate = person -> matchingPersons.contains(person);
-        
+
         expectedModel.updateFilteredPersonList(expectedPredicate);
         assertCommandSuccess(command, expectedMessage, Arrays.asList(ALICE, CARL, DANIEL, ELLE));
     }
@@ -157,4 +159,4 @@ public class FindAppCommandTest {
         assertEquals(expectedMessage, result.getFeedbackToUser());
         assertEquals(expectedList, model.getFilteredPersonList());
     }
-} 
+}
