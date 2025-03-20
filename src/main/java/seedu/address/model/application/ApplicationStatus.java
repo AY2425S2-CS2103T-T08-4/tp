@@ -1,13 +1,12 @@
 package seedu.address.model.application;
 
-import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents the status of a job application. The status represents which round
  * has been completed up to.
  */
-public class ApplicationStatus implements Comparable<ApplicationStatus> {
+public record ApplicationStatus(int applicationStatus) implements Comparable<ApplicationStatus> {
     public static final String MESSAGE_CONSTRAINTS = "Application status should be a non-negative integer";
 
     /**
@@ -15,28 +14,14 @@ public class ApplicationStatus implements Comparable<ApplicationStatus> {
      * completed yet. A positive integer n means completed up to round n.
      */
     public static final String VALIDATION_REGEX = "^[0-9]\\d*$";
-    public final int applicationStatus;
 
     /**
      * Constructs an {@code ApplicationStatus}.
      *
      * @param applicationStatus A valid application status.
      */
-    public ApplicationStatus(int applicationStatus) {
-        requireNonNull(applicationStatus);
+    public ApplicationStatus {
         checkArgument(isValidApplicationStatus(applicationStatus), MESSAGE_CONSTRAINTS);
-        this.applicationStatus = applicationStatus;
-    }
-
-    /**
-     * Constructs an {@code ApplicationStatus} from a string.
-     *
-     * @param applicationStatus A valid application status as a string.
-     */
-    public ApplicationStatus(String applicationStatus) {
-        requireNonNull(applicationStatus);
-        checkArgument(isValidApplicationStatus(applicationStatus), MESSAGE_CONSTRAINTS);
-        this.applicationStatus = Integer.parseInt(applicationStatus);
     }
 
     /**
@@ -50,23 +35,13 @@ public class ApplicationStatus implements Comparable<ApplicationStatus> {
     }
 
     /**
-     * Returns true if a given string is a valid application status.
-     *
-     * @param test The string to validate.
-     * @return True if the given string is a valid application status.
-     */
-    public static boolean isValidApplicationStatus(String test) {
-        return test.matches(VALIDATION_REGEX);
-    }
-
-    /**
      * Returns the string representation of the application status.
      *
      * @return The string representation.
      */
     @Override
     public String toString() {
-        return String.valueOf(applicationStatus);
+        return String.valueOf(this.applicationStatus);
     }
 
     /**
@@ -80,11 +55,10 @@ public class ApplicationStatus implements Comparable<ApplicationStatus> {
         if (other == this) {
             return true;
         }
-        if (!(other instanceof ApplicationStatus)) {
+        if (!(other instanceof ApplicationStatus otherApplicationStatus)) {
             return false;
         }
-        ApplicationStatus otherApplicationStatus = (ApplicationStatus) other;
-        return applicationStatus == otherApplicationStatus.applicationStatus;
+        return this.applicationStatus == otherApplicationStatus.applicationStatus;
     }
 
     /**

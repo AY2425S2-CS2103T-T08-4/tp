@@ -10,6 +10,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.application.exceptions.ApplicationNotFoundException;
 import seedu.address.model.application.exceptions.DuplicateApplicationException;
+import seedu.address.model.job.JobCompany;
+import seedu.address.model.job.JobTitle;
+import seedu.address.model.person.Phone;
 
 /**
  * A list of applications that enforces uniqueness between its elements and does
@@ -18,8 +21,10 @@ import seedu.address.model.application.exceptions.DuplicateApplicationException;
  * Supports a minimal set of list operations.
  */
 public class UniqueApplicationList implements Iterable<Application> {
-
     private final ObservableList<Application> internalList = FXCollections.observableArrayList();
+
+    public UniqueApplicationList() {
+    }
 
     /**
      * Returns true if the list contains an equivalent application as the given
@@ -31,8 +36,7 @@ public class UniqueApplicationList implements Iterable<Application> {
     }
 
     /**
-     * Adds an application to the list. The application must not already exist in
-     * the list.
+     * Adds an application to the list. The application must not already exist in the list.
      */
     public void add(Application toAdd) {
         requireNonNull(toAdd);
@@ -59,7 +63,6 @@ public class UniqueApplicationList implements Iterable<Application> {
         if (!target.equals(editedApplication) && contains(editedApplication)) {
             throw new DuplicateApplicationException();
         }
-
         internalList.set(index, editedApplication);
     }
 
@@ -98,6 +101,17 @@ public class UniqueApplicationList implements Iterable<Application> {
         return FXCollections.unmodifiableObservableList(this.internalList);
     }
 
+    public ObservableList<Application> searchApplications(Phone phone, JobTitle jobTitle, JobCompany jobCompany,
+                                                          ApplicationStatus applicationStatus) {
+        requireAllNonNull(phone, jobTitle, jobCompany, applicationStatus);
+        List<Application> filteredList = this.internalList.stream()
+                .filter(application -> application.getApplicant().getPhone().equals(phone))
+                .filter(application -> application.getJob().getJobTitle().equals(jobTitle))
+                .filter(application -> application.getJob().getJobCompany().equals(jobCompany))
+                .filter(application -> application.getApplicationStatus().equals(applicationStatus)).toList();
+        return FXCollections.unmodifiableObservableList(FXCollections.observableList(filteredList));
+    }
+
     @Override
     public Iterator<Application> iterator() {
         return this.internalList.iterator();
@@ -108,7 +122,6 @@ public class UniqueApplicationList implements Iterable<Application> {
         if (other == this) {
             return true;
         }
-
         // instanceof handles nulls
         if (!(other instanceof UniqueApplicationList otherUniqueApplicationList)) {
             return false;

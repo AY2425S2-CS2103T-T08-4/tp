@@ -2,11 +2,11 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.List;
 import java.util.Objects;
 
-import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.application.Application;
+import seedu.address.model.application.UniqueApplicationList;
 import seedu.address.model.job.Job;
 import seedu.address.model.job.UniqueJobList;
 import seedu.address.model.person.Person;
@@ -20,6 +20,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
     private final UniqueJobList jobs;
+    private final UniqueApplicationList applications;
 
     /*
      * The 'unusual' code block below is a non-static initialization block,
@@ -32,6 +33,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     {
         persons = new UniquePersonList();
         jobs = new UniqueJobList();
+        applications = new UniqueApplicationList();
     }
 
     public AddressBook() {
@@ -51,7 +53,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Replaces the contents of the person list with {@code persons}.
      * {@code persons} must not contain duplicate persons.
      */
-    public void setPersons(List<Person> persons) {
+    public void setPersons(UniquePersonList persons) {
         this.persons.setPersons(persons);
     }
 
@@ -59,8 +61,16 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Replaces the contents of the job list with {@code jobs}. {@code jobs} must
      * not contain duplicate jobs.
      */
-    public void setJobs(List<Job> jobs) {
+    public void setJobs(UniqueJobList jobs) {
         this.jobs.setJobs(jobs);
+    }
+
+    /**
+     * Replaces the contents of the application list with {@code applications}. {@code applications} must
+     * not contain duplicate applications.
+     */
+    public void setApplications(UniqueApplicationList applications) {
+        this.applications.setApplications(applications);
     }
 
     /**
@@ -69,8 +79,9 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
 
-        setPersons(newData.getPersonList());
-        setJobs(newData.getJobList());
+        this.setPersons(newData.getUniquePersonList());
+        this.setJobs(newData.getUniqueJobList());
+        this.setApplications(newData.getUniqueApplicationList());
     }
 
     //// person-level operations
@@ -151,7 +162,23 @@ public class AddressBook implements ReadOnlyAddressBook {
         jobs.remove(key);
     }
 
-    //// util methods
+    public boolean hasApplication(Application application) {
+        requireNonNull(application);
+        return applications.contains(application);
+    }
+
+    public void addApplication(Application application) {
+        applications.add(application);
+    }
+
+    public void setApplication(Application target, Application editedApplication) {
+        requireNonNull(editedApplication);
+        applications.setApplication(target, editedApplication);
+    }
+
+    public void removeApplication(Application key) {
+        applications.remove(key);
+    }
 
     @Override
     public String toString() {
@@ -159,13 +186,18 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     @Override
-    public ObservableList<Person> getPersonList() {
-        return persons.asUnmodifiableObservableList();
+    public UniquePersonList getUniquePersonList() {
+        return this.persons;
     }
 
     @Override
-    public ObservableList<Job> getJobList() {
-        return jobs.asUnmodifiableObservableList();
+    public UniqueJobList getUniqueJobList() {
+        return this.jobs;
+    }
+
+    @Override
+    public UniqueApplicationList getUniqueApplicationList() {
+        return this.applications;
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.application.Application;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
@@ -91,6 +92,13 @@ public class UniquePersonList implements Iterable<Person> {
             throw new DuplicatePersonException();
         }
         this.internalList.setAll(persons);
+    }
+
+    public ObservableList<Person> searchPersonByPhone(Phone phone) {
+        requireAllNonNull(phone);
+        List<Person> personFilteredList = this.internalList.stream()
+                .filter(person -> person.getPhone().equals(phone)).toList();
+        return FXCollections.unmodifiableObservableList(FXCollections.observableList(personFilteredList));
     }
 
     /**

@@ -2,7 +2,6 @@ package seedu.address.storage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -41,8 +40,8 @@ class JsonSerializableApplicationsManager {
      *               {@code JsonSerializableApplicationsManager}.
      */
     public JsonSerializableApplicationsManager(ReadOnlyApplicationsManager source) {
-        applications.addAll(
-                source.getApplicationList().stream().map(JsonAdaptedApplication::new).collect(Collectors.toList()));
+        applications.addAll(source.getUniqueApplicationList().asUnmodifiableObservableList().stream()
+                .map(JsonAdaptedApplication::new).toList());
     }
 
     /**

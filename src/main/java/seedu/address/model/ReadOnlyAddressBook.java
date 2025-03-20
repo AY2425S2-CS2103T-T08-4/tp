@@ -1,24 +1,34 @@
 package seedu.address.model;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.application.Application;
+import seedu.address.model.application.UniqueApplicationList;
 import seedu.address.model.job.Job;
+import seedu.address.model.job.UniqueJobList;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.UniquePersonList;
+
+import java.util.List;
 
 /**
  * Unmodifiable view of an address book
  */
 public interface ReadOnlyAddressBook {
+    /**
+     * Returns a modifiable view of the persons list with greater exposure warranted by its use in
+     * Persons-related commands. USE WITH CAUTION.
+     */
+    UniquePersonList getUniquePersonList();
 
     /**
-     * Returns an unmodifiable view of the persons list. This list will not contain
-     * any duplicate persons.
+     * Returns a modifiable view of the jobs list with greater exposure warranted by its use in
+     * Jobs-related commands. USE WITH CAUTION.
      */
-    ObservableList<Person> getPersonList();
+    UniqueJobList getUniqueJobList();
 
     /**
-     * Returns an unmodifiable view of the jobs list. This list will not contain any
-     * duplicate jobs.
+     * Returns a modifiable view of the applications list with greater exposure warranted by its use in
+     * Applications-related commands. USE WITH CAUTION.
      */
-    ObservableList<Job> getJobList();
-
+    UniqueApplicationList getUniqueApplicationList();
 }

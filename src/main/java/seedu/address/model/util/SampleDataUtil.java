@@ -136,32 +136,50 @@ public class SampleDataUtil {
         // Create some sample applications
         Application[] sampleApplications = new Application[] {
                 // Alex applied to Google and is in round 2
-                new Application(samplePersons[0], sampleJobs[0], new ApplicationStatus(2)),
+                new Application(samplePersons[0].getPhone(), sampleJobs[0].getJobTitle(), sampleJobs[0].getJobCompany(),
+                        new ApplicationStatus(2),
+                        sampleAm.getPersonList(), sampleAm.getJobList(), sampleAm.getUniqueApplicationList()),
 
                 // Bernice applied to Microsoft and is in round 3
-                new Application(samplePersons[1], sampleJobs[1], new ApplicationStatus(3)),
+                new Application(samplePersons[1].getPhone(), sampleJobs[1].getJobTitle(), sampleJobs[1].getJobCompany(),
+                        new ApplicationStatus(3),
+                        sampleAm.getPersonList(), sampleAm.getJobList(), sampleAm.getUniqueApplicationList()),
 
                 // Charlotte applied to Apple and is in round 1
-                new Application(samplePersons[2], sampleJobs[2], new ApplicationStatus(1)),
+                new Application(samplePersons[2].getPhone(), sampleJobs[2].getJobTitle(), sampleJobs[1].getJobCompany(),
+                        new ApplicationStatus(1),
+                        sampleAm.getPersonList(), sampleAm.getJobList(), sampleAm.getUniqueApplicationList()),
 
                 // David applied to Meta and is in round 2
-                new Application(samplePersons[3], sampleJobs[3], new ApplicationStatus(2)),
+                new Application(samplePersons[3].getPhone(), sampleJobs[3].getJobTitle(), sampleJobs[1].getJobCompany(),
+                        new ApplicationStatus(2),
+                        sampleAm.getPersonList(), sampleAm.getJobList(), sampleAm.getUniqueApplicationList()),
 
                 // Irfan applied to Amazon and is in round 1
-                new Application(samplePersons[4], sampleJobs[4], new ApplicationStatus(1)),
+                new Application(samplePersons[4].getPhone(), sampleJobs[4].getJobTitle(), sampleJobs[4].getJobCompany(),
+                        new ApplicationStatus(1),
+                        sampleAm.getPersonList(), sampleAm.getJobList(), sampleAm.getUniqueApplicationList()),
 
                 // Roy applied to Netflix and is in round 3
-                new Application(samplePersons[5], sampleJobs[5], new ApplicationStatus(3)),
+                new Application(samplePersons[5].getPhone(), sampleJobs[5].getJobTitle(), sampleJobs[5].getJobCompany(),
+                        new ApplicationStatus(3),
+                        sampleAm.getPersonList(), sampleAm.getJobList(), sampleAm.getUniqueApplicationList()),
 
                 // Alex also applied to Microsoft and is in round 1
-                new Application(samplePersons[0], sampleJobs[1], new ApplicationStatus(1)),
+                new Application(samplePersons[0].getPhone(), sampleJobs[1].getJobTitle(), sampleJobs[1].getJobCompany(),
+                        new ApplicationStatus(1),
+                        sampleAm.getPersonList(), sampleAm.getJobList(), sampleAm.getUniqueApplicationList()),
 
                 // Bernice also applied to Google and is in round 4
-                new Application(samplePersons[1], sampleJobs[0], new ApplicationStatus(4)) };
+                new Application(samplePersons[1].getPhone(), sampleJobs[0].getJobTitle(), sampleJobs[0].getJobCompany(),
+                        new ApplicationStatus(4),
+                        sampleAm.getPersonList(), sampleAm.getJobList(), sampleAm.getUniqueApplicationList())};
 
         // Add all sample applications
         for (Application sampleApplication : sampleApplications) {
+
             sampleAm.addApplication(sampleApplication);
+
         }
 
         return sampleAm;

@@ -2,68 +2,103 @@ package seedu.address.model.application;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import javafx.collections.ObservableList;
+import seedu.address.model.application.exceptions.DuplicateApplicationException;
 import seedu.address.model.application.exceptions.InvalidApplicationStatusException;
 import seedu.address.model.job.Job;
+import seedu.address.model.job.JobCompany;
+import seedu.address.model.job.JobTitle;
+import seedu.address.model.job.UniqueJobList;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Phone;
+import seedu.address.model.person.UniquePersonList;
 
 /**
  * Represents a job application with an applicant, job, and status.
  */
-public record Application(Person applicant, Job job, ApplicationStatus applicationStatus) {
-    public static final String EXCEED_ROUNDS_MESSAGE = "Application status cannot exceed the number of job rounds";
+public class Application {
+    private final Person applicant;
+    private final Job job;
+    private final ApplicationStatus applicationStatus;
+    private final UniquePersonList personList;
+    private final UniqueJobList jobList;
+    private final UniqueApplicationList applicationList;
 
     /**
-     * Constructs an Application with the specified applicant, job, and status.
-     *
-     * @param applicant         The person applying for the job.
-     * @param job               The job being applied for.
+     * Constructs an Application with the specified applicant, job, and status, automating the process in background for
+     * user vis-à-vis requiring them to laboriously type in all fields.
+     * @param phone         The phone number of the person applying for the job.
+     * @param jobTitle     The job being applied for.
+     * @param jobCompany   The company name of the job being applied for.
      * @param applicationStatus The current status of the application.
+     * @param personList        The list of unique persons from which to find the applicant by phone number
+     * @param jobList           The list of unique jobs from which to find the job posting by job title and company name
+     * @param applicationList   The list of unique applications necessary for stack-filter test on strict candidate key
      * @throws InvalidApplicationStatusException if status exceeds job rounds.
      */
-    public Application {
-        requireAllNonNull(applicant, job, applicationStatus);
-
-        // Validate status against job rounds
-        if (applicationStatus.applicationStatus > job.getJobRounds().jobRounds) {
+    public Application(Phone phone, JobTitle jobTitle, JobCompany jobCompany, ApplicationStatus applicationStatus,
+                       UniquePersonList personList, UniqueJobList jobList, UniqueApplicationList applicationList) {
+        requireAllNonNull(phone, jobTitle, jobCompany, applicationStatus, personList, jobList, applicationList);
+        this.personList = personList;
+        this.jobList = jobList;
+        this.applicationList = applicationList;
+        ObservableList<Person> filteredPersons = personList.searchPersonByPhone(phone);
+        ObservableList<Job> filteredJobs = jobList.searchJobByTitleAndCompany(jobTitle, jobCompany);
+        ObservableList<Application> filteredApplications = applicationList.searchApplications(
+                phone, jobTitle, jobCompany, applicationStatus);
+        if (!filteredApplications.isEmpty()) {
+            throw new DuplicateApplicationException();
+        }
+        if (filteredPersons.isEmpty() || filteredJobs.isEmpty()) {
             throw new InvalidApplicationStatusException();
         }
-
+        this.applicant = filteredPersons.get(0);
+        this.job = filteredJobs.get(0);
+        if (this.job.getJobRounds().jobRounds < applicationStatus.applicationStatus()) {
+            throw new InvalidApplicationStatusException();
+        }
+        this.applicationStatus = applicationStatus;
     }
 
     /**
      * Returns the applicant of this application.
-     *
      * @return The applicant.
      */
-    @Override
-    public Person applicant() {
+    public Person getApplicant() {
         return this.applicant;
     }
 
     /**
      * Returns the job of this application.
-     *
      * @return The job.
      */
-    @Override
-    public Job job() {
+    public Job getJob() {
         return this.job;
     }
 
     /**
      * Returns the status of this application.
-     *
      * @return The application status.
      */
-    @Override
-    public ApplicationStatus applicationStatus() {
+    public ApplicationStatus getApplicationStatus() {
         return this.applicationStatus;
+    }
+
+    public UniquePersonList getPersonList() {
+        return this.personList;
+    }
+
+    public UniqueJobList getJobList() {
+        return this.jobList;
+    }
+
+    public UniqueApplicationList getApplicationList() {
+        return this.applicationList;
     }
 
     /**
      * Advances the application status by the specified number of rounds. Returns a
      * new Application with the updated status.
-     *
      * @param rounds The number of rounds to advance.
      * @return A new Application with the updated status.
      * @throws IllegalArgumentException          if rounds is negative.
@@ -74,16 +109,11 @@ public record Application(Person applicant, Job job, ApplicationStatus applicati
         if (rounds < 0) {
             throw new IllegalArgumentException("Cannot advance by a negative number of rounds");
         }
-
-        int newStatus = this.applicationStatus.applicationStatus + rounds;
-
-        // Validate that the new status doesn't exceed job rounds
-        if (newStatus > this.job.getJobRounds().jobRounds) {
-            throw new InvalidApplicationStatusException();
-        }
+        int newStatus = this.applicationStatus.applicationStatus() + rounds;
 
         // Create new application with updated status
-        return new Application(this.applicant, this.job, new ApplicationStatus(newStatus));
+        return new Application(this.applicant.getPhone(), this.job.getJobTitle(), this.job.getJobCompany(),
+                new ApplicationStatus(newStatus), this.personList, this.jobList, this.applicationList);
     }
 
     /**
@@ -97,24 +127,24 @@ public record Application(Person applicant, Job job, ApplicationStatus applicati
         if (other == this) {
             return true;
         }
+        // instanceof handles nulls.
         if (!(other instanceof Application otherApplication)) {
             return false;
         }
-        return applicant.equals(otherApplication.applicant) && job.equals(otherApplication.job)
-                && applicationStatus.equals(otherApplication.applicationStatus);
+        return this.applicant.equals(otherApplication.applicant) && this.job.equals(otherApplication.job)
+                && this.applicationStatus.equals(otherApplication.applicationStatus);
     }
 
     /**
      * Returns a string representation of the application.
-     *
      * @return A string representation.
      */
     @Override
     public String toString() {
         return String.format("Application: %s at %s (Status: %d/%d)",
-                job.getJobTitle(),
-                job.getJobCompany(),
-                applicationStatus.applicationStatus,
-                job.getJobRounds().jobRounds);
+                this.job.getJobTitle(),
+                this.job.getJobCompany(),
+                this.applicationStatus.applicationStatus(),
+                this.job.getJobRounds().jobRounds);
     }
 }

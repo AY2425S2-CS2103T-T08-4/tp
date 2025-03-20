@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Prefix;
+import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
 import seedu.address.model.person.Person;
 
@@ -47,10 +48,15 @@ public class Messages {
      * Formats the {@code job} for display to the user.
      */
     public static String format(Job job) {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(job.getJobTitle()).append("; Company: ").append(job.getJobCompany())
-                .append("; Number of rounds: ").append(job.getJobRounds());
-        return builder.toString();
+        return job.getJobTitle() + "; Company: " + job.getJobCompany() + "; Number of rounds: " + job.getJobRounds();
     }
 
+    /**
+     * Formats the {@code application} for display to the user.
+     */
+    public static String format(Application application) {
+        return application.getApplicant().getName() + "; Title: " + application.getJob().getJobTitle()
+                + "; Company: " + application.getJob().getJobCompany()
+                + "; Number of rounds: " + application.getJob().getJobRounds();
+    }
 }

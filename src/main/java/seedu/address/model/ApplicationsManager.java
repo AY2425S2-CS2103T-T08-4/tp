@@ -6,36 +6,29 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.application.Application;
 import seedu.address.model.application.UniqueApplicationList;
 import seedu.address.model.application.exceptions.ApplicationNotFoundException;
 import seedu.address.model.application.exceptions.InvalidApplicationStatusException;
 import seedu.address.model.job.Job;
+import seedu.address.model.job.UniqueJobList;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.UniquePersonList;
 
 /**
  * Wraps all application data at the applications-manager level Duplicates are
  * not allowed (by Application::equals comparison)
  */
 public class ApplicationsManager implements ReadOnlyApplicationsManager {
-
-    private final UniqueApplicationList applications;
-
-    /*
-     * The 'unusual' code block below is a non-static initialization block,
-     * sometimes used to avoid duplication between constructors. See
-     * https://docs.oracle.com/javase/tutorial/java/javaOO/initial.html
-     *
-     * Note that non-static init blocks are not recommended to use. There are other
-     * ways to avoid duplication among constructors.
-     */
-    {
-        applications = new UniqueApplicationList();
-    }
+    private final UniquePersonList personList;
+    private final UniqueJobList jobList;
+    private final UniqueApplicationList applicationList;
 
     public ApplicationsManager() {
+        this.personList = new UniquePersonList();
+        this.jobList = new UniqueJobList();
+        this.applicationList = new UniqueApplicationList();
     }
 
     /**
@@ -53,18 +46,16 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
      * Replaces the contents of the application list with {@code applications}.
      * {@code applications} must not contain duplicate applications.
      */
-    public void setApplications(List<Application> applications) {
-        this.applications.setApplications(applications);
+    public void setApplicationList(UniqueApplicationList applicationList) {
+        this.applicationList.setApplications(applicationList);
     }
 
     /**
-     * Resets the existing data of this {@code ApplicationsManager} with
-     * {@code newData}.
+     * Resets the existing data of this {@code ApplicationsManager} with {@code newData}.
      */
     public void resetData(ReadOnlyApplicationsManager newData) {
         requireNonNull(newData);
-
-        setApplications(newData.getApplicationList());
+        this.setApplicationList(newData.getUniqueApplicationList());
     }
 
     //// application-level operations
@@ -75,7 +66,7 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
      */
     public boolean hasApplication(Application application) {
         requireNonNull(application);
-        return applications.contains(application);
+        return this.applicationList.contains(application);
     }
 
     /**
@@ -83,7 +74,7 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
      * already exist in the applications manager.
      */
     public void addApplication(Application application) {
-        applications.add(application);
+        this.applicationList.add(application);
     }
 
     /**
@@ -94,16 +85,14 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
      */
     public void setApplication(Application target, Application editedApplication) {
         requireNonNull(editedApplication);
-
-        applications.setApplication(target, editedApplication);
+        this.applicationList.setApplication(target, editedApplication);
     }
 
     /**
-     * Removes {@code key} from this {@code ApplicationsManager}. {@code key} must
-     * exist in the applications manager.
+     * Removes {@code key} from this {@code ApplicationsManager}. {@code key} must exist in the applications manager.
      */
     public void removeApplication(Application key) {
-        applications.remove(key);
+        this.applicationList.remove(key);
     }
 
     /**
@@ -118,9 +107,12 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
         requireNonNull(newPerson);
 
         // Find all applications involving this person and update them
-        getApplicationsByPerson(oldPerson).forEach(app -> {
-            Application newApp = new Application(newPerson, app.job(), app.applicationStatus());
-            setApplication(app, newApp);
+        this.getApplicationsByPerson(oldPerson).forEach(application -> {
+            Application newApp = new Application(
+                    newPerson.getPhone(), application.getJob().getJobTitle(), application.getJob().getJobCompany(),
+                    application.getApplicationStatus(), application.getPersonList(), application.getJobList(),
+                    application.getApplicationList());
+            this.setApplication(application, newApp);
         });
     }
 
@@ -136,14 +128,17 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
         requireNonNull(newJob);
 
         // Find all applications involving this job and update them
-        getApplicationsByJob(oldJob).forEach(app -> {
+        this.getApplicationsByJob(oldJob).forEach(application -> {
             // Check if application status is still valid with new job
-            if (app.applicationStatus().applicationStatus > newJob.getJobRounds().jobRounds) {
+            if (application.getApplicationStatus().applicationStatus() > newJob.getJobRounds().jobRounds) {
                 throw new InvalidApplicationStatusException();
             }
 
-            Application newApp = new Application(app.applicant(), newJob, app.applicationStatus());
-            setApplication(app, newApp);
+            Application newApp = new Application(
+                    application.getApplicant().getPhone(), newJob.getJobTitle(), newJob.getJobCompany(),
+                    application.getApplicationStatus(), application.getPersonList(), application.getJobList(),
+                    application.getApplicationList());
+            this.setApplication(application, newApp);
         });
     }
 
@@ -156,7 +151,7 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
         requireNonNull(person);
 
         // Find and remove all applications for this person
-        List<Application> toRemove = getApplicationsByPerson(person);
+        List<Application> toRemove = this.getApplicationsByPerson(person);
         toRemove.forEach(this::removeApplication);
     }
 
@@ -169,7 +164,7 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
         requireNonNull(job);
 
         // Find and remove all applications for this job
-        List<Application> toRemove = getApplicationsByJob(job);
+        List<Application> toRemove = this.getApplicationsByJob(job);
         toRemove.forEach(this::removeApplication);
     }
 
@@ -182,8 +177,8 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
     public List<Application> getApplicationsByPerson(Person person) {
         requireNonNull(person);
 
-        return applications.asUnmodifiableObservableList().stream().filter(app -> app.applicant().equals(person))
-                .collect(Collectors.toList());
+        return this.applicationList.asUnmodifiableObservableList().stream()
+                .filter(application -> application.getApplicant().equals(person)).collect(Collectors.toList());
     }
 
     /**
@@ -195,8 +190,8 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
     public List<Application> getApplicationsByJob(Job job) {
         requireNonNull(job);
 
-        return applications.asUnmodifiableObservableList().stream().filter(app -> app.job().equals(job))
-                .collect(Collectors.toList());
+        return this.applicationList.asUnmodifiableObservableList().stream()
+                .filter(application -> application.getJob().equals(job)).collect(Collectors.toList());
     }
 
     /**
@@ -211,13 +206,11 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
      */
     public Application advanceApplication(Application application, int rounds) {
         requireNonNull(application);
-
-        if (!hasApplication(application)) {
+        if (!this.hasApplication(application)) {
             throw new ApplicationNotFoundException();
         }
-
         Application advancedApplication = application.advance(rounds);
-        setApplication(application, advancedApplication);
+        this.setApplication(application, advancedApplication);
         return advancedApplication;
     }
 
@@ -225,12 +218,20 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).add("applications", applications).toString();
+        return new ToStringBuilder(this).add("applications", this.applicationList).toString();
+    }
+
+    public UniquePersonList getPersonList() {
+        return this.personList;
+    }
+
+    public UniqueJobList getJobList() {
+        return this.jobList;
     }
 
     @Override
-    public ObservableList<Application> getApplicationList() {
-        return applications.asUnmodifiableObservableList();
+    public UniqueApplicationList getUniqueApplicationList() {
+        return this.applicationList;
     }
 
     @Override
@@ -239,16 +240,15 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
             return true;
         }
 
-        if (!(other instanceof ApplicationsManager)) {
+        if (!(other instanceof ApplicationsManager otherApplicationsManager)) {
             return false;
         }
 
-        ApplicationsManager otherApplicationsManager = (ApplicationsManager) other;
-        return applications.equals(otherApplicationsManager.applications);
+        return this.applicationList.equals(otherApplicationsManager.applicationList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(applications);
+        return Objects.hash(this.applicationList);
     }
 }

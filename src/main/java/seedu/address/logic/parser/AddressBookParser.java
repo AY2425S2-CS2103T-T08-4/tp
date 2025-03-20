@@ -8,19 +8,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.logic.commands.AddCommand;
-import seedu.address.logic.commands.AddJobCommand;
-import seedu.address.logic.commands.ClearCommand;
-import seedu.address.logic.commands.Command;
-import seedu.address.logic.commands.DeleteCommand;
-import seedu.address.logic.commands.DeleteJobCommand;
-import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.ExitCommand;
-import seedu.address.logic.commands.FindCommand;
-import seedu.address.logic.commands.HelpCommand;
-import seedu.address.logic.commands.ListCommand;
-import seedu.address.logic.commands.SwitchViewCommand;
+import seedu.address.logic.commands.*;
+import seedu.address.logic.commands.FindByNameCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.application.UniqueApplicationList;
 
 /**
  * Parses user input.
@@ -32,6 +23,11 @@ public class AddressBookParser {
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
     private static final Logger logger = LogsCenter.getLogger(AddressBookParser.class);
+    private final UniqueApplicationList existingApplicationList;
+
+    public AddressBookParser(UniqueApplicationList existingApplicationList) {
+        this.existingApplicationList = existingApplicationList;
+    }
 
     /**
      * Parses user input into command for execution.
@@ -53,18 +49,21 @@ public class AddressBookParser {
         // log messages such as the one below.
         // Lower level log messages are used sparingly to minimize noise in the code.
         logger.fine("Command word: " + commandWord + "; Arguments: " + arguments);
-
-        return switch (commandWord) {
+        return switch (commandWord) { // Person Commands below.
         case AddCommand.COMMAND_WORD -> new AddCommandParser().parse(arguments);
         case EditCommand.COMMAND_WORD -> new EditCommandParser().parse(arguments);
         case DeleteCommand.COMMAND_WORD -> new DeleteCommandParser().parse(arguments);
         case ClearCommand.COMMAND_WORD -> new ClearCommand();
-        case FindCommand.COMMAND_WORD -> new FindCommandParser().parse(arguments);
+        case FindByNameCommand.COMMAND_WORD -> new FindCommandParser().parse(arguments);
         case ListCommand.COMMAND_WORD -> new ListCommand();
         case ExitCommand.COMMAND_WORD -> new ExitCommand();
         case HelpCommand.COMMAND_WORD -> new HelpCommand();
+        // Job Commands below.
         case AddJobCommand.COMMAND_WORD -> new AddJobCommandParser().parse(arguments);
         case DeleteJobCommand.COMMAND_WORD -> new DeleteJobCommandParser().parse(arguments);
+        // Application Commands below.
+        case AddApplicationCommand.COMMAND_WORD -> new AddApplicationCommandParser(existingApplicationList).parse(arguments);
+        // Graphics Commands below.
         case SwitchViewCommand.COMMAND_WORD -> new SwitchViewCommand();
         default -> {
             logger.finer("This user input caused a ParseException: " + userInput);

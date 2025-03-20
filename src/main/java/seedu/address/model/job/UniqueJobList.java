@@ -8,6 +8,7 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.application.Application;
 import seedu.address.model.job.exceptions.DuplicateJobException;
 import seedu.address.model.job.exceptions.JobNotFoundException;
 
@@ -85,6 +86,14 @@ public class UniqueJobList implements Iterable<Job> {
             throw new DuplicateJobException();
         }
         this.internalList.setAll(jobs);
+    }
+
+    public ObservableList<Job> searchJobByTitleAndCompany(JobTitle jobTitle, JobCompany jobCompany) {
+        requireAllNonNull(jobTitle, jobCompany);
+        List<Job> jobFilteredList = this.internalList.stream()
+                .filter(job -> job.getJobTitle().equals(jobTitle)
+                        && job.getJobCompany().equals(jobCompany)).toList();
+        return FXCollections.unmodifiableObservableList(FXCollections.observableList(jobFilteredList));
     }
 
     /**

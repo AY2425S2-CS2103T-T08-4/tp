@@ -62,6 +62,6 @@ public class AddJobCommand extends Command {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).add("toAddJob", toAdd).toString();
+        return new ToStringBuilder(this).add("toAddJob", this.toAdd).toString();
     }
 }

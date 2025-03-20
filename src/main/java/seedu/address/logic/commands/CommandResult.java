@@ -41,19 +41,19 @@ public class CommandResult {
     }
 
     public String getFeedbackToUser() {
-        return feedbackToUser;
+        return this.feedbackToUser;
     }
 
     public boolean isShowHelp() {
-        return showHelp;
+        return this.showHelp;
     }
 
     public boolean isExit() {
-        return exit;
+        return this.exit;
     }
 
     public boolean setToggleView() {
-        return toggleJobView;
+        return this.toggleJobView;
     }
 
     @Override
@@ -61,29 +61,26 @@ public class CommandResult {
         if (other == this) {
             return true;
         }
-
         // instanceof handles nulls
-        if (!(other instanceof CommandResult)) {
+        if (!(other instanceof CommandResult otherCommandResult)) {
             return false;
         }
-
-        CommandResult otherCommandResult = (CommandResult) other;
-        return feedbackToUser.equals(otherCommandResult.feedbackToUser)
-                && showHelp == otherCommandResult.showHelp
-                && exit == otherCommandResult.exit;
+        return this.feedbackToUser.equals(otherCommandResult.feedbackToUser)
+                && this.showHelp == otherCommandResult.showHelp
+                && this.exit == otherCommandResult.exit;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit);
+        return Objects.hash(this.feedbackToUser, this.showHelp, this.exit);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("feedbackToUser", feedbackToUser)
-                .add("showHelp", showHelp)
-                .add("exit", exit)
+                .add("feedbackToUser", this.feedbackToUser)
+                .add("showHelp", this.showHelp)
+                .add("exit", this.exit)
                 .toString();
     }
 }

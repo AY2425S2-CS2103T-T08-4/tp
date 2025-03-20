@@ -43,9 +43,10 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.applicationsManager = new ApplicationsManager(applicationsManager);
         this.userPrefs = new UserPrefs(userPrefs);
-        filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-        filteredJobs = new FilteredList<>(this.addressBook.getJobList());
-        filteredApplications = new FilteredList<>(this.applicationsManager.getApplicationList());
+        filteredPersons = new FilteredList<>(this.addressBook.getUniquePersonList().asUnmodifiableObservableList());
+        filteredJobs = new FilteredList<>(this.addressBook.getUniqueJobList().asUnmodifiableObservableList());
+        filteredApplications = new FilteredList<>(
+                this.applicationsManager.getUniqueApplicationList().asUnmodifiableObservableList());
     }
 
     public ModelManager() {
