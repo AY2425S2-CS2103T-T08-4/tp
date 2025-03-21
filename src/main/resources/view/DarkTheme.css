@@ -458,3 +458,94 @@
     -fx-text-fill: #888888;
     -fx-padding: 5;
 }
+
+/* Progress Bar Styling with Shadow */
+.progress-bar {
+    -fx-accent: #3e7b91; /* Change this to match your app's color theme */
+    -fx-background-color: #2D3748;
+    -fx-border-color: #4a6572;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);
+}
+
+.progress-bar .bar {
+    -fx-background-insets: 0;
+    -fx-background-radius: 2;
+    -fx-padding: 0.75em;
+}
+
+.progress-bar .track {
+    -fx-background-color: #1d1e1f;
+    -fx-background-insets: 0;
+    -fx-background-radius: 2;
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.4), 2, 0.0, 0, 1);
+}
+
+/* Application Card Styling */
+.app-card {
+    -fx-background-color: #2A2E33;
+    -fx-border-color: #4a6572;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0, 0, 2);
+    -fx-min-width: 150;
+    -fx-max-width: 250;
+}
+
+.app-job-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+}
+
+.app-company {
+    -fx-font-size: 12px;
+    -fx-text-fill: #bdc3c7;
+}
+
+.app-round {
+    -fx-font-size: 11px;
+    -fx-text-fill: #bdc3c7;
+    -fx-alignment: center-right;
+}
+
+/* Progress Bar Enhancements */
+.progress-bar {
+    -fx-background-color: #2D3748;
+    -fx-border-color: #4a6572;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 3, 0.0, 0, 1);
+}
+
+.progress-bar .bar {
+    -fx-background-insets: 0;
+    -fx-background-radius: 3;
+}
+
+.progress-bar .track {
+    -fx-background-color: #1d1e1f;
+    -fx-background-insets: 0;
+    -fx-background-radius: 3;
+}
+
+.mini-progress-bar {
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+}
+
+.mini-progress-bar .bar {
+    -fx-background-radius: 2;
+}
+
+.mini-progress-bar .track {
+    -fx-background-radius: 2;
+}
+
+.progress-title {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+}
