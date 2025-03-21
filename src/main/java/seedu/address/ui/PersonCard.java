@@ -133,7 +133,7 @@ public class PersonCard extends UiPart<Region> {
                     apps.getChildren().add(createApplicationItem(app));
                 });
         }
-            
+
         // Add progress bar showing maximum progress across all applications
         setupProgressBar();
 
@@ -148,7 +148,7 @@ public class PersonCard extends UiPart<Region> {
         apps.setVgap(15);
         apps.setPrefWrapLength(350); // Adjust based on your UI
     }
-    
+
     /**
      * Sets up the progress bar with the maximum progress ratio across all applications.
      */
@@ -156,12 +156,12 @@ public class PersonCard extends UiPart<Region> {
         double maxProgress = 0.0;
         int maxProgressCurrentRound = 0;
         int maxProgressMaxRound = 1; // Default to 1 to avoid division by zero
-        
+
         // Find the maximum progress ratio across all applications
         for (Application app : applications) {
             int currentRound = app.applicationStatus().applicationStatus;
             int maxRound = app.job().getJobRounds().jobRounds;
-            
+
             double progress = (double) currentRound / maxRound;
             if (progress > maxProgress) {
                 maxProgress = progress;
@@ -169,12 +169,12 @@ public class PersonCard extends UiPart<Region> {
                 maxProgressMaxRound = maxRound;
             }
         }
-        
+
         // Add an icon before the progress bar
         HBox progressContent = new HBox(10);
         progressContent.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
         progressContent.getChildren().add(IconUtil.createIcon(FontAwesomeIcon.BAR_CHART, "white"));
-        
+
         // Create a more descriptive label with better wording
         String progressDescription;
         if (applications.isEmpty()) {
@@ -182,12 +182,12 @@ public class PersonCard extends UiPart<Region> {
         } else {
             progressDescription = String.format("Round %d of %d", maxProgressCurrentRound, maxProgressMaxRound);
         }
-        
+
         // Create the progress bar with custom styling based on progress
         applicationProgress.setProgress(maxProgress);
         applicationProgress.setPrefHeight(15); // Slightly taller
         applicationProgress.setPrefWidth(180);
-        
+
         // Apply color based on progress level
         String progressColor;
         if (maxProgress < 0.33) {
@@ -198,18 +198,18 @@ public class PersonCard extends UiPart<Region> {
             progressColor = "#5cb85c"; // Green for later stages
         }
         applicationProgress.setStyle("-fx-accent: " + progressColor + ";");
-        
+
         // Create a better title label
         Label progressTitle = new Label("Application Progress");
         progressTitle.getStyleClass().add("progress-title");
-        
+
         // Create the layout
         VBox progressLabels = new VBox(3);
         progressLabels.getChildren().addAll(progressTitle, new Label(progressDescription));
-        
+
         // Add components to the progress content
         progressContent.getChildren().addAll(applicationProgress, progressLabels);
-        
+
         // Clear existing children and add the new content
         progressBox.getChildren().clear();
         progressBox.getChildren().add(progressContent);
@@ -223,22 +223,22 @@ public class PersonCard extends UiPart<Region> {
         int currentRound = app.applicationStatus().applicationStatus;
         int maxRound = app.job().getJobRounds().jobRounds;
         String companyTitle = app.job().getJobCompany().jobCompany();
-        
+
         // Create styled job title
         Label jobLabel = new Label(jobTitle);
         jobLabel.getStyleClass().add("app-job-title");
-        
+
         // Create styled company name
         Label companyLabel = new Label(companyTitle);
         companyLabel.getStyleClass().add("app-company");
-        
+
         // Create progress indicator
         double progress = (double) currentRound / maxRound;
         ProgressBar miniProgressBar = new ProgressBar(progress);
         miniProgressBar.setPrefHeight(8);
         miniProgressBar.setMaxWidth(Double.MAX_VALUE);
         miniProgressBar.getStyleClass().add("mini-progress-bar");
-        
+
         // Apply color based on progress
         String progressColor;
         if (progress < 0.33) {
@@ -249,24 +249,24 @@ public class PersonCard extends UiPart<Region> {
             progressColor = "#5cb85c"; // Green for later stages
         }
         miniProgressBar.setStyle("-fx-accent: " + progressColor + ";");
-        
+
         // Create round indicator
         Label roundLabel = new Label("Round " + currentRound + " of " + maxRound);
         roundLabel.getStyleClass().add("app-round");
-        
+
         // Layout for job info
         VBox jobInfo = new VBox(3);
         jobInfo.getChildren().addAll(jobLabel, companyLabel);
-        
+
         // Layout for progress info
         VBox progressInfo = new VBox(3);
         progressInfo.getChildren().addAll(miniProgressBar, roundLabel);
-        
+
         // Main container
         VBox appContainer = new VBox(7);
         appContainer.getStyleClass().add("app-card");
         appContainer.getChildren().addAll(jobInfo, progressInfo);
-        
+
         return appContainer;
     }
 }
