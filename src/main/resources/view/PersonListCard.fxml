@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -92,6 +93,13 @@
             <Insets left="25.0" top="2" />
           </padding>
         </FlowPane>
+        <HBox fx:id="progressBox" spacing="10" alignment="CENTER_LEFT">
+          <padding>
+            <Insets top="5" bottom="2" left="25.0" />
+          </padding>
+          <ProgressBar fx:id="applicationProgress" prefWidth="150" styleClass="custom-progress-bar" />
+          <Label fx:id="progressLabel" styleClass="cell_small_label" text="Max Progress: 0/0" />
+        </HBox>
       </VBox>
     </VBox>
   </GridPane>
