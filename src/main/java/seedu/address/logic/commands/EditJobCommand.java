@@ -7,7 +7,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_COMPANY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_ROUNDS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_SKILLS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_TITLE;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_JOBS;
 
 import java.util.List;
 import java.util.Objects;
@@ -78,7 +77,7 @@ public class EditJobCommand extends Command {
         }
 
         model.setJob(jobToEdit, editedJob);
-        model.updateFilteredJobList(PREDICATE_SHOW_ALL_JOBS);
+        model.resetFilteredJobList();
         return new CommandResult(String.format(MESSAGE_EDIT_JOB_SUCCESS, Messages.format(editedJob)));
     }
 
