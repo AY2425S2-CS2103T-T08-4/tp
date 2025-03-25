@@ -64,6 +64,8 @@ TalentMatch is a **desktop app for managing applicants, optimized for use via a 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
+* Job commands should be called only in job view while person commands should be called only in person view. This is to ensure users can see real time updates in response to their query.
+
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
 
@@ -75,10 +77,16 @@ Shows a message explaning how to access the help page.
 
 Format: `help`
 
+### Switching views : `switchview`
 
-### Adding a person: `add`
+Switches the view of GUI from a persons list to a jobs list
 
-Adds a person to the TalentMatch.
+Format: `switchview
+`
+### Adding a person/job/application
+
+#### Adding a person: `add`
+Adds a person to TalentMatch.
 
 Format: `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
@@ -91,13 +99,52 @@ Examples:
 * `add n/John Doe s/NUS d/Computer Science p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add n/Betsy Crowe s/NTU d/Civil Engineering t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 
-### Listing all persons : `list`
+--- 
+
+#### Adding a job: `addjob`
+Adds a job to TalentMatch
+
+Format: `addjob jt/JOB_TITLE jr/INTERVIEW_ROUNDS js/JOB_SKILLS ja/JOB_ADDRESS em/JOB_TYPE`
+
+Examples:
+* `addjob jt/Software Engineering jr/3 js/Python React ja/1 Fusionopolis Place, Galaxis, Singapore 138522 em/Intern`
+
+---
+
+#### Adding an application: `addapp`
+Adds an application to TalentMatch
+
+Format: `addapp p/PHONE_NUMBER jt/JOB_TITLE [as/APPLICATION_STATUS]`
+
+<box type="tip" seamless>
+
+**Tip:** 
+* The default application status is 0
+* The specified phone number and job title must exist in TalentMatch
+</box>
+
+Examples:
+* `addapp p/98765432 jt/Software Engineering as/3`
+
+### Listing all persons/jobs 
+
+#### Listing all persons: `list`
 
 Shows a list of all persons in TalentMatch.
 
 Format: `list`
 
-### Editing a person : `edit`
+---
+
+#### Listing all jobs: `listjob`
+
+Shows a list of all jobs in TalentMatch.
+
+Format: `listjob`
+
+### Editing a person/job
+
+#### Editing a person: `edit`
 
 Edits an existing person in TalentMatch.
 
@@ -114,15 +161,34 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-### Locating persons by name: `find`
+---
 
-Finds persons whose names contain any of the given keywords.
+#### Editing a job: `editjob`
+
+Edits an existing job in TalentMatch.
+
+Format: `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [js/JOB_SKILLS] [ja/JOB_ADDRESS] [em/JOB_TYPE]` 
+
+* Edits the job at the specified `INDEX`. The index refers to the index number shown in the displayed job list. The index **must be a positive integer** 1, 2, 3, …​
+* At least one of the optional fields must be provided.
+* Existing values will be updated to the input values.
+* When editing job skills, the existing skills of the person will be removed i.e adding of skills is not cumulative.
+* You can remove all the job's skills by typing `js/` without
+  specifying any skills after it.
+
+Examples:
+*  `editjob 7 jt/Software Engineering jr/3 [js/Python React ja/1 Fusionopolis Place, Galaxis, Singapore 138522 em/Intern`
+
+### Locating persons/jobs/applications:
+
+#### Locating persons: `find`
+
+Finds persons whose details contain any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
@@ -132,7 +198,41 @@ Examples:
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
-### Deleting a person : `delete`
+---
+
+#### Locating jobs: `findjob`
+
+Finds jobs whose details contain any of the given keywords.
+
+Format: `findjob KEYWORD [MORE_KEYWORDS]`
+
+* The search is case-insensitive. e.g `software` will match `Software`
+* The order of the keywords does not matter. e.g. `Engineering Software` will match `Software Engineering`
+* Only full words will be matched e.g. `Engi` will not match `Engineer`
+* Jobs matching at least one keyword will be returned (i.e. `OR` search).
+  e.g. `Engineer` will return `Software Engineer`, `AI Engineer`
+
+Examples:
+* `findjob Software` returns `Software Engineering`
+
+---
+
+#### Locating application: `findapp`
+
+Finds application whose details contain both keywords.
+
+Format: `findapp p/PHONE_NUMBER jt/JOB_TITLE`
+
+* The search is case-insensitive. e.g `software` will match `Software`
+* Only full words will be matched e.g. `Engi` will not match `Engineer`
+* Matching application will be found, else return a NOT_FOUND_MESSAGE
+
+Examples:
+* `findapp p/98765432 jt/Software Engineering` returns `Software Engineering`
+
+### Deleting a person/job/application 
+
+#### Deleting a person: `delete`
 
 Deletes the specified person from TalentMatch.
 
@@ -146,9 +246,50 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in TalentMatch.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+---
+
+#### Deleting a job: `deletejob`
+
+Deletes the specified job from TalentMatch.
+
+Format: `deletejob INDEX`
+
+* Deletes the job at the specified `INDEX`.
+* The index refers to the index number shown in the displayed job list.
+* The index **must be a positive integer** 1, 2, 3, …​
+
+Examples:
+* `listjob` followed by `deletejob 2` deletes the 2nd job in TalentMatch.
+* `findjob Software Engineering` followed by `delete 1` deletes the 1st job in the results of the `find` command.
+
+---
+
+#### Deleting an application: `delapp`
+
+Deletes the specified application from TalentMatch.
+
+Format: `delapp p/PHONE_NUMBER jt/JOB_TITLE`
+
+* Deletes the application with the specified `PHONE_NUMBER` and `JOB_TITLE`.
+
+Examples:
+* `delapp p/98765432 jt/Software Engineering` deletes the application linked to applicant with phone 98765432 
+applying for Software Engineering role.
+
+### Advancing applications: `advapp`
+
+Advances an application to the next round of interviews
+
+Format: `advapp p/PHONE_NUMBER jt/JOB_TITLE [as/ROUNDS]`
+
+* Advances the specified application by the specified ROUNDS
+* Default rounds would be 1
+
+Examples:
+* `advapp p/98765432 jt/Software Engineering as/2`
 ### Clearing all entries : `clear`
 
-Clears all entries from TalentMatch.
+Clears all person entries from TalentMatch.
 
 Format: `clear`
 
@@ -198,9 +339,19 @@ _Details coming soon ..._
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Add**    | `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho s/NUS d/Physics p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**AddJob** | `addjob jt/JOB_TITLE jr/INTERVIEW_ROUNDS js/JOB_SKILLS ja/JOB_ADDRESS em/JOB_TYPE` <br> e.g., `addjob jt/Software Engineering jr/3 js/Python React ja/1 Fusionopolis Place, Galaxis, Singapore 138522 em/Intern`
+**AddApp** | `addapp p/PHONE_NUMBER jt/JOB_TITLE [as/APPLICATION_STATUS]` <br> e.g., `addapp p/98765432 jt/Software Engineering as/3`
+**AdvApp** | `advapp p/PHONE_NUMBER jt/JOB_TITLE [as/ROUNDS]` <br> e.g., `advapp p/98765432 jt/Software Engineering as/2`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
+**DeleteJob** | `deletejob INDEX` <br> e.g., `deletejob 3`
+**DeleteApp** | `delapp p/PHONE_NUMBER jt/JOB_TITLE` <br> e.g., `delapp p/98765432 jt/Software Engineering`
 **Edit**   | `edit INDEX [n/NAME] [s/SCHOOL] [d/DEGREE] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**EditJob** | `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [js/JOB_SKILLS] [ja/JOB_ADDRESS] [em/JOB_TYPE]` <br> e.g., `editjob 7 jt/Software Engineering jr/3 [js/Python React ja/1 Fusionopolis Place, Galaxis, Singapore 138522 em/Intern`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**FindJob** | `findjob KEYWORD [MORE_KEYWORDS]`<br> e.g., `findjob Software Engineering`
+**FindApp** | `findapp p/PHONE_NUMBER jt/JOB_TITLE` <br> e.g., `findapp p/98765432 jt/Software Engineering`
 **List**   | `list`
+**ListJobs** | `listjob`
 **Help**   | `help`
+**SwitchView** | `switchview`
