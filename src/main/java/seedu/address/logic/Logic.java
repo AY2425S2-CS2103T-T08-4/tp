@@ -8,6 +8,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
@@ -39,10 +40,10 @@ public interface Logic {
     /** Returns an unmodifiable view of the filtered list of jobs */
     ObservableList<Job> getFilteredJobList();
 
-    /** Returns an unmodifiable view of the filtered list of applications by job */
+    /** Returns filtered list of applications for a job */
     List<Application> getApplicationsByJob(Job job);
 
-    /** Returns an unmodifiable view of the filtered list of applications */
+    /** Returns filtered list of applications for a person */
     List<Application> getApplicationsByPerson(Person person);
 
     /**
@@ -69,4 +70,14 @@ public interface Logic {
      * Set the user prefs' GUI settings.
      */
     void setGuiSettings(GuiSettings guiSettings);
+
+    /**
+     * Sets the current view state.
+     */
+    void setViewState(Model.ViewState viewState);
+
+    /**
+     * Clears the application status filter and resets all filtered lists.
+     */
+    void clearStatusFilter();
 }

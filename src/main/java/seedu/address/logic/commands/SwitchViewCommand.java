@@ -10,7 +10,23 @@ public class SwitchViewCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) {
-        return new CommandResult("Switched view",
-                false, false, true);
+        // Toggle the model's view state
+        model.toggleJobView();
+
+        return CommandResult.withToggleView("Switched view");
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof SwitchViewCommand)) {
+            return false;
+        }
+
+        return true; // All SwitchViewCommand instances are equal since they have no state
     }
 }

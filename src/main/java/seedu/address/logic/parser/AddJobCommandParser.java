@@ -8,7 +8,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_TITLE;
 
 import java.util.stream.Stream;
 
-import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.AddJobCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.job.Job;
@@ -33,7 +32,7 @@ public class AddJobCommandParser implements Parser<AddJobCommand> {
                 PREFIX_JOB_SKILLS, PREFIX_EMPLOYMENT_TYPE);
         if (!arePrefixesPresent(argMultimap, PREFIX_JOB_TITLE, PREFIX_JOB_ROUNDS)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddJobCommand.MESSAGE_USAGE));
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_JOB_TITLE, PREFIX_JOB_ROUNDS, PREFIX_JOB_SKILLS,

@@ -10,7 +10,6 @@ public class SetCompanyCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) {
-        return new CommandResult("Updated company information!",
-                false, false, false);
+        return CommandResult.withFeedback("Updated company information!");
     }
 }

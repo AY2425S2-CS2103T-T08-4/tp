@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="statisticsContainer" spacing="15" styleClass="statistics-container"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+  <padding>
+    <Insets bottom="10" left="10" right="10" top="10" />
+  </padding>
+
+  <!-- Job Distribution Pie Chart -->
+  <PieChart fx:id="jobDistributionChart" legendSide="RIGHT"
+            styleClass="pie-chart" VBox.vgrow="ALWAYS" />
+
+  <!-- School Distribution Bar Chart -->
+  <BarChart fx:id="schoolDistributionChart" legendSide="TOP"
+            styleClass="bar-chart" VBox.vgrow="ALWAYS">
+    <xAxis>
+      <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+    </xAxis>
+    <yAxis>
+      <NumberAxis side="LEFT" fx:id="yAxis" />
+    </yAxis>
+  </BarChart>
+
+  <!-- No Data Label (shown when there's no data) -->
+  <Label fx:id="noDataLabel" text="No data available"
+         styleClass="no-data-label" visible="false" alignment="CENTER"
+         VBox.vgrow="ALWAYS" maxWidth="Infinity" />
+</VBox>

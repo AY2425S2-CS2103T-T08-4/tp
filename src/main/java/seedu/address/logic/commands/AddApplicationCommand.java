@@ -16,15 +16,14 @@ import seedu.address.model.job.Job;
 import seedu.address.model.person.Person;
 
 /**
- * Adds an application linking a person to a job.
+ * Adds an application with a person applying for a job.
  */
 public class AddApplicationCommand extends Command {
 
     public static final String COMMAND_WORD = "addapp";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Creates an application for the person at the "
-            + "specified index to apply for the job at the specified index.\n"
+            + ": Creates a new application with a person applying for a job. "
             + "Parameters: "
             + PREFIX_PERSON_INDEX + "PERSON_INDEX "
             + PREFIX_JOB_INDEX + "JOB_INDEX\n"
@@ -32,7 +31,8 @@ public class AddApplicationCommand extends Command {
             + PREFIX_PERSON_INDEX + "1 "
             + PREFIX_JOB_INDEX + "2";
 
-    public static final String MESSAGE_SUCCESS = "New application created: %1$s applied for %2$s";
+    public static final String MESSAGE_SUCCESS = "New application created: "
+            + "%1$s has applied for %2$s (0 rounds completed)";
     public static final String MESSAGE_DUPLICATE_APPLICATION = "This application already exists";
     public static final String MESSAGE_PERSON_INVALID_INDEX = "Person index is invalid";
     public static final String MESSAGE_JOB_INVALID_INDEX = "Job index is invalid";
@@ -90,7 +90,7 @@ public class AddApplicationCommand extends Command {
                 personToApply.getName(), jobToApplyFor.getJobTitle());
 
         // Return a CommandResult that signals applications need to be refreshed
-        return new CommandResult(successMessage, true);
+        return CommandResult.withRefreshApplications(successMessage);
     }
 
     @Override

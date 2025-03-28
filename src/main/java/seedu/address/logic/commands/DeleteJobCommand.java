@@ -36,18 +36,18 @@ public class DeleteJobCommand extends Command {
         requireNonNull(model);
         List<Job> lastShownList = model.getFilteredJobList();
 
-        if (this.targetIndex.getZeroBased() >= lastShownList.size()) {
+        if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_JOB_DISPLAYED_INDEX);
         }
 
-        Job jobToDelete = lastShownList.get(this.targetIndex.getZeroBased());
+        Job jobToDelete = lastShownList.get(targetIndex.getZeroBased());
 
         if (!model.hasJob(jobToDelete)) {
             throw new CommandException(MESSAGE_INVALID_JOB);
         }
 
         model.deleteJob(jobToDelete);
-        return new CommandResult(String.format(MESSAGE_DELETE_JOB_SUCESS, Messages.format(jobToDelete)));
+        return CommandResult.withFeedback(String.format(MESSAGE_DELETE_JOB_SUCESS, Messages.format(jobToDelete)));
     }
 
     @Override

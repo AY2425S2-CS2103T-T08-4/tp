@@ -75,7 +75,7 @@ public class EditJobCommand extends Command {
 
         model.setJob(jobToEdit, editedJob);
         model.resetFilteredJobList();
-        return new CommandResult(String.format(MESSAGE_EDIT_JOB_SUCCESS, Messages.format(editedJob)));
+        return CommandResult.withFeedback(String.format(MESSAGE_EDIT_JOB_SUCCESS, Messages.format(editedJob)));
     }
 
     /**
@@ -117,11 +117,11 @@ public class EditJobCommand extends Command {
         private JobSkills jobSkills;
         private JobType jobType;
 
-        public EditJobDescriptor() {
-        }
+        public EditJobDescriptor() {}
 
         /**
-         * Copy constructor. A defensive copy of {@code tags} is used internally.
+         * Copy constructor.
+         * A defensive copy of {@code tags} is used internally.
          */
         public EditJobDescriptor(EditJobDescriptor toCopy) {
             setJobTitle(toCopy.jobTitle);
@@ -150,7 +150,7 @@ public class EditJobCommand extends Command {
         }
 
         public Optional<JobRounds> getJobRounds() {
-            return Optional.ofNullable(this.jobRounds);
+            return Optional.ofNullable(jobRounds);
         }
 
         public void setJobSkills(JobSkills jobSkills) {
@@ -169,16 +169,19 @@ public class EditJobCommand extends Command {
             return Optional.ofNullable(jobType);
         }
 
-        /**
-         * Sets {@code tags} to this object's {@code tags}. A defensive copy of
-         * {@code tags} is used internally.
-         */
-
         @Override
         public boolean equals(Object other) {
-            if (!(other instanceof EditJobDescriptor otherEditJobDescriptor)) {
+            // short circuit if same object
+            if (other == this) {
+                return true;
+            }
+
+            // instanceof handles nulls
+            if (!(other instanceof EditJobDescriptor)) {
                 return false;
             }
+
+            EditJobDescriptor otherEditJobDescriptor = (EditJobDescriptor) other;
             return Objects.equals(this.jobTitle, otherEditJobDescriptor.jobTitle)
                     && Objects.equals(this.jobRounds, otherEditJobDescriptor.jobRounds)
                     && Objects.equals(this.jobSkills, otherEditJobDescriptor.jobSkills)

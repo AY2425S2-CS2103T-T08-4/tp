@@ -63,8 +63,11 @@ public class FindCommandTest {
         NameContainsKeywordsPredicate predicate = preparePredicate(" ");
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        expectedModel.setViewState(Model.ViewState.JOB_VIEW);
+        CommandResult expectedCommandResult = CommandResult.withClearView(expectedMessage);
+        assertCommandSuccess(command, model, expectedCommandResult, expectedModel);
         assertEquals(Collections.emptyList(), model.getFilteredPersonList());
+        assertEquals(Model.ViewState.JOB_VIEW, model.getCurrentViewState());
     }
 
     @Test

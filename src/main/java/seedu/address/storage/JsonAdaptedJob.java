@@ -48,19 +48,17 @@ class JsonAdaptedJob {
     }
 
     /**
-     * Converts this Jackson-friendly adapted job object into the model's
-     * {@code Job} object.
+     * Converts this Jackson-friendly adapted job object into the model's {@code Job} object.
      *
      * @throws IllegalValueException if there were any data constraints violated in
      *                               the adapted job.
      */
     public Job toModelType() throws IllegalValueException {
-        // Check valid job title below.
-        if (this.jobTitle == null) {
-            throw new IllegalValueException(
-                    String.format(MISSING_FIELD_MESSAGE_FORMAT, JobTitle.class.getSimpleName()));
+        if (jobTitle == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+             JobTitle.class.getSimpleName()));
         }
-        if (!JobTitle.isValidJobTitle(this.jobTitle)) {
+        if (!JobTitle.isValidJobTitle(jobTitle)) {
             throw new IllegalValueException(JobTitle.MESSAGE_CONSTRAINTS);
         }
         final JobTitle modelJobTitle = new JobTitle(this.jobTitle);
@@ -69,16 +67,13 @@ class JsonAdaptedJob {
             throw new IllegalValueException(
                     String.format(MISSING_FIELD_MESSAGE_FORMAT, JobRounds.class.getSimpleName()));
         }
-        if (!JobRounds.isValidJobRounds(this.jobRounds)) {
-            throw new IllegalValueException(JobRounds.MESSAGE_CONSTRAINTS);
+        final JobRounds modelJobRounds = new JobRounds(jobRounds);
+
+        if (jobSkills == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+             JobSkills.class.getSimpleName()));
         }
-        final JobRounds modelJobRounds = new JobRounds(this.jobRounds);
-        // Check valid requisite job skills below.
-        if (this.jobSkills == null) {
-            throw new IllegalValueException(
-                    String.format(MISSING_FIELD_MESSAGE_FORMAT, JobSkills.class.getSimpleName()));
-        }
-        if (!JobSkills.areValidIndividualJobSkills(this.jobSkills)) {
+        if (!JobSkills.areValidIndividualJobSkills(jobSkills)) {
             throw new IllegalValueException(JobSkills.MESSAGE_CONSTRAINTS);
         }
         final JobSkills modelJobSkills = new JobSkills(this.jobSkills);
@@ -86,7 +81,7 @@ class JsonAdaptedJob {
         if (this.jobType == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, JobType.class.getSimpleName()));
         }
-        if (!JobType.isValidDisplayType(this.jobType)) {
+        if (!JobType.isValidDisplayType(jobType)) {
             throw new IllegalValueException(JobType.MESSAGE_CONSTRAINTS);
         }
         final JobType modelJobType = JobType.fromDisplayType(this.jobType);

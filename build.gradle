@@ -20,11 +20,6 @@ checkstyle {
     toolVersion = '10.2'
 }
 
-test {
-    useJUnitPlatform()
-    finalizedBy jacocoTestReport
-}
-
 task coverage(type: JacocoReport) {
     sourceDirectories.from files(sourceSets.main.allSource.srcDirs)
     classDirectories.from files(sourceSets.main.output)
@@ -101,4 +96,11 @@ test {
         '--add-opens=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED',
         '--add-opens=javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED'
     )
+    finalizedBy jacocoTestReport
+    jvmArgs('-ea')  // Enables assertions
 }
+
+run {
+    enableAssertions = true  // Enables assertions
+}
+

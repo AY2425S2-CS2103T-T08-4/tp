@@ -30,8 +30,19 @@ public class FindCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateFilteredPersonList(this.predicate);
-        return new CommandResult(
+
+        // Clear the detail view if we don't find any results
+        boolean shouldClearView = model.getFilteredPersonList().isEmpty();
+
+        if (shouldClearView) {
+            // Reset the view state to job view (default view)
+            model.setViewState(Model.ViewState.JOB_VIEW);
+            return CommandResult.withClearView(
+                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, 0));
+        } else {
+            return CommandResult.withFeedback(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+        }
     }
 
     @Override

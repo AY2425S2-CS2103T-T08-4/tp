@@ -97,6 +97,47 @@ public class AddCommandTest {
         }
 
         @Override
+        public void clearStatusFilter() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setApplicationStatusFilter(String status) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public String getApplicationStatusFilter() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void applyStatusFilter() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setViewState(Model.ViewState viewState) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Model.ViewState getCurrentViewState() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void toggleJobView() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean isInJobView() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+
+        @Override
         public ReadOnlyUserPrefs getUserPrefs() {
             throw new AssertionError("This method should not be called.");
         }

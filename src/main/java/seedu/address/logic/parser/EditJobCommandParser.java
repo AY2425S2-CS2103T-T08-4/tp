@@ -51,7 +51,8 @@ public class EditJobCommandParser implements Parser<EditJobCommand> {
             editJobDescriptor.setJobSkills(ParserUtil.parseJobSkills(argMultimap.getValue(PREFIX_JOB_SKILLS).get()));
         }
         if (argMultimap.getValue(PREFIX_EMPLOYMENT_TYPE).isPresent()) {
-            editJobDescriptor.setJobType(ParserUtil.parseJobType(argMultimap.getValue(PREFIX_EMPLOYMENT_TYPE).get()));
+            editJobDescriptor.setJobType(ParserUtil.parseJobType(
+                    argMultimap.getValue(PREFIX_EMPLOYMENT_TYPE).get()));
         }
 
         if (!editJobDescriptor.isAnyFieldEdited()) {

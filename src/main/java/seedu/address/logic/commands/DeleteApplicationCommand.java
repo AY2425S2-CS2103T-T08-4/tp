@@ -15,14 +15,14 @@ import seedu.address.model.job.Job;
 import seedu.address.model.person.Person;
 
 /**
- * Deletes an application identified by the indices of person and job.
+ * Deletes an application between a person and a job.
  */
 public class DeleteApplicationCommand extends Command {
 
     public static final String COMMAND_WORD = "deleteapp";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the application for the person at the specified index to the job at the specified index.\n"
+            + ": Deletes the application between the specified person and job. "
             + "Parameters: "
             + PREFIX_PERSON_INDEX + "PERSON_INDEX "
             + PREFIX_JOB_INDEX + "JOB_INDEX\n"
@@ -30,10 +30,14 @@ public class DeleteApplicationCommand extends Command {
             + PREFIX_PERSON_INDEX + "1 "
             + PREFIX_JOB_INDEX + "2";
 
-    public static final String MESSAGE_DELETE_APPLICATION_SUCCESS = "Deleted application: %1$s applied for %2$s";
-    public static final String MESSAGE_APPLICATION_NOT_FOUND = "Application not found";
-    public static final String MESSAGE_PERSON_INVALID_INDEX = "Person index is invalid";
-    public static final String MESSAGE_JOB_INVALID_INDEX = "Job index is invalid";
+    public static final String MESSAGE_DELETE_APPLICATION_SUCCESS =
+            "Deleted application: %1$s's application for %2$s";
+    public static final String MESSAGE_APPLICATION_NOT_FOUND =
+            "No application found for this person and job";
+    public static final String MESSAGE_PERSON_INVALID_INDEX =
+            "Person index is invalid";
+    public static final String MESSAGE_JOB_INVALID_INDEX =
+            "Job index is invalid";
 
     private final Index personIndex;
     private final Index jobIndex;
@@ -87,7 +91,7 @@ public class DeleteApplicationCommand extends Command {
                 person.getName(), job.getJobTitle());
 
         // Return a CommandResult that signals applications need to be refreshed
-        return new CommandResult(successMessage, true);
+        return CommandResult.withRefreshApplications(successMessage);
     }
 
     @Override

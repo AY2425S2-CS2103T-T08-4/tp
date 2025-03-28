@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-  <ListView fx:id="jobListView" VBox.vgrow="ALWAYS" />
+  <SplitPane fx:id="splitPane" dividerPositions="0.6" VBox.vgrow="ALWAYS">
+    <!-- Main Job List -->
+    <ListView fx:id="jobListView" styleClass="job-list-container" VBox.vgrow="ALWAYS" />
+
+    <!-- Sidebar container with explicit width settings -->
+    <StackPane minWidth="350" prefWidth="400" styleClass="sidebar-container">
+      <!-- Sidebar placeholder - will be filled programmatically -->
+      <fx:include fx:id="sidebar" source="Sidebar.fxml"/>
+    </StackPane>
+  </SplitPane>
 </VBox>

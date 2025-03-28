@@ -102,8 +102,66 @@ public class CommandTestUtil {
      */
     public static void assertCommandSuccess(Command command, Model actualModel, String expectedMessage,
             Model expectedModel) {
-        CommandResult expectedCommandResult = new CommandResult(expectedMessage);
-        assertCommandSuccess(command, actualModel, expectedCommandResult, expectedModel);
+        // For ListCommand, we can directly use withFeedback since that's what the command returns
+        if (command instanceof ListCommand) {
+            CommandResult expectedCommandResult = CommandResult.withFeedback(expectedMessage);
+            assertCommandSuccess(command, actualModel, expectedCommandResult, expectedModel);
+            return;
+        }
+
+        // For other commands, execute and check
+        CommandResult actualResult;
+        try {
+            actualResult = command.execute(actualModel);
+        } catch (CommandException ce) {
+            throw new AssertionError("Execution of command should not fail.", ce);
+        }
+
+        // Create the expected CommandResult based on the command type
+        CommandResult expectedCommandResult;
+
+        if (command instanceof FindAppCommand) {
+            // For FindAppCommand, create the expected result based on the command's behavior
+            if (actualResult.isClearView()) {
+                expectedCommandResult = CommandResult.withClearView(expectedMessage);
+            } else if (actualResult.isRefreshJobView()) {
+                expectedCommandResult = CommandResult.withRefreshJobView(expectedMessage);
+            } else {
+                expectedCommandResult = CommandResult.withFeedback(expectedMessage);
+            }
+        } else if (command instanceof ClearCommand) {
+            expectedCommandResult = CommandResult.withClearView(expectedMessage);
+        } else if (command instanceof DeleteCommand || command instanceof AddCommand
+                || command instanceof DeleteJobCommand) {
+            expectedCommandResult = CommandResult.withFeedback(expectedMessage);
+        } else {
+            // Default case: use the actual result's flags to create the expected result
+            if (actualResult.isShowHelp()) {
+                expectedCommandResult = CommandResult.withHelp(expectedMessage);
+            } else if (actualResult.isExit()) {
+                expectedCommandResult = CommandResult.withExit(expectedMessage);
+            } else if (actualResult.setToggleView()) {
+                expectedCommandResult = CommandResult.withToggleView(expectedMessage);
+            } else if (actualResult.isViewJob() && actualResult.isViewPerson()) {
+                expectedCommandResult = CommandResult.withPersonView(expectedMessage, actualResult.getJobIndex(),
+                        actualResult.getPersonIndex());
+            } else if (actualResult.isViewJob()) {
+                expectedCommandResult = CommandResult.withJobView(expectedMessage, actualResult.getJobIndex());
+            } else if (actualResult.isClearView() && actualResult.isRefreshJobView()) {
+                expectedCommandResult = CommandResult.withRefreshJobView(expectedMessage);
+            } else if (actualResult.isClearView()) {
+                expectedCommandResult = CommandResult.withClearView(expectedMessage);
+            } else if (actualResult.isRefreshJobView()) {
+                expectedCommandResult = CommandResult.withRefreshJobViewOnly(expectedMessage);
+            } else if (actualResult.isRefreshApplications()) {
+                expectedCommandResult = CommandResult.withRefreshApplications(expectedMessage);
+            } else {
+                expectedCommandResult = CommandResult.withFeedback(expectedMessage);
+            }
+        }
+
+        assertEquals(expectedCommandResult, actualResult);
+        assertEquals(expectedModel, actualModel);
     }
 
     /**

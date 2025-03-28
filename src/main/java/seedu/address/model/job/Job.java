@@ -5,7 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Objects;
 
 /**
- * Represents a job with a job title and company name.
+ * Represents a job with a job title and additional properties.
  */
 public class Job {
     private final JobTitle jobTitle;
@@ -14,7 +14,7 @@ public class Job {
     private final JobType jobType;
 
     /**
-     * Constructs a Job with the specified job title and company name.
+     * Constructs a Job with the specified job title and properties.
      *
      * @param jobTitle  The title of the job.
      * @param jobRounds The rounds of the job.

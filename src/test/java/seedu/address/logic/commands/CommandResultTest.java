@@ -10,11 +10,10 @@ import org.junit.jupiter.api.Test;
 public class CommandResultTest {
     @Test
     public void equals() {
-        CommandResult commandResult = new CommandResult("feedback");
+        CommandResult commandResult = CommandResult.withFeedback("feedback");
 
         // same values -> returns true
-        assertTrue(commandResult.equals(new CommandResult("feedback")));
-        assertTrue(commandResult.equals(new CommandResult("feedback", false, false, false)));
+        assertTrue(commandResult.equals(CommandResult.withFeedback("feedback")));
 
         // same object -> returns true
         assertTrue(commandResult.equals(commandResult));
@@ -26,39 +25,55 @@ public class CommandResultTest {
         assertFalse(commandResult.equals(0.5f));
 
         // different feedbackToUser value -> returns false
-        assertFalse(commandResult.equals(new CommandResult("different")));
+        assertFalse(commandResult.equals(CommandResult.withFeedback("different")));
 
         // different showHelp value -> returns false
-        assertFalse(commandResult.equals(new CommandResult("feedback", true, false, false)));
+        assertFalse(commandResult.equals(CommandResult.withHelp("feedback")));
 
         // different exit value -> returns false
-        assertFalse(commandResult.equals(new CommandResult("feedback", false, true, false)));
+        assertFalse(commandResult.equals(CommandResult.withExit("feedback")));
+
+        // different refreshApplications value -> returns false
+        assertFalse(commandResult.equals(CommandResult.withRefreshApplications("feedback")));
     }
 
     @Test
     public void hashcode() {
-        CommandResult commandResult = new CommandResult("feedback");
+        CommandResult commandResult = CommandResult.withFeedback("feedback");
 
         // same values -> returns same hashcode
-        assertEquals(commandResult.hashCode(), new CommandResult("feedback").hashCode());
+        assertEquals(commandResult.hashCode(), CommandResult.withFeedback("feedback").hashCode());
 
         // different feedbackToUser value -> returns different hashcode
-        assertNotEquals(commandResult.hashCode(), new CommandResult("different").hashCode());
+        assertNotEquals(commandResult.hashCode(), CommandResult.withFeedback("different").hashCode());
 
         // different showHelp value -> returns different hashcode
-        assertNotEquals(commandResult.hashCode(), new CommandResult("feedback", true, false, false).hashCode());
+        assertNotEquals(commandResult.hashCode(), CommandResult.withHelp("feedback").hashCode());
 
         // different exit value -> returns different hashcode
-        assertNotEquals(commandResult.hashCode(), new CommandResult("feedback", false, true, false).hashCode());
+        assertNotEquals(commandResult.hashCode(), CommandResult.withExit("feedback").hashCode());
+
+        // different refreshApplications value -> returns different hashcode
+        assertNotEquals(commandResult.hashCode(), CommandResult.withRefreshApplications("feedback").hashCode());
     }
 
     @Test
     public void toStringMethod() {
-        CommandResult commandResult = new CommandResult("feedback");
-        String expected = CommandResult.class.getCanonicalName() + "{feedbackToUser="
-                + commandResult.getFeedbackToUser() + ", showHelp=" + commandResult.isShowHelp()
-                + ", exit=" + commandResult.isExit() + ", toggleJobView=" + commandResult.setToggleView()
-                + ", refreshApplications=" + commandResult.isRefreshApplications() + "}";
+        CommandResult commandResult = CommandResult.withFeedback("feedback");
+        String expected = new seedu.address.commons.util.ToStringBuilder(commandResult)
+                .add("feedbackToUser", "feedback")
+                .add("showHelp", false)
+                .add("exit", false)
+                .add("toggleView", false)
+                .add("viewJob", false)
+                .add("viewPerson", false)
+                .add("clearView", false)
+                .add("refreshJobView", false)
+                .add("jobIndex", -1)
+                .add("personIndex", -1)
+                .add("refreshApplications", false)
+                .toString();
+
         assertEquals(expected, commandResult.toString());
     }
 }

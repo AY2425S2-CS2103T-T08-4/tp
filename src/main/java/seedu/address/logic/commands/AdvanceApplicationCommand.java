@@ -21,11 +21,10 @@ import seedu.address.model.person.Person;
  */
 public class AdvanceApplicationCommand extends Command {
 
-    public static final String COMMAND_WORD = "advance";
+    public static final String COMMAND_WORD = "advanceapp";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Advances the application for the person at the specified index to the job at the specified index"
-            + " by the specified number of rounds.\n"
+            + ": Advances an application by the specified number of rounds. "
             + "Parameters: "
             + PREFIX_PERSON_INDEX + "PERSON_INDEX "
             + PREFIX_JOB_INDEX + "JOB_INDEX "
@@ -35,13 +34,18 @@ public class AdvanceApplicationCommand extends Command {
             + PREFIX_JOB_INDEX + "2 "
             + PREFIX_ROUNDS + "1";
 
-    public static final String MESSAGE_ADVANCE_APPLICATION_SUCCESS = "Advanced application: "
-        + "%1$s at %2$s (Status: %3$d/%4$d)";
-    public static final String MESSAGE_APPLICATION_NOT_FOUND = "Application not found";
-    public static final String MESSAGE_PERSON_INVALID_INDEX = "Person index is invalid";
-    public static final String MESSAGE_JOB_INVALID_INDEX = "Job index is invalid";
-    public static final String MESSAGE_INVALID_ROUNDS = "Rounds must be a positive integer";
-    public static final String MESSAGE_EXCEED_ROUNDS = "Cannot advance beyond the maximum number of job rounds";
+    public static final String MESSAGE_ADVANCE_APPLICATION_SUCCESS =
+            "%1$s has completed %3$d/%4$d rounds for %2$s";
+    public static final String MESSAGE_EXCEED_ROUNDS =
+            "Cannot advance application beyond the maximum number of rounds for this job";
+    public static final String MESSAGE_INVALID_ROUNDS =
+            "Number of rounds must be a positive integer";
+    public static final String MESSAGE_APPLICATION_NOT_FOUND =
+            "No application found for this person and job";
+    public static final String MESSAGE_PERSON_INVALID_INDEX =
+            "Person index is invalid";
+    public static final String MESSAGE_JOB_INVALID_INDEX =
+            "Job index is invalid";
 
     private final Index personIndex;
     private final Index jobIndex;
@@ -105,7 +109,7 @@ public class AdvanceApplicationCommand extends Command {
                     job.getJobRounds().jobRounds);
 
             // Return a CommandResult that signals applications need to be refreshed
-            return new CommandResult(successMessage, true);
+            return CommandResult.withRefreshApplications(successMessage);
         } catch (InvalidApplicationStatusException e) {
             throw new CommandException(MESSAGE_EXCEED_ROUNDS);
         } catch (IllegalArgumentException e) {

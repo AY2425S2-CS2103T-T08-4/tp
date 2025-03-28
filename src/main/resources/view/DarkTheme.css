@@ -97,6 +97,7 @@
     -fx-label-padding: 0 0 0 0;
     -fx-graphic-text-gap : 0;
     -fx-padding: 0 0 0 0;
+    -fx-background-color: transparent;
 }
 
 .list-cell:filled:even {
@@ -144,6 +145,15 @@
 
 .status-bar {
     -fx-background-color: derive(#1d1d1d, 30%);
+    -fx-padding: 5;
+    -fx-border-top-width: 1px;
+    -fx-border-color: derive(#1d1d1d, 40%);
+    -fx-border-radius: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 0);
+    -fx-alignment: center-left;
+    -fx-pref-height: 25px;
+    -fx-min-height: 25px;
+    -fx-max-height: 25px;
 }
 
 .result-display {
@@ -308,7 +318,10 @@
 }
 
 #cardPane {
-    -fx-background-color: transparent;
+    -fx-background-color: #3a3a3a;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 5);
     -fx-border-width: 0;
 }
 
@@ -339,30 +352,36 @@
 
 #tags {
     -fx-hgap: 7;
-    -fx-vgap: 3;
+    -fx-vgap: 5;
 }
 
 #tags .label {
     -fx-text-fill: white;
     -fx-background-color: #3e7b91;
-    -fx-padding: 1 3 1 3;
-    -fx-border-radius: 2;
-    -fx-background-radius: 2;
-    -fx-font-size: 11;
+    -fx-padding: 3 8 3 8;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 2, 0, 0, 1);
 }
 
 #apps {
     -fx-hgap: 7;
-    -fx-vgap: 3;
+    -fx-vgap: 7;
 }
 
 #apps .label {
     -fx-text-fill: white;
-    -fx-background-color: #8e44ad;
-    -fx-padding: 1 3 1 3;
-    -fx-border-radius: 2;
-    -fx-background-radius: 2;
-    -fx-font-size: 11;
+    -fx-padding: 5;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+    -fx-alignment: center-left;
+    -fx-wrap-text: true;
+    -fx-max-width: 250px;
 }
 
 .applications-icon {
@@ -457,4 +476,889 @@
     -fx-font-style: italic;
     -fx-text-fill: #888888;
     -fx-padding: 5;
+}
+
+/* Detailed Mini Person Card Styling */
+.detailed-mini-person-card {
+    -fx-background-color: #333336;
+    -fx-border-color: #4a6572;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 3, 0, 0, 1);
+    -fx-pref-width: 320;
+}
+
+.mini-cell-name-label {
+    -fx-font-size: 13pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.mini-cell-address-label {
+    -fx-font-size: 11pt;
+    -fx-text-fill: #bdc3c7;
+}
+
+.mini-status-label {
+    -fx-font-size: 10pt;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+.mini-progress-info {
+    -fx-alignment: center-right;
+    -fx-min-width: 120;
+}
+
+/* Improved Job Card UI */
+.job-card-pane {
+    -fx-background-color: #2d2d30;
+    -fx-border-color: #3e7b91;
+    -fx-border-width: 0 0 0 3;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 8, 0, 0, 0);
+}
+
+.job-header-container {
+    -fx-background-color: #252529;
+    -fx-padding: 10 5 10 5;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.4), 2, 0, 0, 1);
+}
+
+.job-title-label {
+    -fx-font-size: 16pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: #e7e7e7;
+}
+
+.applicants-container {
+    -fx-background-color: #2a2a2d;
+    -fx-padding: 15;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-hgap: 15;
+    -fx-vgap: 15;
+    -fx-pref-columns: 2;
+    -fx-pref-tile-width: 320;
+    -fx-tile-alignment: top-left;
+}
+
+.applicant-count-badge {
+    -fx-background-color: #3e7b91;
+    -fx-background-radius: 50%;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 3 7 3 7;
+    -fx-font-size: 10pt;
+    -fx-alignment: center;
+}
+
+.skills-header-label {
+    -fx-font-size: 11pt;
+    -fx-text-fill: #e7e7e7;
+    -fx-font-weight: bold;
+}
+
+.mini-skills-pane {
+    -fx-padding: 5 0 0 15;
+}
+
+.skill-label-small {
+    -fx-background-color: #3e7b91;
+    -fx-background-radius: 3;
+    -fx-padding: 3 8 3 8;
+    -fx-font-size: 9pt;
+    -fx-text-fill: white;
+}
+
+.mini-status-label {
+    -fx-font-size: 10pt;
+    -fx-text-fill: #e7e7e7;
+    -fx-alignment: center;
+}
+
+.progress-label {
+    -fx-font-size: 11pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+}
+
+.mini-progress-info {
+    -fx-alignment: center;
+    -fx-min-width: 160;
+    -fx-padding: 5 0 0 0;
+}
+
+.mini-progress-bar {
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+}
+
+.mini-progress-bar .bar {
+    -fx-background-radius: 2;
+    -fx-background-insets: 0;
+}
+
+.mini-progress-bar .track {
+    -fx-background-color: #222225;
+    -fx-background-radius: 2;
+}
+
+/* Sidebar Styling */
+.sidebar-container {
+    -fx-min-width: 350px;
+    -fx-pref-width: 350px;
+    -fx-max-width: 450px;
+    -fx-background-color: derive(#1d1d1d, 10%);
+    -fx-border-color: derive(#1d1d1d, 30%);
+    -fx-border-width: 0 0 0 1;
+}
+
+.sidebar-header {
+    -fx-background-color: #252529;
+    -fx-padding: 12 10 12 10;
+    -fx-border-color: #444;
+    -fx-border-width: 0 0 1 0;
+}
+
+.sidebar-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+}
+
+.sidebar-content {
+    -fx-background-color: #2A2E33;
+    -fx-padding: 10;
+}
+
+.sidebar-section-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+    -fx-padding: 5 0 5 0;
+}
+
+.sidebar-icon {
+    -fx-fill: #e7e7e7;
+}
+
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 5;
+}
+
+.icon-button:hover {
+    -fx-background-color: #3e7b91;
+    -fx-background-radius: 3;
+}
+
+/* Style the SplitPane divider for the sidebar */
+#splitPane > .split-pane-divider {
+    -fx-background-color: derive(#1d1d1d, 30%);
+    -fx-padding: 0 1px 0 1px;
+}
+
+/* Hide scrollbars in SplitPane */
+.split-pane .scroll-bar:vertical,
+.split-pane .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+.split-pane .corner {
+    -fx-background-color: transparent;
+}
+
+/* Ensure scrollbars are hidden in any containers within SplitPane */
+.split-pane * .scroll-bar:vertical,
+.split-pane * .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+/* List container styling */
+.job-list-container {
+    -fx-min-width: 350px;
+    -fx-pref-width: 500px;
+}
+
+/* Statistics Panel Styling */
+.statistics-container {
+    -fx-background-color: #2d2d30;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-padding: 15;
+}
+
+.chart {
+    -fx-padding: 10;
+    -fx-background-color: transparent;
+}
+
+.chart-title {
+    -fx-text-fill: #e7e7e7;
+    -fx-font-size: 14pt;
+    -fx-font-weight: bold;
+}
+
+.chart-legend {
+    -fx-background-color: transparent;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #e7e7e7;
+}
+
+/* Pie Chart Styling */
+.pie-chart {
+    -fx-background-color: transparent;
+}
+
+.pie-chart .chart-content {
+    -fx-padding: 10;
+}
+
+.pie-chart .chart-pie {
+    -fx-border-color: #2d2d30;
+    -fx-border-width: 1;
+}
+
+.pie-chart .data0.chart-pie { -fx-pie-color: #3e7b91; }
+.pie-chart .data1.chart-pie { -fx-pie-color: #f39c12; }
+.pie-chart .data2.chart-pie { -fx-pie-color: #e74c3c; }
+.pie-chart .data3.chart-pie { -fx-pie-color: #2ecc71; }
+.pie-chart .data4.chart-pie { -fx-pie-color: #9b59b6; }
+.pie-chart .data5.chart-pie { -fx-pie-color: #1abc9c; }
+.pie-chart .data6.chart-pie { -fx-pie-color: #d35400; }
+.pie-chart .data7.chart-pie { -fx-pie-color: #95a5a6; }
+
+.pie-chart .chart-pie-label {
+    -fx-fill: #e7e7e7;
+    -fx-font-size: 10pt;
+}
+
+/* Bar Chart Styling */
+.bar-chart {
+    -fx-background-color: transparent;
+    -fx-legend-visible: true;
+}
+
+.bar-chart .chart-content {
+    -fx-padding: 10;
+}
+
+.bar-chart .axis {
+    -fx-tick-label-fill: #e7e7e7;
+    -fx-tick-length: 10;
+    -fx-minor-tick-length: 5;
+    -fx-tick-label-font-size: 9pt;
+}
+
+.bar-chart .axis-label {
+    -fx-text-fill: #e7e7e7;
+    -fx-font-size: 10pt;
+}
+
+.bar-chart .chart-bar {
+    -fx-bar-fill: #3e7b91;
+    -fx-background-radius: 3;
+}
+
+.bar-chart .series0.chart-bar { -fx-bar-fill: #3e7b91; }
+.bar-chart .series1.chart-bar { -fx-bar-fill: #f39c12; }
+.bar-chart .series2.chart-bar { -fx-bar-fill: #e74c3c; }
+
+.no-data-label {
+    -fx-text-fill: #e7e7e7;
+    -fx-font-size: 14pt;
+    -fx-font-style: italic;
+    -fx-alignment: center;
+}
+
+/* Sidebar Chart Title Styling */
+.chart-section-title {
+    -fx-font-size: 14pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+    -fx-padding: 5 0 5 0;
+}
+
+.sidebar-title {
+    -fx-font-size: 16pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+    -fx-padding: 0 10 0 0;
+}
+
+.sidebar-section-label {
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: #b3b3b3;
+    -fx-padding: 10 0 5 0;
+}
+
+/* Chart size customization - make charts more visible */
+.pie-chart, .bar-chart {
+    -fx-min-height: 250px;
+    -fx-pref-height: 250px;
+    -fx-background-color: #2d2d30;
+    -fx-padding: 10;
+    -fx-legend-visible: true;
+    -fx-legend-side: RIGHT;
+    -fx-border-color: #444;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+/* CRITICAL: This ensures the chart content is rendered */
+.chart-content {
+    -fx-padding: 10px;
+    -fx-background-color: #2d2d30;
+}
+
+/* Make chart plot area visible */
+.chart-plot-background {
+    -fx-background-color: #2d2d30;
+}
+
+/* Make pie chart labels more visible */
+.chart-pie-label {
+    -fx-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* Make pie chart slices more prominent */
+.chart-pie {
+    -fx-border-color: #2d2d30;
+    -fx-border-width: 2px;
+}
+
+/* Force pie colors to be bright */
+.default-color0.chart-pie { -fx-pie-color: #3e7b91; }
+.default-color1.chart-pie { -fx-pie-color: #f39c12; }
+.default-color2.chart-pie { -fx-pie-color: #e74c3c; }
+.default-color3.chart-pie { -fx-pie-color: #2ecc71; }
+.default-color4.chart-pie { -fx-pie-color: #9b59b6; }
+
+/* Make bar chart bars more visible */
+.chart-bar {
+    -fx-bar-fill: #3e7b91;
+    -fx-background-color: #3e7b91;
+    -fx-background-radius: 3;
+    -fx-border-color: transparent;
+}
+
+.default-color0.chart-bar { -fx-bar-fill: #3e7b91; }
+.default-color1.chart-bar { -fx-bar-fill: #f39c12; }
+.default-color2.chart-bar { -fx-bar-fill: #e74c3c; }
+
+/* Make axis labels visible */
+.axis {
+    -fx-tick-label-fill: #e7e7e7;
+    -fx-font-size: 10px;
+}
+
+.axis-label {
+    -fx-text-fill: #e7e7e7;
+}
+
+/* Chart section title styling */
+.chart-section-title {
+    -fx-font-size: 16pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+    -fx-padding: 15 0 10 0;
+}
+
+/* Improve no-data message visibility */
+.no-data-label {
+    -fx-text-fill: #e7e7e7;
+    -fx-font-size: 14pt;
+    -fx-font-style: italic;
+    -fx-padding: 20px;
+    -fx-alignment: center;
+}
+
+/* Sidebar content styling */
+.statistics-container {
+    -fx-background-color: #2d2d30;
+    -fx-padding: 10;
+    -fx-spacing: 15;
+}
+
+/* Progress Bar Styling */
+.progress-bar {
+    -fx-accent: white;
+    -fx-control-inner-background: #1a1a1a;
+    -fx-background-radius: 3;
+    -fx-background-color: #1a1a1a;
+    -fx-border-radius: 3;
+    -fx-border-color: #333333;
+    -fx-border-width: 1;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: white;
+    -fx-background-radius: 2;
+    -fx-background-insets: 1;
+    -fx-padding: 0.20em;
+}
+
+.progress-bar > .track {
+    -fx-background-color: #1a1a1a;
+    -fx-background-radius: 3;
+    -fx-background-insets: 0;
+}
+
+/* Custom Progress Bar IDs */
+#person-detail-progress-bar .bar {
+    -fx-background-color: white;
+}
+
+#person-detail-progress-bar .track {
+    -fx-background-color: #1a1a1a;
+}
+
+[id^="custom-progress-bar-"] .bar {
+    -fx-background-color: white;
+}
+
+[id^="custom-progress-bar-"] .track {
+    -fx-background-color: #1a1a1a;
+}
+
+/* JobCard Styles */
+.job-card {
+    -fx-background-color: linear-gradient(to bottom, #303030, #252525);
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);
+}
+
+.job-card-id {
+    -fx-text-fill: #f39c12;
+}
+
+.job-card-title {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.job-header-container {
+    -fx-background-color: rgba(43, 43, 43, 0.7);
+    -fx-background-radius: 4;
+    -fx-padding: 12 15 12 15;
+}
+
+.job-rounds-box {
+    -fx-background-color: rgba(62, 123, 145, 0.15);
+    -fx-background-radius: 4;
+    -fx-padding: 5 10 5 10;
+}
+
+.job-rounds-label {
+    -fx-text-fill: white;
+}
+
+.applications-box {
+    -fx-background-color: rgba(249, 105, 14, 0.15);
+    -fx-background-radius: 4;
+    -fx-padding: 5 10 5 10;
+}
+
+.applications-label {
+    -fx-text-fill: white;
+}
+
+.applications-badge {
+    -fx-background-color: #3e7b91;
+    -fx-background-radius: 50%;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 3 7 3 7;
+    -fx-font-size: 10pt;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+.applicants-container {
+    -fx-background-color: rgba(43, 43, 43, 0.5);
+    -fx-padding: 15;
+    -fx-background-radius: 4;
+    -fx-hgap: 15;
+    -fx-vgap: 15;
+}
+
+.no-applicants-label {
+    -fx-font-style: italic;
+    -fx-text-fill: #aaaaaa;
+    -fx-padding: 15;
+    -fx-font-size: 14px;
+    -fx-alignment: center;
+}
+
+.mini-card {
+    -fx-background-color: #333336;
+    -fx-border-color: #3e7b91;
+    -fx-border-width: 0 0 0 3;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 3, 0, 0, 1);
+}
+
+.mini-card-index {
+    -fx-background-color: #3e7b91;
+    -fx-text-fill: white;
+    -fx-padding: 2 6 2 6;
+    -fx-background-radius: 3;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 2, 0, 0, 1);
+    -fx-alignment: center;
+}
+
+.mini-card-name {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.mini-card-address {
+    -fx-font-size: 12px;
+    -fx-text-fill: #bdc3c7;
+}
+
+.mini-card-address-box {
+    -fx-background-color: rgba(62, 123, 145, 0.15);
+    -fx-background-radius: 4;
+    -fx-padding: 5 10 5 10;
+    -fx-margin: 5 0 5 0;
+}
+
+.skills-header {
+    -fx-background-color: rgba(43, 43, 43, 0.7);
+    -fx-background-radius: 4 4 0 0;
+    -fx-padding: 5 10 5 10;
+}
+
+.skills-header-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.skills-pane {
+    -fx-spacing: 5;
+    -fx-alignment: center-left;
+    -fx-padding: 5 0 5 10;
+}
+
+.skill-tag {
+    -fx-background-color: #3e7b91;
+    -fx-text-fill: white;
+    -fx-padding: 3 8 3 8;
+    -fx-background-radius: 3;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 2, 0, 0, 1);
+}
+
+.progress-header {
+    -fx-background-color: rgba(43, 43, 43, 0.7);
+    -fx-background-radius: 4 4 0 0;
+    -fx-padding: 5 10 5 10;
+}
+
+.progress-header-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.custom-progress-bar {
+    -fx-accent: white;
+    -fx-control-inner-background: #1a1a1a;
+    -fx-background-radius: 3;
+    -fx-background-color: #1a1a1a;
+    -fx-border-radius: 3;
+    -fx-border-color: #333333;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.1), 1, 0, 0, 1);
+}
+
+.status-label {
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-padding: 3 8 3 8;
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-radius: 10;
+    -fx-alignment: center-right;
+}
+
+/* View State Indicator styles */
+.view-state-container {
+    -fx-background-color: derive(#1d1d1d, 30%);
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 3, 0, 0, 0);
+}
+
+.view-state-label-prefix {
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-opacity: 0.7;
+    -fx-font-size: 11px;
+}
+
+.view-state-label {
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+}
+
+.person-view-state {
+    -fx-background-color: derive(#2C5364, 20%);
+}
+
+.job-view-state {
+    -fx-background-color: derive(#4b6cb7, 20%);
+}
+
+.person-detail-view-state {
+    -fx-background-color: linear-gradient(to right, derive(#2C5364, 40%), derive(#0F2027, 40%));
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0, 0, 0);
+    -fx-border-width: 0 0 0 2;
+    -fx-border-color: #3e7b91;
+}
+
+.job-detail-view-state {
+    -fx-background-color: derive(#4b6cb7, 40%);
+}
+
+/* Person Detail Panel Styles */
+.person-detail-container {
+    -fx-background-color: #2d2d30;
+    -fx-padding: 20;
+    -fx-spacing: 16;
+}
+
+.person-detail-title {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.person-detail-name {
+    -fx-text-fill: linear-gradient(to right, #ff9966, #ff5e62);
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 0 10 0;
+}
+
+.person-detail-info-box {
+    -fx-background-color: linear-gradient(to bottom right, #3a3a3a, #2a2a2a);
+    -fx-padding: 15;
+    -fx-background-radius: 8;
+    -fx-spacing: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);
+}
+
+.person-detail-info-title {
+    -fx-text-fill: #66ccff;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 5 0;
+}
+
+.person-detail-job-title {
+    -fx-text-fill: #4facfe;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.person-detail-app-status {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.person-detail-label {
+    -fx-text-fill: #aaaaaa;
+    -fx-font-size: 14px;
+}
+
+.person-detail-value {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.person-detail-tags-container {
+    -fx-spacing: 8;
+    -fx-padding: 8 0 8 0;
+    -fx-alignment: center-left;
+    -fx-wrap-text: true;
+}
+
+.person-detail-tag {
+    -fx-background-color: #3e7b91;
+    -fx-text-fill: white;
+    -fx-padding: 7 12 7 12;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: linear-gradient(to bottom, #444444, #333333);
+    -fx-border-width: 1.5;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.25), 3, 0, 0, 1);
+    -fx-margin: 4;
+}
+
+/* Rounds Distribution Bar Chart Styling */
+.rounds-distribution-chart {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+
+.rounds-distribution-chart .chart-content {
+    -fx-padding: 10;
+    -fx-background-color: transparent;
+}
+
+.rounds-distribution-chart .chart-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.rounds-distribution-chart .axis {
+    -fx-tick-label-fill: white;
+    -fx-tick-length: 10;
+    -fx-font-size: 12px;
+}
+
+.rounds-distribution-chart .axis-label {
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+
+.rounds-distribution-chart .chart-bar {
+    -fx-background-radius: 5;
+    -fx-background-color: linear-gradient(to top, #3e7b91, #66a5bc);
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0, 0, 0);
+}
+
+.rounds-distribution-chart .chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.rounds-distribution-chart .chart-vertical-grid-lines {
+    -fx-stroke: #3a3a3a;
+    -fx-stroke-width: 1;
+}
+
+.rounds-distribution-chart .chart-horizontal-grid-lines {
+    -fx-stroke: #3a3a3a;
+    -fx-stroke-width: 1;
+}
+
+/* Skills Summary Styling */
+.skills-summary-container {
+    -fx-background-color: linear-gradient(to bottom right, #3a3a3a, #2a2a2a);
+    -fx-padding: 15;
+    -fx-background-radius: 8;
+    -fx-spacing: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);
+}
+
+.skills-summary-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 5 0;
+}
+
+.skills-summary-pane {
+    -fx-hgap: 8;
+    -fx-vgap: 8;
+    -fx-padding: 5;
+}
+
+.skill-summary-tag {
+    -fx-background-color: #3e7b91;
+    -fx-text-fill: white;
+    -fx-padding: 5 10 5 10;
+    -fx-background-radius: 5;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+/* Job Stats Title */
+.job-stats-title {
+    -fx-text-fill: linear-gradient(to right, #ffffff, #bbbbbb);
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 3, 0, 0, 1);
+    -fx-padding: 0 0 10 0;
+    -fx-border-color: transparent transparent #3e7b91 transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+/* Scroll hint label */
+.scroll-hint-label {
+    -fx-text-fill: #777777;
+    -fx-font-size: 12px;
+    -fx-font-style: italic;
+    -fx-padding: 2 0 10 0;
+    -fx-alignment: center-right;
+    -fx-opacity: 0.8;
+}
+
+/* Job Stats ScrollPane Styling */
+.stats-scroll-pane {
+    -fx-background-color: #2d2d30;
+    -fx-background: #2d2d30;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+}
+
+.stats-scroll-pane > .viewport {
+    -fx-background-color: #2d2d30;
+}
+
+.stats-scroll-pane .scroll-bar:vertical,
+.stats-scroll-pane .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
+}
+
+.stats-scroll-pane .scroll-bar:vertical .track,
+.stats-scroll-pane .scroll-bar:horizontal .track {
+    -fx-opacity: 0;
+    -fx-background-color: transparent;
+}
+
+.stats-scroll-pane .scroll-bar:vertical .thumb,
+.stats-scroll-pane .scroll-bar:horizontal .thumb {
+    -fx-opacity: 0;
+    -fx-background-color: transparent;
+}
+
+.stats-scroll-pane .increment-button,
+.stats-scroll-pane .decrement-button {
+    -fx-opacity: 0;
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.stats-scroll-pane > .corner {
+    -fx-background-color: #2d2d30;
 }

@@ -17,59 +17,59 @@
     </columnConstraints>
     <VBox alignment="CENTER_LEFT" minHeight="105" GridPane.columnIndex="0">
       <padding>
-        <Insets top="5" right="5" bottom="5" left="15" />
+        <Insets top="12" right="12" bottom="12" left="20" />
       </padding>
       <HBox spacing="0.5" alignment="CENTER_LEFT">
         <padding>
-          <Insets top="5" bottom="5" />
+          <Insets top="5" bottom="10" />
         </padding>
-        <Label fx:id="id" styleClass="cell_big_label">
+        <Label fx:id="id" styleClass="cell_big_label" style="-fx-text-fill: #f39c12;">
           <minWidth>
             <!-- Ensures that the label text is never truncated -->
             <Region fx:constant="USE_PREF_SIZE" />
           </minWidth>
         </Label>
-        <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
+        <Label fx:id="name" text="\$first" styleClass="cell_big_label" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" />
       </HBox>
 
       <HBox fx:id="degreeBox" spacing="5" alignment="CENTER_LEFT">
         <padding>
-          <Insets top="2" bottom="2" />
+          <Insets top="5" bottom="5" />
         </padding>
-        <Label fx:id="degree" styleClass="cell_small_label" text="\$degree" wrapText="true"/>
-        <Label fx:id="school" styleClass="cell_small_label" text="\$school" wrapText="true"/>
+        <Label fx:id="degree" styleClass="cell_small_label" text="\$degree" wrapText="true" style="-fx-text-fill: white;"/>
+        <Label fx:id="school" styleClass="cell_small_label" text="\$school" wrapText="true" style="-fx-text-fill: white;"/>
       </HBox>
 
       <HBox fx:id="phoneBox" spacing="5" alignment="CENTER_LEFT">
         <padding>
-          <Insets top="2" bottom="2" />
+          <Insets top="5" bottom="5" />
         </padding>
-        <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" />
+        <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" style="-fx-text-fill: white;"/>
       </HBox>
 
       <HBox fx:id="emailBox" spacing="5" alignment="CENTER_LEFT">
         <padding>
-          <Insets top="2" bottom="2" />
+          <Insets top="5" bottom="5" />
         </padding>
-        <Label fx:id="email" styleClass="cell_small_label" text="\$email" />
+        <Label fx:id="email" styleClass="cell_small_label" text="\$email" style="-fx-text-fill: white;"/>
       </HBox>
 
       <HBox fx:id="addressBox" spacing="5" alignment="CENTER_LEFT">
         <padding>
-          <Insets top="2" bottom="2" />
+          <Insets top="5" bottom="5" />
         </padding>
-        <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
+        <Label fx:id="address" styleClass="cell_small_label" text="\$address" style="-fx-text-fill: white;"/>
       </HBox>
 
-      <VBox>
+      <VBox spacing="8">
         <padding>
-          <Insets top="5" />
+          <Insets top="10" />
         </padding>
         <HBox fx:id="skillsBox" spacing="5" alignment="CENTER_LEFT">
           <padding>
             <Insets top="2" bottom="2" />
           </padding>
-          <Label text="Skills:" styleClass="cell_small_label" style="-fx-font-weight: bold;" />
+          <Label text="Skills:" styleClass="cell_small_label" style="-fx-font-weight: bold; -fx-text-fill: white;" />
         </HBox>
         <FlowPane fx:id="tags">
           <padding>
@@ -77,19 +77,19 @@
           </padding>
         </FlowPane>
       </VBox>
-      <VBox>
+      <VBox spacing="8">
         <padding>
-          <Insets top="5" />
+          <Insets top="15" />
         </padding>
         <HBox fx:id="applicationsBox" spacing="5" alignment="CENTER_LEFT">
           <padding>
             <Insets top="2" bottom="2" />
           </padding>
-          <Label text="Applications:" styleClass="cell_small_label" style="-fx-font-weight: bold;" />
+          <Label text="Applications:" styleClass="cell_small_label" style="-fx-font-weight: bold; -fx-text-fill: white;" />
         </HBox>
         <FlowPane fx:id="apps">
           <padding>
-            <Insets left="25.0" top="2" />
+            <Insets left="25.0" top="5" />
           </padding>
         </FlowPane>
       </VBox>

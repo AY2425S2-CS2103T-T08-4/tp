@@ -29,9 +29,18 @@ public class FindJobCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.updateFilteredJobList(this.predicate);
-        return new CommandResult(
+        model.updateFilteredJobList(predicate);
+
+        // Clear the detail view if we don't find any results
+        if (model.getFilteredJobList().isEmpty()) {
+            // Reset the view state to job view (default view)
+            model.setViewState(Model.ViewState.JOB_VIEW);
+            return CommandResult.withRefreshJobView(
+                String.format(Messages.MESSAGE_JOBS_LISTED_OVERVIEW, 0));
+        } else {
+            return CommandResult.withRefreshJobView(
                 String.format(Messages.MESSAGE_JOBS_LISTED_OVERVIEW, model.getFilteredJobList().size()));
+        }
     }
 
     @Override

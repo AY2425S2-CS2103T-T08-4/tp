@@ -99,7 +99,7 @@ Examples:
 * `add n/John Doe s/NUS d/Computer Science p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add n/Betsy Crowe s/NTU d/Civil Engineering t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 
---- 
+---
 
 #### Adding a job: `addjob`
 Adds a job to TalentMatch
@@ -118,7 +118,7 @@ Format: `addapp p/PHONE_NUMBER jt/JOB_TITLE [as/APPLICATION_STATUS]`
 
 <box type="tip" seamless>
 
-**Tip:** 
+**Tip:**
 * The default application status is 0
 * The specified phone number and job title must exist in TalentMatch
 </box>
@@ -126,7 +126,7 @@ Format: `addapp p/PHONE_NUMBER jt/JOB_TITLE [as/APPLICATION_STATUS]`
 Examples:
 * `addapp p/98765432 jt/Software Engineering as/3`
 
-### Listing all persons/jobs 
+### Listing all persons/jobs
 
 #### Listing all persons: `list`
 
@@ -167,7 +167,7 @@ Examples:
 
 Edits an existing job in TalentMatch.
 
-Format: `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [js/JOB_SKILLS] [ja/JOB_ADDRESS] [em/JOB_TYPE]` 
+Format: `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [js/JOB_SKILLS] [ja/JOB_ADDRESS] [em/JOB_TYPE]`
 
 * Edits the job at the specified `INDEX`. The index refers to the index number shown in the displayed job list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
@@ -230,7 +230,7 @@ Format: `findapp p/PHONE_NUMBER jt/JOB_TITLE`
 Examples:
 * `findapp p/98765432 jt/Software Engineering` returns `Software Engineering`
 
-### Deleting a person/job/application 
+### Deleting a person/job/application
 
 #### Deleting a person: `delete`
 
@@ -273,7 +273,7 @@ Format: `delapp p/PHONE_NUMBER jt/JOB_TITLE`
 * Deletes the application with the specified `PHONE_NUMBER` and `JOB_TITLE`.
 
 Examples:
-* `delapp p/98765432 jt/Software Engineering` deletes the application linked to applicant with phone 98765432 
+* `delapp p/98765432 jt/Software Engineering` deletes the application linked to applicant with phone 98765432
 applying for Software Engineering role.
 
 ### Advancing applications: `advapp`

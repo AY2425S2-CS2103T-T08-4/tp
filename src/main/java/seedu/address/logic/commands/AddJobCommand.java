@@ -25,8 +25,8 @@ public class AddJobCommand extends Command {
             + PREFIX_JOB_SKILLS + "SKILLS "
             + PREFIX_EMPLOYMENT_TYPE + "JOB_TYPE";
 
-    public static final String MESSAGE_SUCCESS = "New Job added: %1$s";
-    public static final String MESSAGE_DUPLICATE_JOB = "This Job already exists in the address book";
+    public static final String MESSAGE_SUCCESS = "New job added: %1$s";
+    public static final String MESSAGE_DUPLICATE_JOB = "This job already exists in the address book";
 
     private final Job toAdd;
 
@@ -47,16 +47,11 @@ public class AddJobCommand extends Command {
         }
 
         model.addJob(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+        return CommandResult.withRefreshJobViewOnly(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
     }
 
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
         if (!(other instanceof AddJobCommand otherAddJobCommand)) {
             return false;
         }
@@ -65,6 +60,8 @@ public class AddJobCommand extends Command {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).add("toAddJob", toAdd).toString();
+        return new ToStringBuilder(this)
+                .add("job", toAdd)
+                .toString();
     }
 }
