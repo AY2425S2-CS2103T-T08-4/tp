@@ -8,6 +8,6 @@ with(this){return _c('div',{attrs:{"id":"app"}},[_c('header',{attrs:{"sticky":""
 with(this){return _c('div',{attrs:{"id":"content-wrapper"}},[_c('h3',{attrs:{"id":"project-talentmatch"}},[_v("Project: TalentMatch"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#project-talentmatch","onclick":"event.stopPropagation()"}})]),_v(" "),_c('p',[_v("TalentMatch is a desktop application designed to help users manage contact information efficiently. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and we will be implementing it over the course of the next few weeks.")]),_v(" "),_c('ul',[_c('li',[_c('em',[_v("{you can add/remove categories in the list above}")])])])])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.6.0")]),_v(", generated on Wed, 2 Apr 2025, 1:59:18 GMT+8]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.6.0")]),_v(", generated on Wed, 2 Apr 2025, 23:25:51 GMT+8]")])])])}
 }];
   
