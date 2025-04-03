@@ -4,18 +4,74 @@ skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
-AddressBook *-right-> "1" UniquePersonList
-AddressBook *-right-> "1" UniqueTagList
-UniqueTagList -[hidden]down- UniquePersonList
-UniqueTagList -[hidden]down- UniquePersonList
+package "Model" {
+    ' Main model containers
+    class AddressBook
+    class ApplicationsManager
+    class "ReadOnlyAddressBook" as ROAddressBook <<interface>>
+    class "ReadOnlyApplicationsManager" as ROApplicationsManager <<interface>>
 
-UniqueTagList -right-> "*" Tag
-UniquePersonList -right-> Person
+    ' Person components
+    class UniquePersonList
+    class Person
+    class Name
+    class Phone
+    class Email
+    class Address
+    class School
+    class Degree
 
-Person -up-> "*" Tag
+    ' Job components
+    class UniqueJobList
+    class Job
+    class JobTitle
+    class JobRounds
 
-Person *--> Name
-Person *--> Phone
-Person *--> Email
-Person *--> Address
+    ' Application components
+    class UniqueApplicationList
+    class Application
+    class ApplicationStatus
+
+    ' Shared components
+    class "Set<Skill>" as SkillSet
+    class Skill
+
+    ' Interfaces
+    AddressBook .up.|> ROAddressBook
+    ApplicationsManager .up.|> ROApplicationsManager
+
+    ' AddressBook relationships
+    AddressBook *-right-> "1" UniquePersonList
+    AddressBook *-right-> "1" UniqueJobList
+
+    ' ApplicationsManager relationships
+    ApplicationsManager *-right-> "1" UniqueApplicationList
+
+    ' List to entity relationships
+    UniquePersonList -right-> "*" Person
+    UniqueJobList -right-> "*" Job
+    UniqueApplicationList -right-> "*" Application
+
+    ' Person composition
+    Person *--> Name
+    Person *--> Phone
+    Person *--> Email
+    Person *--> Address
+    Person *--> School
+    Person *--> Degree
+    Person *--> "1" SkillSet
+
+    ' Job composition
+    Job *--> JobTitle
+    Job *--> JobRounds
+    Job *--> "1" SkillSet
+
+    ' Application relationships
+    Application *--> "1" Person
+    Application *--> "1" Job
+    Application *--> ApplicationStatus
+
+    ' SkillSet composition
+    SkillSet *--> "*" Skill
+}
 @enduml

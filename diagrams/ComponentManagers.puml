@@ -7,25 +7,58 @@ skinparam classBackgroundColor LOGIC_COLOR
 package Logic as LogicPackage {
 Class "<<interface>>\nLogic" as Logic
 Class LogicManager
+Class AddressBookParser
 }
 
 package Model as ModelPackage {
 Class "<<interface>>\nModel" as Model
 Class ModelManager
+Class AddressBook
+Class ApplicationsManager
+Class DoublyLinkedList
+Class "StackableFilteredList" as FilteredList
 }
 
 package Storage as StoragePackage {
 Class "<<interface>>\nStorage" as Storage
 Class StorageManager
+Class "<<interface>>\nAddressBookStorage" as AddressBookStorage
+Class "<<interface>>\nApplicationsManagerStorage" as ApplicationsManagerStorage
+Class "<<interface>>\nUserPrefsStorage" as UserPrefsStorage
+Class JsonAddressBookStorage
+Class JsonApplicationsManagerStorage
+Class JsonUserPrefsStorage
 }
 
 Class HiddenOutside #FFFFFF
 HiddenOutside ..> Logic
 
+' Interface implementations
 LogicManager .up.|> Logic
 ModelManager .up.|> Model
 StorageManager .up.|> Storage
+JsonAddressBookStorage .up.|> AddressBookStorage
+JsonApplicationsManagerStorage .up.|> ApplicationsManagerStorage
+JsonUserPrefsStorage .up.|> UserPrefsStorage
+Storage .up.|> AddressBookStorage
+Storage .up.|> ApplicationsManagerStorage
+Storage .up.|> UserPrefsStorage
 
-LogicManager --> Model
-LogicManager --> Storage
+' Component relationships
+LogicManager *-down-> AddressBookParser
+LogicManager -right-> Model
+LogicManager -left-> Storage
+
+ModelManager *-down-> AddressBook
+ModelManager *-down-> ApplicationsManager
+ModelManager *-down-> DoublyLinkedList
+ModelManager *-right-> "3" FilteredList
+
+StorageManager *-down-> JsonAddressBookStorage
+StorageManager *-down-> JsonApplicationsManagerStorage
+StorageManager *-down-> JsonUserPrefsStorage
+
+' Inter-package relationships
+AddressBook .right.> Storage: persisted by >
+ApplicationsManager .right.> Storage: persisted by >
 @enduml

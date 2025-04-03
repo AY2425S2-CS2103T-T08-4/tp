@@ -5,50 +5,104 @@ skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
 Package Model as ModelPackage <<Rectangle>>{
-Class "<<interface>>\nReadOnlyAddressBook" as ReadOnlyAddressBook
-Class "<<interface>>\nReadOnlyUserPrefs" as ReadOnlyUserPrefs
-Class "<<interface>>\nModel" as Model
-Class AddressBook
-Class ModelManager
-Class UserPrefs
+    ' Interfaces
+    Class "<<interface>>\nReadOnlyAddressBook" as ReadOnlyAddressBook
+    Class "<<interface>>\nReadOnlyApplicationsManager" as ReadOnlyApplicationsManager
+    Class "<<interface>>\nReadOnlyUserPrefs" as ReadOnlyUserPrefs
+    Class "<<interface>>\nModel" as Model
 
-Class UniquePersonList
-Class Person
-Class Address
-Class Email
-Class Name
-Class Phone
-Class Tag
+    ' Manager classes
+    Class AddressBook
+    Class ApplicationsManager
+    Class ModelManager
+    Class UserPrefs
 
-Class I #FFFFFF
+    ' Utility classes
+    Class DoublyLinkedList
+    Class StackableFilteredList
+
+    ' Person-related classes
+    Class UniquePersonList
+    Class Person
+    Class Name
+    Class Phone
+    Class Email
+    Class Address
+    Class School
+    Class Degree
+
+    ' Job-related classes
+    Class UniqueJobList
+    Class Job
+    Class JobTitle
+    Class JobRounds
+
+    ' Application-related classes
+    Class UniqueApplicationList
+    Class Application
+    Class ApplicationStatus
+
+    ' Skill-related classes
+    Class Skill
+
+    ' Interface implementations
+    AddressBook .up.|> ReadOnlyAddressBook
+    ApplicationsManager .up.|> ReadOnlyApplicationsManager
+    ModelManager .up.|> Model
+    UserPrefs .up.|> ReadOnlyUserPrefs
+
+    ' Model relationships
+    Model .right.> ReadOnlyUserPrefs
+    Model .left.> ReadOnlyAddressBook
+    Model .down.> ReadOnlyApplicationsManager
+
+    ModelManager -left-> "1" AddressBook
+    ModelManager -right-> "1" UserPrefs
+    ModelManager -down-> "1" ApplicationsManager
+    ModelManager -up-> "1" DoublyLinkedList
+    ModelManager -right-> "3" StackableFilteredList
+
+    ' AddressBook relationships
+    AddressBook *--> "1" UniquePersonList
+    AddressBook *--> "1" UniqueJobList
+    UniquePersonList --> "*" Person
+    UniqueJobList --> "*" Job
+
+    ' ApplicationsManager relationships
+    ApplicationsManager *--> "1" UniqueApplicationList
+    UniqueApplicationList --> "*" Application
+
+    ' Person relationships
+    Person *--> "1" Name
+    Person *--> "1" Phone
+    Person *--> "1" Email
+    Person *--> "1" Address
+    Person *--> "1" School
+    Person *--> "1" Degree
+    Person *--> "*" Skill
+
+    ' Job relationships
+    Job *--> "1" JobTitle
+    Job *--> "1" JobRounds
+    Job *--> "*" Skill
+
+    ' Application relationships
+    Application *--> "1" Person
+    Application *--> "1" Job
+    Application *--> "1" ApplicationStatus
+
+    ' Filtered lists
+    ModelManager --> "*" Person : filtered
+    ModelManager --> "*" Job : filtered
+    ModelManager --> "*" Application : filtered
+
+    ' Hidden relationships to avoid clutter
+    Name -[hidden]right-> Phone
+    Phone -[hidden]right-> Email
+    Email -[hidden]right-> Address
+    School -[hidden]right-> Degree
 }
 
 Class HiddenOutside #FFFFFF
 HiddenOutside ..> Model
-
-AddressBook .up.|> ReadOnlyAddressBook
-
-ModelManager .up.|> Model
-Model .right.> ReadOnlyUserPrefs
-Model .left.> ReadOnlyAddressBook
-ModelManager -left-> "1" AddressBook
-ModelManager -right-> "1" UserPrefs
-UserPrefs .up.|> ReadOnlyUserPrefs
-
-AddressBook *--> "1" UniquePersonList
-UniquePersonList --> "~* all" Person
-Person *--> Name
-Person *--> Phone
-Person *--> Email
-Person *--> Address
-Person *--> "*" Tag
-
-Person -[hidden]up--> I
-UniquePersonList -[hidden]right-> I
-
-Name -[hidden]right-> Phone
-Phone -[hidden]right-> Address
-Address -[hidden]right-> Email
-
-ModelManager --> "~* filtered" Person
 @enduml

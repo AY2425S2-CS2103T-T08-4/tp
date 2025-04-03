@@ -16,22 +16,38 @@
     },
     {
       "src": "Configuration.md",
-      "title": "Configuration guide",
+      "title": "TalentMatch Configuration Guide",
       "headings": {
-        "configuration-guide": "Configuration guide"
+        "talentmatch-configuration-guide": "TalentMatch Configuration Guide",
+        "configuration-file-structure": "Configuration File Structure",
+        "configuration-options": "Configuration Options",
+        "application-settings": "Application Settings",
+        "data-storage-settings": "Data Storage Settings",
+        "modifying-configuration": "Modifying Configuration",
+        "when-to-modify-configuration": "When to Modify Configuration",
+        "how-to-modify-configuration": "How to Modify Configuration",
+        "example-development-configuration": "Example: Development Configuration",
+        "example-production-configuration": "Example: Production Configuration",
+        "best-practices-for-talentmatch-configuration": "Best Practices for TalentMatch Configuration"
       },
       "headingKeywords": {}
     },
     {
       "src": "DevOps.md",
-      "title": "DevOps guide",
+      "title": "TalentMatch DevOps Guide",
       "headings": {
-        "devops-guide": "DevOps guide",
-        "build-automation": "Build automation",
-        "continuous-integration-ci": "Continuous integration (CI)",
-        "code-coverage": "Code coverage",
-        "repository-wide-checks": "Repository-wide checks",
-        "making-a-release": "Making a release"
+        "talentmatch-devops-guide": "TalentMatch DevOps Guide",
+        "build-automation": "Build Automation",
+        "common-gradle-commands": "Common Gradle Commands",
+        "talentmatch-specific-build-tasks": "TalentMatch-Specific Build Tasks",
+        "continuous-integration-ci": "Continuous Integration (CI)",
+        "ci-pipeline-overview": "CI Pipeline Overview",
+        "code-coverage": "Code Coverage",
+        "repository-wide-checks": "Repository-Wide Checks",
+        "making-a-release": "Making a Release",
+        "release-checklist": "Release Checklist",
+        "release-notes-guidelines": "Release Notes Guidelines",
+        "deployment-considerations": "Deployment Considerations"
       },
       "headingKeywords": {}
     },
@@ -68,17 +84,26 @@
     },
     {
       "src": "Documentation.md",
-      "title": "Documentation guide",
+      "title": "TalentMatch Documentation Guide",
       "headings": {
-        "documentation-guide": "Documentation Guide"
+        "talentmatch-documentation-guide": "TalentMatch Documentation Guide",
+        "documentation-structure": "Documentation Structure",
+        "style-guidance": "Style Guidance",
+        "uml-diagram-maintenance": "UML Diagram Maintenance",
+        "converting-to-pdf": "Converting to PDF"
       },
       "headingKeywords": {}
     },
     {
       "src": "Logging.md",
-      "title": "Logging guide",
+      "title": "TalentMatch Logging Guide",
       "headings": {
-        "logging-guide": "Logging guide"
+        "talentmatch-logging-guide": "TalentMatch Logging Guide",
+        "talentmatch-specific-logging": "TalentMatch-Specific Logging",
+        "key-components-to-log": "Key Components to Log",
+        "logging-levels-for-talentmatch-components": "Logging Levels for TalentMatch Components",
+        "example-logging-statements": "Example Logging Statements",
+        "debugging-talentmatch": "Debugging TalentMatch"
       },
       "headingKeywords": {}
     },
@@ -94,11 +119,17 @@
     },
     {
       "src": "Testing.md",
-      "title": "Testing guide",
+      "title": "TalentMatch Testing Guide",
       "headings": {
-        "testing-guide": "Testing guide",
+        "talentmatch-testing-guide": "TalentMatch Testing Guide",
         "running-tests": "Running tests",
-        "types-of-tests": "Types of tests"
+        "types-of-tests": "Types of tests",
+        "testing-talentmatch-components": "Testing TalentMatch Components",
+        "testing-model-components": "Testing Model Components",
+        "testing-logic-components": "Testing Logic Components",
+        "testing-storage-components": "Testing Storage Components",
+        "testing-ui-components": "Testing UI Components",
+        "tips-for-writing-good-tests": "Tips for Writing Good Tests"
       },
       "headingKeywords": {}
     },

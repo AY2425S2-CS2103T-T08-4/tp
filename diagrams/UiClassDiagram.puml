@@ -14,6 +14,11 @@ Class ResultDisplay
 Class PersonListPanel
 Class PersonCard
 Class CommandBox
+Class JobListPanel
+Class JobCard
+Class StatisticsChartPanel
+Class JobSpecificStatsPanel
+Class PersonDetailPanel
 }
 
 package Model <<Rectangle>> {
@@ -32,9 +37,14 @@ UiManager -down-> "1" MainWindow
 MainWindow *-down->  "1" CommandBox
 MainWindow *-down-> "1" ResultDisplay
 MainWindow *-down-> "1" PersonListPanel
+MainWindow *-down-> "1" JobListPanel
 MainWindow --> "0..1" HelpWindow
 
 PersonListPanel -down-> "*" PersonCard
+JobListPanel -down-> "*" JobCard
+JobListPanel *-right-> "0..1" StatisticsChartPanel
+JobListPanel *-right-> "0..1" JobSpecificStatsPanel
+JobListPanel *-right-> "0..1" PersonDetailPanel
 
 MainWindow -left-|> UiPart
 
@@ -42,15 +52,24 @@ ResultDisplay --|> UiPart
 CommandBox --|> UiPart
 PersonListPanel --|> UiPart
 PersonCard --|> UiPart
+JobListPanel --|> UiPart
+JobCard --|> UiPart
 HelpWindow --|> UiPart
 
 PersonCard ..> Model
+JobCard ..> Model
+StatisticsChartPanel ..> Logic
+JobSpecificStatsPanel ..> Logic
+PersonDetailPanel ..> Logic
 UiManager -right-> Logic
 MainWindow -left-> Logic
+JobListPanel -right-> Logic
 
 PersonListPanel -[hidden]left- HelpWindow
 HelpWindow -[hidden]left- CommandBox
 CommandBox -[hidden]left- ResultDisplay
+StatisticsChartPanel -[hidden]down- JobSpecificStatsPanel
+JobSpecificStatsPanel -[hidden]down- PersonDetailPanel
 
 MainWindow -[hidden]-|> UiPart
 @enduml

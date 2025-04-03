@@ -7,37 +7,64 @@ skinparam classBackgroundColor STORAGE_COLOR
 package Storage as StoragePackage {
 
 package "UserPrefs Storage" #F4F6F6{
-Class "<<interface>>\nUserPrefsStorage" as UserPrefsStorage
-Class JsonUserPrefsStorage
+    Class "<<interface>>\nUserPrefsStorage" as UserPrefsStorage
+    Class JsonUserPrefsStorage
+}
+
+package "AddressBook Storage" #F4F6F6{
+    Class "<<interface>>\nAddressBookStorage" as AddressBookStorage
+    Class JsonAddressBookStorage
+    Class JsonSerializableAddressBook
+    Class JsonAdaptedPerson
+    Class JsonAdaptedJob
+    Class JsonAdaptedSkill
+}
+
+package "ApplicationsManager Storage" #F4F6F6{
+    Class "<<interface>>\nApplicationsManagerStorage" as ApplicationsManagerStorage
+    Class JsonApplicationsManagerStorage
+    Class JsonSerializableApplicationsManager
+    Class JsonAdaptedApplication
 }
 
 Class "<<interface>>\nStorage" as Storage
 Class StorageManager
-
-package "AddressBook Storage" #F4F6F6{
-Class "<<interface>>\nAddressBookStorage" as AddressBookStorage
-Class JsonAddressBookStorage
-Class JsonSerializableAddressBook
-Class JsonAdaptedPerson
-Class JsonAdaptedTag
-}
 
 }
 
 Class HiddenOutside #FFFFFF
 HiddenOutside ..> Storage
 
+' Interface implementations
 StorageManager .up.|> Storage
-StorageManager -up-> "1" UserPrefsStorage
-StorageManager -up-> "1" AddressBookStorage
-
 Storage -left-|> UserPrefsStorage
-Storage -right-|> AddressBookStorage
+Storage -up-|> AddressBookStorage
+Storage -right-|> ApplicationsManagerStorage
 
 JsonUserPrefsStorage .up.|> UserPrefsStorage
 JsonAddressBookStorage .up.|> AddressBookStorage
-JsonAddressBookStorage ..> JsonSerializableAddressBook
-JsonSerializableAddressBook --> "*" JsonAdaptedPerson
-JsonAdaptedPerson --> "*" JsonAdaptedTag
+JsonApplicationsManagerStorage .up.|> ApplicationsManagerStorage
 
+' Storage manager composition
+StorageManager *--> "1" UserPrefsStorage
+StorageManager *--> "1" AddressBookStorage
+StorageManager *--> "1" ApplicationsManagerStorage
+
+' AddressBook storage relationships
+JsonAddressBookStorage ..> JsonSerializableAddressBook
+JsonSerializableAddressBook *--> "*" JsonAdaptedPerson
+JsonSerializableAddressBook *--> "*" JsonAdaptedJob
+JsonAdaptedPerson *--> "*" JsonAdaptedSkill
+JsonAdaptedJob *--> "*" JsonAdaptedSkill
+
+' ApplicationsManager storage relationships
+JsonApplicationsManagerStorage ..> JsonSerializableApplicationsManager
+JsonSerializableApplicationsManager *--> "*" JsonAdaptedApplication
+JsonAdaptedApplication ..> JsonAdaptedPerson
+JsonAdaptedApplication ..> JsonAdaptedJob
+
+' Hidden relationships for layout purposes
+JsonSerializableAddressBook -[hidden]right-> JsonSerializableApplicationsManager
+JsonAdaptedPerson -[hidden]down-> JsonAdaptedJob
+JsonAdaptedJob -[hidden]down-> JsonAdaptedSkill
 @enduml

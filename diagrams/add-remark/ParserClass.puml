@@ -1,14 +1,163 @@
 @startuml
 hide circle
 skinparam classAttributeIconSize 0
+skinparam backgroundColor white
+skinparam classBackgroundColor #f8f9fa
+skinparam classBorderColor #e0e0e0
 
-Class "<<interface>>\nParser" as Parser
-Class RemarkCommandParser {
-  +parse(): RemarkCommand
+Class "<<interface>>\nParser<T>" as Parser #e6f7ff {
+  +parse(String): T
 }
-Class ParserException
 
-RemarkCommandParser .up.|> Parser
-Parser .right.> ParserException: throws >
-RemarkCommandParser .right.> ParserException: throws >
+Class AddressBookParser {
+  +parseCommand(String): Command
+}
+
+Class ParserUtil {
+  +parseIndex(String): Index
+  +parseName(String): Name
+  +parsePhone(String): Phone
+  +parseEmail(String): Email
+  +parseAddress(String): Address
+  +parseSchool(String): School
+  +parseDegree(String): Degree
+  +parseSkill(String): Skill
+  ...
+}
+
+Class ArgumentMultimap
+Class ArgumentTokenizer
+Class Prefix
+
+' Command parsers
+Class AddCommandParser {
+  +parse(String): AddCommand
+}
+Class EditCommandParser {
+  +parse(String): EditCommand
+}
+Class DeleteCommandParser {
+  +parse(String): DeleteCommand
+}
+Class FindCommandParser {
+  +parse(String): FindCommand
+}
+Class AddJobCommandParser {
+  +parse(String): AddJobCommand
+}
+Class EditJobCommandParser {
+  +parse(String): EditJobCommand
+}
+Class DeleteJobCommandParser {
+  +parse(String): DeleteJobCommand
+}
+Class FindJobCommandParser {
+  +parse(String): FindJobCommand
+}
+Class ViewJobCommandParser {
+  +parse(String): ViewJobCommand
+}
+Class AddApplicationCommandParser {
+  +parse(String): AddApplicationCommand
+}
+Class DeleteApplicationCommandParser {
+  +parse(String): DeleteApplicationCommand
+}
+Class AdvanceApplicationCommandParser {
+  +parse(String): AdvanceApplicationCommand
+}
+Class ViewPersonCommandParser {
+  +parse(String): ViewPersonCommand
+}
+Class FindAppCommandParser {
+  +parse(String): FindAppCommand
+}
+
+' Parse exception
+Class ParseException
+
+' Interface implementation relationships
+AddCommandParser .up.|> Parser
+EditCommandParser .up.|> Parser
+DeleteCommandParser .up.|> Parser
+FindCommandParser .up.|> Parser
+AddJobCommandParser .up.|> Parser
+EditJobCommandParser .up.|> Parser
+DeleteJobCommandParser .up.|> Parser
+FindJobCommandParser .up.|> Parser
+ViewJobCommandParser .up.|> Parser
+AddApplicationCommandParser .up.|> Parser
+DeleteApplicationCommandParser .up.|> Parser
+AdvanceApplicationCommandParser .up.|> Parser
+ViewPersonCommandParser .up.|> Parser
+FindAppCommandParser .up.|> Parser
+
+' Exception relationships
+Parser .right.> ParseException: throws >
+AddressBookParser .right.> ParseException: throws >
+AddCommandParser .right.> ParseException: throws >
+EditCommandParser .right.> ParseException: throws >
+DeleteCommandParser .right.> ParseException: throws >
+FindCommandParser .right.> ParseException: throws >
+AddJobCommandParser .right.> ParseException: throws >
+EditJobCommandParser .right.> ParseException: throws >
+DeleteJobCommandParser .right.> ParseException: throws >
+FindJobCommandParser .right.> ParseException: throws >
+ViewJobCommandParser .right.> ParseException: throws >
+AddApplicationCommandParser .right.> ParseException: throws >
+DeleteApplicationCommandParser .right.> ParseException: throws >
+AdvanceApplicationCommandParser .right.> ParseException: throws >
+ViewPersonCommandParser .right.> ParseException: throws >
+FindAppCommandParser .right.> ParseException: throws >
+
+' Utility relationships
+AddressBookParser ..> AddCommandParser: uses >
+AddressBookParser ..> EditCommandParser: uses >
+AddressBookParser ..> DeleteCommandParser: uses >
+AddressBookParser ..> FindCommandParser: uses >
+AddressBookParser ..> AddJobCommandParser: uses >
+AddressBookParser ..> EditJobCommandParser: uses >
+AddressBookParser ..> DeleteJobCommandParser: uses >
+AddressBookParser ..> FindJobCommandParser: uses >
+AddressBookParser ..> ViewJobCommandParser: uses >
+AddressBookParser ..> AddApplicationCommandParser: uses >
+AddressBookParser ..> DeleteApplicationCommandParser: uses >
+AddressBookParser ..> AdvanceApplicationCommandParser: uses >
+AddressBookParser ..> ViewPersonCommandParser: uses >
+AddressBookParser ..> FindAppCommandParser: uses >
+
+AddCommandParser ..> ParserUtil: uses >
+EditCommandParser ..> ParserUtil: uses >
+DeleteCommandParser ..> ParserUtil: uses >
+FindCommandParser ..> ParserUtil: uses >
+AddJobCommandParser ..> ParserUtil: uses >
+EditJobCommandParser ..> ParserUtil: uses >
+DeleteJobCommandParser ..> ParserUtil: uses >
+FindJobCommandParser ..> ParserUtil: uses >
+ViewJobCommandParser ..> ParserUtil: uses >
+AddApplicationCommandParser ..> ParserUtil: uses >
+DeleteApplicationCommandParser ..> ParserUtil: uses >
+AdvanceApplicationCommandParser ..> ParserUtil: uses >
+ViewPersonCommandParser ..> ParserUtil: uses >
+FindAppCommandParser ..> ParserUtil: uses >
+
+AddCommandParser ..> ArgumentMultimap: uses >
+EditCommandParser ..> ArgumentMultimap: uses >
+AddJobCommandParser ..> ArgumentMultimap: uses >
+EditJobCommandParser ..> ArgumentMultimap: uses >
+AddApplicationCommandParser ..> ArgumentMultimap: uses >
+ViewPersonCommandParser ..> ArgumentMultimap: uses >
+FindAppCommandParser ..> ArgumentMultimap: uses >
+
+AddCommandParser ..> ArgumentTokenizer: uses >
+EditCommandParser ..> ArgumentTokenizer: uses >
+AddJobCommandParser ..> ArgumentTokenizer: uses >
+EditJobCommandParser ..> ArgumentTokenizer: uses >
+AddApplicationCommandParser ..> ArgumentTokenizer: uses >
+ViewPersonCommandParser ..> ArgumentTokenizer: uses >
+FindAppCommandParser ..> ArgumentTokenizer: uses >
+
+' Hide some relationships to avoid clutter
+FindJobCommandParser -[hidden]down- ViewJobCommandParser
+DeleteApplicationCommandParser -[hidden]right- AdvanceApplicationCommandParser
 @enduml
