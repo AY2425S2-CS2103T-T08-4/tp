@@ -3,7 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.FindCommand.MESSAGE_PERSONS_LISTED_OVERVIEW;
+import static seedu.address.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
 import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.ELLE;
 import static seedu.address.testutil.TypicalPersons.FIONA;
@@ -35,8 +35,7 @@ public class FindCommandTest {
     public void setUp() {
         model = new ModelManager(getTypicalAddressBook(), getTypicalApplicationsManager(), new UserPrefs());
         expectedModel = new ModelManager(model.getAddressBook(), model.getApplicationsManager(), new UserPrefs());
-        // Set the view state to PERSON_VIEW since FindCommand can only be executed in
-        // person view
+        // Set the view state to PERSON_VIEW since FindCommand can only be executed in person view
         model.setViewState(Model.ViewState.PERSON_VIEW);
         expectedModel.setViewState(Model.ViewState.PERSON_VIEW);
     }

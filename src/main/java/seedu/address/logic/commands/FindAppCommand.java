@@ -31,8 +31,7 @@ public class FindAppCommand extends Command {
             + "[" + PREFIX_JOB_INDEX + "JOB_INDEX]\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_APPLICATION_STATUS + " 2 " + PREFIX_JOB_INDEX + " 1 ";
     public static final String MESSAGE_SUCCESS = "Filtered applications by status: %1$s";
-    public static final String MESSAGE_NO_MATCHES = "No applications found with status: %1$s. To see all "
-            + "applications again, use the 'listjob' command.";
+    public static final String MESSAGE_NO_MATCHES = "No applications found with status: %1$s";
     public static final String MESSAGE_JOB_NOT_FOUND = "The specified job index is invalid";
     public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
             + "Please switch to job view first using 'switchview' command.";

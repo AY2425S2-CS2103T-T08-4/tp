@@ -3,13 +3,13 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 
 /**
- * Finds and lists all persons in address book whose name contains any of the
- * argument keywords.
+ * Finds and lists all persons in address book whose name contains any of the argument keywords.
  * Keyword matching is case-insensitive.
  */
 public class FindCommand extends Command {
@@ -20,10 +20,6 @@ public class FindCommand extends Command {
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " alice bob charlie";
-
-    public static final String MESSAGE_NO_PERSONS_FOUND = "No persons found with the specified keywords."
-            + " Use the list command to see all persons!";
-    public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
 
     private final NameContainsKeywordsPredicate predicate;
 
@@ -38,18 +34,12 @@ public class FindCommand extends Command {
         // Check that we're in person view
         if (model.isInJobView()) {
             throw new CommandException("This command is only available in person view. "
-                    + "Please switch to person view first using 'switchview' command.");
+                + "Please switch to person view first using 'switchview' command.");
         }
 
         model.updateFilteredPersonList(this.predicate);
-
-        int filteredListSize = model.getFilteredPersonList().size();
-
-        String feedbackString = filteredListSize == 0
-                ? MESSAGE_NO_PERSONS_FOUND
-                : String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, filteredListSize);
-
-        return CommandResult.withFeedback(feedbackString);
+        return CommandResult.withFeedback(String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW,
+            model.getFilteredPersonList().size()));
     }
 
     @Override
