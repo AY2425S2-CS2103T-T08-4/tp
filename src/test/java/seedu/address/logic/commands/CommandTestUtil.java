@@ -19,8 +19,11 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
+import seedu.address.model.job.Job;
+import seedu.address.model.job.JobContainsKeywordsPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.testutil.EditJobDescriptorBuilder;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 /**
@@ -42,6 +45,11 @@ public class CommandTestUtil {
     public static final String VALID_SCHOOL_BOB = "NTU";
     public static final String VALID_DEGREE_AMY = "Computer Science";
     public static final String VALID_DEGREE_BOB = "Civil Engineering";
+    public static final String VALID_JOB_TITLE_DATA_SCIENTIST = "Data Scientist";
+    public static final String VALID_JOB_TITLE_SOFTWARE_ENGINEER = "Software Engineer";
+    public static final int VALID_JOB_ROUNDS_3 = 3;
+    public static final int VALID_JOB_ROUNDS_5 = 5;
+
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -69,6 +77,8 @@ public class CommandTestUtil {
 
     public static final EditCommand.EditPersonDescriptor DESC_AMY;
     public static final EditCommand.EditPersonDescriptor DESC_BOB;
+    public static final EditJobCommand.EditJobDescriptor DESC_SWE;
+    public static final EditJobCommand.EditJobDescriptor DESC_DSA;
 
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY).withSchool(VALID_SCHOOL_AMY)
@@ -76,6 +86,10 @@ public class CommandTestUtil {
                 .withAddress(VALID_ADDRESS_AMY).withSkills(VALID_SKILL_PYTHON).build();
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).withSchool(VALID_SCHOOL_BOB)
                 .withDegree(VALID_DEGREE_BOB).withSkills(VALID_SKILL_PYTHON).build();
+        DESC_SWE = new EditJobDescriptorBuilder().withJobTitle(VALID_JOB_TITLE_SOFTWARE_ENGINEER)
+                .withJobRounds(VALID_JOB_ROUNDS_5).withSkills(VALID_SKILL_JAVA).build();
+        DESC_DSA = new EditJobDescriptorBuilder().withJobTitle(VALID_JOB_TITLE_DATA_SCIENTIST)
+                .withJobRounds(VALID_JOB_ROUNDS_3).withSkills(VALID_SKILL_PYTHON).build();
     }
 
     /**
@@ -194,5 +208,19 @@ public class CommandTestUtil {
         model.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
         assertEquals(1, model.getFilteredPersonList().size());
+    }
+
+    /**
+     * Updates {@code model}'s filtered list to show only the person at the given
+     * {@code targetIndex} in the {@code model}'s address book.
+     */
+    public static void showJobAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredJobList().size());
+
+        Job job = model.getFilteredJobList().get(targetIndex.getZeroBased());
+        final String[] splitName = job.getJobTitle().jobTitle().split("\\s+");
+        model.updateFilteredJobList(new JobContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+
+        assertEquals(1, model.getFilteredJobList().size());
     }
 }

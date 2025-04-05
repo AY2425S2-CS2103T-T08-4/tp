@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.SOFTWARE_ENGINEER_GOOGLE;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -29,84 +29,71 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
 import seedu.address.model.person.Person;
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.JobBuilder;
 
-public class AddCommandTest {
-
+public class AddJobCommandTest {
     private Model model;
-    private Model expectedModel;
-
     @BeforeEach
     public void setUp() {
-        model = new ModelStubAcceptingPersonAdded();
-        expectedModel = new ModelStubAcceptingPersonAdded();
-        // Set the view state to PERSON_VIEW since AddCommand can only be executed in person view
-        model.setViewState(Model.ViewState.PERSON_VIEW);
-        expectedModel.setViewState(Model.ViewState.PERSON_VIEW);
+        model = new ModelStubAcceptingJobAdded();
     }
 
     @Test
-    public void constructor_nullPerson_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new AddCommand(null));
+    public void constructor_nullJob_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new AddJobCommand(null));
     }
 
     @Test
-    public void execute_personAcceptedByModel_addSuccessful() throws CommandException {
-        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Person validPerson = new PersonBuilder().build();
+    public void execute_jobAcceptedByModel_addSuccessful() throws CommandException {
+        ModelStubAcceptingJobAdded modelStub = new ModelStubAcceptingJobAdded();
+        Job validJob = new JobBuilder().build();
 
-        // Set view state to PERSON_VIEW
-        modelStub.setViewState(Model.ViewState.PERSON_VIEW);
+        CommandResult commandResult = new AddJobCommand(validJob).execute(modelStub);
 
-        // Execute the command
-        CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
-
-        // Verify the result directly
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS,
-                Messages.format(validPerson)), commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
+        assertEquals(String.format(AddJobCommand.MESSAGE_SUCCESS, Messages.format(validJob)),
+                commandResult.getFeedbackToUser());
+        assertEquals(Arrays.asList(validJob), modelStub.jobsAdded);
     }
 
     @Test
-    public void execute_duplicatePerson_throwsCommandException() {
-        Person validPerson = new PersonBuilder().build();
-        AddCommand addCommand = new AddCommand(validPerson);
-        model.addPerson(validPerson);
+    public void execute_duplicateJob_throwsCommandException() {
+        Job validJob = new JobBuilder().build();
+        AddJobCommand addJobCommand = new AddJobCommand(validJob);
+        model.addJob(validJob);
 
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(model));
+        assertThrows(CommandException.class, AddJobCommand.MESSAGE_DUPLICATE_JOB, () -> addJobCommand.execute(model));
     }
 
     @Test
     public void equals() {
-        Person alice = new PersonBuilder().withName("Alice").build();
-        Person bob = new PersonBuilder().withName("Bob").build();
-        AddCommand addAliceCommand = new AddCommand(alice);
-        AddCommand addBobCommand = new AddCommand(bob);
+        Job swe = new JobBuilder().withJobTitle("Software Engineering").build();
+        Job dsa = new JobBuilder().withJobTitle("Data Scientist").build();
+        AddJobCommand addSweCommand = new AddJobCommand(swe);
+        AddJobCommand addDsaCommand = new AddJobCommand(dsa);
 
         // same object -> returns true
-        assertTrue(addAliceCommand.equals(addAliceCommand));
+        assertTrue(addSweCommand.equals(addSweCommand));
 
         // same values -> returns true
-        AddCommand addAliceCommandCopy = new AddCommand(alice);
-        assertTrue(addAliceCommand.equals(addAliceCommandCopy));
+        AddJobCommand addSweCommandCopy = new AddJobCommand(swe);
+        assertTrue(addSweCommand.equals(addSweCommandCopy));
 
         // different types -> returns false
-        assertFalse(addAliceCommand.equals(1));
+        assertFalse(addSweCommand.equals(1));
 
         // null -> returns false
-        assertFalse(addAliceCommand.equals(null));
+        assertFalse(addSweCommand.equals(null));
 
-        // different person -> returns false
-        assertFalse(addAliceCommand.equals(addBobCommand));
+        // different jobs -> return false
+        assertFalse(addSweCommand.equals(addDsaCommand));
     }
 
     @Test
     public void toStringMethod() {
-        AddCommand addCommand = new AddCommand(ALICE);
-        String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
-        assertEquals(expected, addCommand.toString());
+        AddJobCommand addJobCommand = new AddJobCommand(SOFTWARE_ENGINEER_GOOGLE);
+        String expected = AddJobCommand.class.getCanonicalName() + "{job=" + SOFTWARE_ENGINEER_GOOGLE + "}";
+        assertEquals(expected, addJobCommand.toString());
     }
-
     /**
      * A default model stub that have all of the methods failing.
      */
@@ -357,59 +344,20 @@ public class AddCommandTest {
         }
     }
 
-    /**
-     * A Model stub that contains a single person.
-     */
-    private class ModelStubWithPerson extends ModelStub {
-        private final Person person;
-        private Model.ViewState viewState = Model.ViewState.PERSON_VIEW;
+    private class ModelStubAcceptingJobAdded extends AddJobCommandTest.ModelStub {
+        final ArrayList<Job> jobsAdded = new ArrayList<>();
+        private Model.ViewState viewState = ViewState.JOB_VIEW;
 
-        ModelStubWithPerson(Person person) {
-            requireNonNull(person);
-            this.person = person;
+        @Override
+        public boolean hasJob(Job job) {
+            requireNonNull(job);
+            return jobsAdded.stream().anyMatch(job::isSameJob);
         }
 
         @Override
-        public boolean hasPerson(Person person) {
-            requireNonNull(person);
-            return this.person.isSamePerson(person);
-        }
-
-        @Override
-        public void setViewState(Model.ViewState viewState) {
-            this.viewState = viewState;
-        }
-
-        @Override
-        public Model.ViewState getCurrentViewState() {
-            return viewState;
-        }
-
-        @Override
-        public boolean isInJobView() {
-            return viewState == Model.ViewState.JOB_VIEW
-                    || viewState == Model.ViewState.JOB_DETAIL_VIEW
-                    || viewState == Model.ViewState.PERSON_DETAIL_VIEW;
-        }
-    }
-
-    /**
-     * A Model stub that always accept the person being added.
-     */
-    private class ModelStubAcceptingPersonAdded extends ModelStub {
-        final ArrayList<Person> personsAdded = new ArrayList<>();
-        private Model.ViewState viewState = Model.ViewState.PERSON_VIEW;
-
-        @Override
-        public boolean hasPerson(Person person) {
-            requireNonNull(person);
-            return personsAdded.stream().anyMatch(person::isSamePerson);
-        }
-
-        @Override
-        public void addPerson(Person person) {
-            requireNonNull(person);
-            personsAdded.add(person);
+        public void addJob(Job job) {
+            requireNonNull(job);
+            jobsAdded.add(job);
         }
 
         @Override
@@ -434,5 +382,4 @@ public class AddCommandTest {
                     || viewState == Model.ViewState.PERSON_DETAIL_VIEW;
         }
     }
-
 }

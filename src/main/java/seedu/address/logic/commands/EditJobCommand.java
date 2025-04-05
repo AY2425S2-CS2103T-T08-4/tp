@@ -122,7 +122,7 @@ public class EditJobCommand extends Command {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).add("index", this.index).add("editPersonDescriptor", this.editJobDescriptor)
+        return new ToStringBuilder(this).add("index", this.index).add("editJobDescriptor", this.editJobDescriptor)
                 .toString();
     }
 
