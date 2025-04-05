@@ -204,9 +204,8 @@ public class MainWindow extends UiPart<Stage> {
                     logic.setViewState(Model.ViewState.JOB_VIEW);
                     jobListPanel.showGeneralStatistics();
                 }
-            }
-            // Check if we're viewing person details for a potentially deleted or updated application
-            else if (logic.getViewState() == Model.ViewState.PERSON_DETAIL_VIEW) {
+            } else if (logic.getViewState() == Model.ViewState.PERSON_DETAIL_VIEW) {
+                // Check if we're viewing person details for a potentially deleted or updated application
                 Job currentJob = jobListPanel.getCurrentlyViewedJob();
                 Person currentPerson = jobListPanel.getCurrentlyViewedPerson();
 

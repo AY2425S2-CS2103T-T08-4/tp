@@ -16,14 +16,11 @@ import seedu.address.model.job.Job;
  */
 public class DeleteJobCommand extends Command {
     public static final String COMMAND_WORD = "deljob";
-
+    public static final String BRIEF_MESSAGE_USAGE = "INDEX (must be a positive integer)";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the job identified by the index number used in the displayed job list.\n"
-            + "Parameters: INDEX (must be a positive integer > 0)\n"
-            + "Example: " + COMMAND_WORD + " 1";
-
+            + "Parameters: " + BRIEF_MESSAGE_USAGE + "\nExample: " + COMMAND_WORD + " 1";
     public static final String MESSAGE_DELETE_JOB_SUCCESS = "Deleted Job: %1$s";
-
     public static final String MESSAGE_INVALID_JOB = "This Job does not exist in the address book";
 
     private final Index targetIndex;

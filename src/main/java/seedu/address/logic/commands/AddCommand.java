@@ -19,18 +19,16 @@ import seedu.address.model.person.Person;
  * Adds a person to the address book.
  */
 public class AddCommand extends Command {
-
     public static final String COMMAND_WORD = "add";
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book.\n"
-            + "Parameters: " + PREFIX_NAME + "NAME " + PREFIX_PHONE + "PHONE_NUMBER " + PREFIX_EMAIL
-            + "EMAIL " + PREFIX_ADDRESS + "HOME_ADDRESS " + PREFIX_SCHOOL
-            + "SCHOOL " + PREFIX_DEGREE + "DEGREE " + "[" + PREFIX_SKILL
-            + "SKILL]...\n" + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "John Doe " + PREFIX_PHONE + "98765432 "
-            + PREFIX_EMAIL + "johnd@example.com " + PREFIX_ADDRESS + "444, Jurong West Ave 1, #12-082 " + PREFIX_SCHOOL
-            + "NUS " + PREFIX_DEGREE + "Computer Science " + PREFIX_SKILL + "Java " + PREFIX_SKILL
-            + "PYTHON";
-
+    public static final String BRIEF_MESSAGE_USAGE =
+            PREFIX_NAME + "NAME " + PREFIX_PHONE + "PHONE_NUMBER "
+            + PREFIX_EMAIL + "EMAIL " + PREFIX_ADDRESS + "HOME_ADDRESS "
+            + PREFIX_SCHOOL + "SCHOOL " + PREFIX_DEGREE + "DEGREE " + "[" + PREFIX_SKILL + "SKILL]...";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
+            + "Parameters: " + BRIEF_MESSAGE_USAGE
+            + "\nExample: " + COMMAND_WORD + " " + PREFIX_NAME + "John Doe " + PREFIX_PHONE + "98765432 "
+            + PREFIX_EMAIL + "johnd@example.com " + PREFIX_ADDRESS + "444, Jurong West Ave 1, #12-082 "
+            + PREFIX_SCHOOL + "NUS " + PREFIX_DEGREE + "CS " + PREFIX_SKILL + "Java " + PREFIX_SKILL + "PYTHON";
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
 

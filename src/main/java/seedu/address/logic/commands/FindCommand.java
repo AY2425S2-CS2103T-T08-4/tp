@@ -14,13 +14,11 @@ import seedu.address.model.person.NameContainsKeywordsPredicate;
  * Keyword matching is case-insensitive.
  */
 public class FindCommand extends Command {
-
     public static final String COMMAND_WORD = "find";
-
+    public static final String BRIEF_MESSAGE_USAGE = "KEYWORD [MORE_KEYWORDS]...";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose profile contain any of "
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " alice bob charlie";
+            + "Parameters: " + BRIEF_MESSAGE_USAGE + "\nExample: " + COMMAND_WORD + " alice bob charlie";
 
     public static final String MESSAGE_NO_PERSONS_FOUND = "No persons found with the specified keywords."
             + " Use the list command to see all persons!";

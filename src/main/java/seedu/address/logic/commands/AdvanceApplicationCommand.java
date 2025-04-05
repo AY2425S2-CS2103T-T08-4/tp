@@ -21,23 +21,19 @@ import seedu.address.model.job.Job;
  */
 public class AdvanceApplicationCommand extends Command {
     public static final String COMMAND_WORD = "adv";
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Advances an application in the address book. All indexes must be a positive integer."
-            + "\nParameters: "
-            + PREFIX_JOB_INDEX + "JOB_INDEX "
-            + PREFIX_APPLICATION_INDEX + "APPLICATION_INDEX\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_JOB_INDEX + "1 "
-            + PREFIX_APPLICATION_INDEX + "2";
-    public static final String MESSAGE_SUCCESS = "Application advanced as follows:"
-            + "\nInitial application advanced: {%1$s}" + "\nNumber of rounds advanced: 1";
+    public static final String BRIEF_MESSAGE_USAGE =
+            PREFIX_JOB_INDEX + "JOB_INDEX " + PREFIX_APPLICATION_INDEX + "APPLICATION_INDEX";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Advances an application in the address book."
+            + "\nParameters: " + BRIEF_MESSAGE_USAGE
+            + "\nExample: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + "1 " + PREFIX_APPLICATION_INDEX + "2";
+    public static final String MESSAGE_SUCCESS = """
+            Application advanced as follows:
+            Initial application advanced: {%1$s}
+            Number of rounds advanced: 1""";
     public static final String MESSAGE_EXCEED_ROUNDS = "This application is already"
             + " at the last round and cannot be "
             + "advanced in the address book. Try using " + DeleteApplicationCommand.COMMAND_WORD
             + " to delete the application instead!";
-    public static final String MESSAGE_INVALID_PERSON = "This person does not exist in the address book. "
-            + "Try using " + AddCommand.COMMAND_WORD + " to add a person first, then use "
-            + AddApplicationCommand.COMMAND_WORD + " to add an application!";
     public static final String MESSAGE_INVALID_JOB = "This job does not exist in the address book. "
             + "Try using " + AddJobCommand.COMMAND_WORD + " to add a job first, then use "
             + AddApplicationCommand.COMMAND_WORD + " to add an application!";
@@ -45,7 +41,7 @@ public class AdvanceApplicationCommand extends Command {
             + "Try using " + AddApplicationCommand.COMMAND_WORD + " to add an application first!";
 
     private final Index jobIndex;
-    private Index applicationByJobIndex = null;
+    private final Index applicationByJobIndex;
     private Application applicationToAdvance = null;
 
     /**

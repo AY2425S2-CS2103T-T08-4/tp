@@ -30,11 +30,14 @@ import seedu.address.model.skill.Skill;
  * Edits the details of an existing person in the address book.
  */
 public class EditJobCommand extends Command {
-
     public static final String COMMAND_WORD = "editjob";
-
+    public static final String BRIEF_MESSAGE_USAGE =
+            "INDEX (must be a positive integer) " + "[" + PREFIX_JOB_TITLE + "JOB_TITLE] "
+            + "[" + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS] " + "[" + PREFIX_SKILL + "SKILL] ";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the job identified "
             + "by the index number used in the displayed job list. "
+            + "Existing values will be overwritten by the input values.\n"
+            + "Parameters: " + BRIEF_MESSAGE_USAGE
             + "Existing values will be overwritten by the input values. Must provide at least 1 field.\n"
             + "Parameters: INDEX (must be a positive integer > 0) " + "[" + PREFIX_JOB_TITLE + "JOB_TITLE] "
             + "[" + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS (1-" + JobRounds.MAX_ROUNDS + ")] "

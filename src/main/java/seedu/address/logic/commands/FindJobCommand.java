@@ -14,13 +14,11 @@ import seedu.address.model.job.JobContainsKeywordsPredicate;
  * Keyword matching is case-insensitive.
  */
 public class FindJobCommand extends Command {
-
     public static final String COMMAND_WORD = "findjob";
-
+    public static final String BRIEF_MESSAGE_USAGE = "KEYWORD [MORE_KEYWORDS]...";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all Jobs' whose profile contains any of "
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " Software Engineering";
+            + "Parameters: " + BRIEF_MESSAGE_USAGE + "\nExample: " + COMMAND_WORD + " Software Engineering";
     public static final String MESSAGE_NO_MATCHES = "No jobs found matching search query. To see all "
             + "jobs again, use the 'listjob' command.";
     public static final String MESSAGE_JOBS_LISTED_OVERVIEW = "%1$d jobs listed!";

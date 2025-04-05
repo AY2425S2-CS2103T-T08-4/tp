@@ -16,16 +16,14 @@ import seedu.address.model.job.JobRounds;
  * Adds a Job to the address book.
  */
 public class AddJobCommand extends Command {
-
     public static final String COMMAND_WORD = "addjob";
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a job to the model manager.\n" + "Parameters: "
-            + PREFIX_JOB_TITLE + "JOB_TITLE "
-            + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS (must be between 1 and " + JobRounds.MAX_ROUNDS + ") ["
-            + PREFIX_SKILL + "SKILL]...\n"
-            + "Example: " + COMMAND_WORD + " " + PREFIX_JOB_TITLE + "Software Engineering " + PREFIX_JOB_ROUNDS + "3 ["
-            + PREFIX_SKILL + "Python]";
-
+    public static final String BRIEF_MESSAGE_USAGE = PREFIX_JOB_TITLE + "JOB_TITLE "
+            + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS (must be between 1 and "
+            + JobRounds.MAX_ROUNDS + ") [" + PREFIX_SKILL + "SKILL]";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a job to the model manager.\n"
+            + "Parameters: " + BRIEF_MESSAGE_USAGE
+            + "\nExample: " + COMMAND_WORD + " " + PREFIX_JOB_TITLE + "Software Engineering "
+            + PREFIX_JOB_ROUNDS + "3 [" + PREFIX_SKILL + "Python]";
     public static final String MESSAGE_SUCCESS = "New job added: %1$s";
     public static final String MESSAGE_DUPLICATE_JOB = "This job already exists in the address book";
 

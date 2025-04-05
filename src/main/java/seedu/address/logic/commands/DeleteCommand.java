@@ -15,15 +15,11 @@ import seedu.address.model.person.Person;
  * Deletes a person identified using it's displayed index from the address book.
  */
 public class DeleteCommand extends Command {
-
     public static final String COMMAND_WORD = "del";
-
+    public static final String BRIEF_MESSAGE_USAGE = "INDEX (must be a positive integer)";
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the person identified by the index number used in"
-            + "the displayed person list.\n"
-            + "Parameters: INDEX (must be a positive integer > 0)\n"
-            + "Example: " + COMMAND_WORD + " 1";
-
+            + ": Deletes the person identified by the index number used in the displayed person list.\n"
+            + "Parameters: " + BRIEF_MESSAGE_USAGE + "\nExample: " + COMMAND_WORD + " 1";
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
 
     private final Index targetIndex;

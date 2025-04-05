@@ -25,12 +25,12 @@ import seedu.address.model.job.Job;
 public class FindAppCommand extends Command {
 
     public static final String COMMAND_WORD = "findapp";
-
+    public static final String BRIEF_MESSAGE_USAGE = PREFIX_APPLICATION_STATUS + "ROUNDS "
+            + "[" + PREFIX_JOB_INDEX + " JOB_INDEX]";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters the list to show only applications "
             + "with the specified status in job view.\n"
-            + "Parameters: " + PREFIX_APPLICATION_STATUS + "ROUNDS "
-            + "[" + PREFIX_JOB_INDEX + "JOB_INDEX]\n"
-            + "Example: " + COMMAND_WORD + " " + PREFIX_APPLICATION_STATUS + " 2 " + PREFIX_JOB_INDEX + " 1 ";
+            + "Parameters: " + BRIEF_MESSAGE_USAGE
+            + "\nExample: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + " 1 " + PREFIX_APPLICATION_STATUS + " 2";
     public static final String MESSAGE_SUCCESS = "Filtered applications by status: %1$s";
     public static final String MESSAGE_NO_MATCHES = "No applications found with status: %1$s. To see all "
             + "applications again, use the 'listjob' command.";

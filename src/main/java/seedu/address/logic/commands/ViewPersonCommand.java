@@ -5,9 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
 
 import java.util.List;
-import java.util.logging.Logger;
 
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -20,19 +18,17 @@ import seedu.address.model.person.Person;
  * Shows detailed information about a person from a specific job.
  */
 public class ViewPersonCommand extends Command {
-
     public static final String COMMAND_WORD = "viewperson";
+    public static final String BRIEF_MESSAGE_USAGE =
+            PREFIX_JOB_INDEX + "JOB_INDEX " + PREFIX_APPLICATION_INDEX + "APPLICATION_INDEX";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Views detailed information for the person identified by the "
             + "job index and application index within that job.\n"
-            + "Parameters: " + PREFIX_JOB_INDEX + "JOB_INDEX " + PREFIX_APPLICATION_INDEX + "APPLICATION_INDEX\n"
-            + "Example: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + "1 " + PREFIX_APPLICATION_INDEX + "2";
+            + "Parameters: " + BRIEF_MESSAGE_USAGE
+            + "\nExample: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + "1 " + PREFIX_APPLICATION_INDEX + "2";
     public static final String MESSAGE_VIEW_PERSON_SUCCESS = "Viewing Person: %1$s (from Job: %2$s)";
-    public static final String MESSAGE_NOT_IN_JOB_VIEW = "This command is only available in job-related views. "
-            + "Please switch to job view first using 'switch' command.";
     public static final String MESSAGE_NO_SUCH_APPLICATION = "No application with "
             + "index %1$d found for job with index %2$d.";
-    private static final Logger logger = LogsCenter.getLogger(ViewPersonCommand.class);
 
     private final Index jobIndex;
     private final Index applicationIndex;

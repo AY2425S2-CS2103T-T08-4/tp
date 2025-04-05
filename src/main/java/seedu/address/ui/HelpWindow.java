@@ -1,23 +1,26 @@
 package seedu.address.ui;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.commands.HelpCommand;
 
 /**
  * Controller for a help page
  */
 public class HelpWindow extends UiPart<Stage> {
-
     public static final String USERGUIDE_URL = "https://ay2425s2-cs2103t-t08-4.github.io/tp/UserGuide.html#quick-start";
-    public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
-
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
 
@@ -27,40 +30,29 @@ public class HelpWindow extends UiPart<Stage> {
     @FXML
     private Label helpMessage;
 
+    @FXML
+    private Hyperlink userGuideLink;
+
     /**
-     * Creates a new HelpWindow.
-     *
+     * Instantiates a new {@code HelpWindow} by singleton design.
      * @param root Stage to use as the root of the HelpWindow.
      */
-    public HelpWindow(Stage root) {
+    private HelpWindow(Stage root, String message) {
         super(FXML, root);
-        helpMessage.setText(HELP_MESSAGE);
+        this.userGuideLink.setText(USERGUIDE_URL);
+        this.helpMessage.setText(message);
+        this.userGuideLink.setOnAction(event -> copyUrl());
     }
 
     /**
-     * Creates a new HelpWindow.
+     * Returns an instance of {@code HelpWindow}, instantiating it if necessary once.
      */
     public HelpWindow() {
-        this(new Stage());
+        this(new Stage(), HelpCommand.getGeneralHelpMessage());
     }
 
     /**
      * Shows the help window.
-     * @throws IllegalStateException
-     *     <ul>
-     *         <li>
-     *             if this method is called on a thread other than the JavaFX Application Thread.
-     *         </li>
-     *         <li>
-     *             if this method is called during animation or layout processing.
-     *         </li>
-     *         <li>
-     *             if this method is called on the primary stage.
-     *         </li>
-     *         <li>
-     *             if {@code dialogStage} is already showing.
-     *         </li>
-     *     </ul>
      */
     public void show() {
         logger.fine("Showing help page about the application.");
@@ -98,5 +90,16 @@ public class HelpWindow extends UiPart<Stage> {
         final ClipboardContent url = new ClipboardContent();
         url.putString(USERGUIDE_URL);
         clipboard.setContent(url);
+    }
+
+    @FXML
+    private void openUserGuide() {
+        try {
+            Desktop.getDesktop().browse(new URI(USERGUIDE_URL));
+        } catch (URISyntaxException se) {
+            logger.warning("Failed to open invalid user guide URL: " + USERGUIDE_URL);
+        } catch (IOException ioe) {
+            logger.warning("Failed to open URL owing to some failed or interrupted I/O: " + ioe.getMessage());
+        }
     }
 }
