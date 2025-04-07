@@ -4,72 +4,81 @@ skinparam arrowThickness 1.1
 skinparam arrowColor UI_COLOR_T4
 skinparam classBackgroundColor UI_COLOR
 
-package UI <<Rectangle>>{
-Class "<<interface>>\nUi" as Ui
-Class "{abstract}\nUiPart" as UiPart
-Class UiManager
-Class MainWindow
-Class HelpWindow
-Class ResultDisplay
-Class PersonListPanel
-Class PersonCard
-Class CommandBox
-Class JobListPanel
-Class JobCard
-Class StatisticsChartPanel
-Class JobSpecificStatsPanel
-Class PersonDetailPanel
+' Ensure Logic is above Model
+Logic -[hidden]down-> Model
+
+package UI {
+    class "<<interface>>\nUi" as Ui
+    class UiManager
+    class MainWindow
+    class HelpWindow
+    class ResultDisplay
+    class PersonListPanel
+    class PersonCard
+    class CommandBox
+    class JobListPanel
+    class JobCard
+    class StatisticsChartPanel
+    class JobSpecificStatsPanel
+    class PersonDetailPanel
+
+    abstract "{abstract}\nUiPart" as UiPart {
+    }
 }
 
-package Model <<Rectangle>> {
-Class HiddenModel #FFFFFF
+package Logic {
 }
 
-package Logic <<Rectangle>> {
-Class HiddenLogic #FFFFFF
+package Model {
 }
 
 Class HiddenOutside #FFFFFF
 HiddenOutside ..> Ui
 
-UiManager .left.|> Ui
+' UI Relationships
+UiManager .up.|> Ui
 UiManager -down-> "1" MainWindow
-MainWindow *-down->  "1" CommandBox
+MainWindow *-down-> "1" CommandBox
 MainWindow *-down-> "1" ResultDisplay
 MainWindow *-down-> "1" PersonListPanel
 MainWindow *-down-> "1" JobListPanel
 MainWindow --> "0..1" HelpWindow
 
+' Panel Relationships
 PersonListPanel -down-> "*" PersonCard
 JobListPanel -down-> "*" JobCard
 JobListPanel *-right-> "0..1" StatisticsChartPanel
 JobListPanel *-right-> "0..1" JobSpecificStatsPanel
 JobListPanel *-right-> "0..1" PersonDetailPanel
 
-MainWindow -left-|> UiPart
+' UiPart Inheritance
+MainWindow -down-|> UiPart
+ResultDisplay -down-|> UiPart
+CommandBox -down-|> UiPart
+PersonListPanel -down-|> UiPart
+PersonCard -down-|> UiPart
+JobListPanel -down-|> UiPart
+JobCard -down-|> UiPart
+HelpWindow -down-|> UiPart
 
-ResultDisplay --|> UiPart
-CommandBox --|> UiPart
-PersonListPanel --|> UiPart
-PersonCard --|> UiPart
-JobListPanel --|> UiPart
-JobCard --|> UiPart
-HelpWindow --|> UiPart
-
+' Cross-Package Dependencies
 PersonCard ..> Model
 JobCard ..> Model
 StatisticsChartPanel ..> Logic
 JobSpecificStatsPanel ..> Logic
 PersonDetailPanel ..> Logic
-UiManager -right-> Logic
-MainWindow -left-> Logic
-JobListPanel -right-> Logic
+UiManager -up-> Logic
+MainWindow -up-> Logic
+JobListPanel -up-> Logic
 
+' Layout Adjustments
 PersonListPanel -[hidden]left- HelpWindow
 HelpWindow -[hidden]left- CommandBox
 CommandBox -[hidden]left- ResultDisplay
 StatisticsChartPanel -[hidden]down- JobSpecificStatsPanel
 JobSpecificStatsPanel -[hidden]down- PersonDetailPanel
 
-MainWindow -[hidden]-|> UiPart
+' Ensure UiPart appears at bottom
+MainWindow -[hidden]down-> UiPart
+
 @enduml

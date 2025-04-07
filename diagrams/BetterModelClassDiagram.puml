@@ -33,7 +33,7 @@ package "Model" {
     class ApplicationStatus
 
     ' Shared components
-    class "Set<Skill>" as SkillSet
+    class "Set<Skill>" as Skillset
     class Skill
 
     ' Interfaces

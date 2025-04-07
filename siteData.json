@@ -79,8 +79,12 @@
         "glossary": "Glossary",
         "appendix-instructions-for-manual-testing": "Appendix: Instructions for manual testing",
         "launch-and-shutdown": "Launch and shutdown",
-        "deleting-a-person": "Deleting a person",
+        "person-management": "Person Management",
+        "job-management": "Job Management",
+        "application-management": "Application Management",
+        "view-management": "View Management",
         "saving-data": "Saving data",
+        "help-command": "Help Command",
         "appendix-planned-enhancements": "Appendix: Planned Enhancements"
       },
       "headingKeywords": {}

@@ -17,10 +17,6 @@ Package Model as ModelPackage <<Rectangle>>{
     Class ModelManager
     Class UserPrefs
 
-    ' Utility classes
-    Class DoublyLinkedList
-    Class StackableFilteredList
-
     ' Person-related classes
     Class UniquePersonList
     Class Person
@@ -59,8 +55,6 @@ Package Model as ModelPackage <<Rectangle>>{
     ModelManager -left-> "1" AddressBook
     ModelManager -right-> "1" UserPrefs
     ModelManager -down-> "1" ApplicationsManager
-    ModelManager -up-> "1" DoublyLinkedList
-    ModelManager -right-> "3" StackableFilteredList
 
     ' AddressBook relationships
     AddressBook *--> "1" UniquePersonList

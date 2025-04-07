@@ -46,20 +46,20 @@ JsonAddressBookStorage .up.|> AddressBookStorage
 JsonApplicationsManagerStorage .up.|> ApplicationsManagerStorage
 
 ' Storage manager composition
-StorageManager *--> "1" UserPrefsStorage
-StorageManager *--> "1" AddressBookStorage
-StorageManager *--> "1" ApplicationsManagerStorage
+StorageManager --> "1" UserPrefsStorage
+StorageManager --> "1" AddressBookStorage
+StorageManager --> "1" ApplicationsManagerStorage
 
 ' AddressBook storage relationships
 JsonAddressBookStorage ..> JsonSerializableAddressBook
-JsonSerializableAddressBook *--> "*" JsonAdaptedPerson
-JsonSerializableAddressBook *--> "*" JsonAdaptedJob
-JsonAdaptedPerson *--> "*" JsonAdaptedSkill
-JsonAdaptedJob *--> "*" JsonAdaptedSkill
+JsonSerializableAddressBook --> "*" JsonAdaptedPerson
+JsonSerializableAddressBook --> "*" JsonAdaptedJob
+JsonAdaptedPerson --> "*" JsonAdaptedSkill
+JsonAdaptedJob --> "*" JsonAdaptedSkill
 
 ' ApplicationsManager storage relationships
 JsonApplicationsManagerStorage ..> JsonSerializableApplicationsManager
-JsonSerializableApplicationsManager *--> "*" JsonAdaptedApplication
+JsonSerializableApplicationsManager --> "*" JsonAdaptedApplication
 JsonAdaptedApplication ..> JsonAdaptedPerson
 JsonAdaptedApplication ..> JsonAdaptedJob
 

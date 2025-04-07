@@ -6,67 +6,15 @@ skinparam classBackgroundColor LOGIC_COLOR
 
 package Logic as LogicPackage {
 
-package "Parser Classes" as ParserClasses {
-    Class AddressBookParser
-    Class "<<interface>>\nParser" as Parser
-    Class ArgumentMultimap
-    Class ArgumentTokenizer
-    Class ParserUtil
-    Class Prefix
-
-    ' Command Parser Classes
-    Class AddCommandParser
-    Class EditCommandParser
-    Class DeleteCommandParser
-    Class FindCommandParser
-    Class AddJobCommandParser
-    Class EditJobCommandParser
-    Class DeleteJobCommandParser
-    Class FindJobCommandParser
-    Class ViewJobCommandParser
-    Class AddApplicationCommandParser
-    Class DeleteApplicationCommandParser
-    Class AdvanceApplicationCommandParser
-    Class ViewPersonCommandParser
-    Class FindAppCommandParser
+package "Parser Classes" as ParserClasses{
 }
+Class XYZCommand
+Class CommandResult
+Class "{abstract}\nCommand" as Command
 
-package "Command Classes" as CommandClasses {
-    Class "{abstract}\nCommand" as Command
-    Class CommandResult
-
-    ' Person Commands
-    Class AddCommand
-    Class EditCommand
-    Class DeleteCommand
-    Class FindCommand
-    Class ListCommand
-
-    ' Job Commands
-    Class AddJobCommand
-    Class EditJobCommand
-    Class DeleteJobCommand
-    Class FindJobCommand
-    Class ListJobCommand
-    Class ViewJobCommand
-
-    ' Application Commands
-    Class AddApplicationCommand
-    Class DeleteApplicationCommand
-    Class AdvanceApplicationCommand
-    Class FindAppCommand
-    Class ViewPersonCommand
-
-    ' Generic Commands
-    Class SwitchViewCommand
-    Class ClearCommand
-    Class ExitCommand
-    Class HelpCommand
-}
 
 Class "<<interface>>\nLogic" as Logic
 Class LogicManager
-Class Messages
 }
 
 package Model {
@@ -74,88 +22,26 @@ Class HiddenModel #FFFFFF
 }
 
 package Storage {
-Class HiddenStorage #FFFFFF
 }
 
 Class HiddenOutside #FFFFFF
 HiddenOutside ..> Logic
 
-' Interface implementations
-LogicManager .up.|> Logic
-AddCommandParser .up.|> Parser
-EditCommandParser .up.|> Parser
-DeleteCommandParser .up.|> Parser
-FindCommandParser .up.|> Parser
-AddJobCommandParser .up.|> Parser
-EditJobCommandParser .up.|> Parser
-DeleteJobCommandParser .up.|> Parser
-FindJobCommandParser .up.|> Parser
-ViewJobCommandParser .up.|> Parser
-AddApplicationCommandParser .up.|> Parser
-DeleteApplicationCommandParser .up.|> Parser
-AdvanceApplicationCommandParser .up.|> Parser
-ViewPersonCommandParser .up.|> Parser
-FindAppCommandParser .up.|> Parser
+LogicManager .right.|> Logic
+LogicManager -right->"1" ParserClasses
+ParserClasses ..> XYZCommand : <<create>>
 
-' Inheritance relationships
-AddCommand -up-|> Command
-EditCommand -up-|> Command
-DeleteCommand -up-|> Command
-FindCommand -up-|> Command
-ListCommand -up-|> Command
-AddJobCommand -up-|> Command
-EditJobCommand -up-|> Command
-DeleteJobCommand -up-|> Command
-FindJobCommand -up-|> Command
-ListJobCommand -up-|> Command
-ViewJobCommand -up-|> Command
-AddApplicationCommand -up-|> Command
-DeleteApplicationCommand -up-|> Command
-AdvanceApplicationCommand -up-|> Command
-FindAppCommand -up-|> Command
-ViewPersonCommand -up-|> Command
-SwitchViewCommand -up-|> Command
-ClearCommand -up-|> Command
-ExitCommand -up-|> Command
-HelpCommand -up-|> Command
+XYZCommand -up-|> Command
+LogicManager .left.> Command : <<call>>
 
-' Logic relationships
-LogicManager -right->"1" AddressBookParser
-LogicManager .left.> Command : executes >
+LogicManager --> Model
+LogicManager --> Storage
+Storage --[hidden] Model
+Command .[hidden]up.> Storage
+Command .right.> Model
+note right of XYZCommand: XYZCommand = AddCommand, \nFindCommand, etc
 
-' Parser relationships
-AddressBookParser ..> CommandClasses : creates >
-AddressBookParser -right-> "uses >" ParserClasses
-AddCommandParser ..> AddCommand : creates >
-EditCommandParser ..> EditCommand : creates >
-DeleteCommandParser ..> DeleteCommand : creates >
-FindCommandParser ..> FindCommand : creates >
-AddJobCommandParser ..> AddJobCommand : creates >
-EditJobCommandParser ..> EditJobCommand : creates >
-DeleteJobCommandParser ..> DeleteJobCommand : creates >
-FindJobCommandParser ..> FindJobCommand : creates >
-ViewJobCommandParser ..> ViewJobCommand : creates >
-AddApplicationCommandParser ..> AddApplicationCommand : creates >
-DeleteApplicationCommandParser ..> DeleteApplicationCommand : creates >
-AdvanceApplicationCommandParser ..> AdvanceApplicationCommand : creates >
-ViewPersonCommandParser ..> ViewPersonCommand : creates >
-FindAppCommandParser ..> FindAppCommand : creates >
-
-ParserUtil <.. ParserClasses : uses
-ArgumentMultimap <.. ParserClasses : uses
-ArgumentTokenizer <.. ParserClasses : uses
-Prefix <.. ParserClasses : uses
-
-' Command relationships
-Command .up.> CommandResult : creates >
-LogicManager .down.> CommandResult : returns >
-Logic ..> CommandResult : returns >
-
-' Component interactions
-LogicManager --> HiddenModel : references >
-LogicManager --> HiddenStorage : references >
-Command .right.> HiddenModel : modifies >
-
-' Hidden relationships to avoid clutter
-HiddenStorage -[hidden]- HiddenModel
+Logic ..> CommandResult
+LogicManager .down.> CommandResult
+Command .up.> CommandResult : <<create>>
 @enduml
