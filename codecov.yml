@@ -17,6 +17,8 @@ coverage:
 ignore:
   - "src/main/java/seedu/address/ui/.*"  # Ignores all files in the UI folder
   - "src/test/java/seedu/address/ui/.*"  # Also ignore UI tests
+  - "src/main/java/seedu/address/Main.java"  # Ignore Main.java as it requires UI testing
+  - "src/main/java/seedu/address/MainApp.java"  # Ignore MainApp.java as it requires UI testing
 
 parsers:
   gcov:
