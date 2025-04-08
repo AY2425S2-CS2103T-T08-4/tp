@@ -38,6 +38,6 @@ with(this){return _c('li',[_c('p',[_c('strong',[_v("Set up CI")])]),_v(" "),_c('
 with(this){return _c('li',[_c('p',[_c('strong',[_v("Learn the design")])]),_v(" "),_c('p',[_v("When you are ready to start coding, we recommend that you get some sense of the overall design by reading about "),_c('a',{attrs:{"href":"/tp/DeveloperGuide.html#architecture"}},[_v("TalentMatch’s architecture")]),_v(".")])])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.6.0")]),_v(", generated on Tue, 8 Apr 2025, 13:33:14 GMT+8]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.6.0")]),_v(", generated on Tue, 8 Apr 2025, 13:33:21 GMT+8]")])])])}
 }];
   
