@@ -603,7 +603,7 @@ testers are expected to do more *exploratory* testing.
    Currently, when storage files (`applicationsmanager.json` and `addressbook.json`) are detected to have corruption or incorrect formatting, the application wipes user data and starts with a clean slate, resulting in complete data loss even from minor formatting errors. We plan to implement a more robust data recovery mechanism that attempts to salvage uncorrupted portions of the files, creates automatic backups before wiping data, and provides users with options to restore from previous states rather than immediately discarding all data.
 
 4. **Improve UI pie chart**
-   Currently, a bug in the pie chart component makes it such that past 33 jobs with applicants, or 5 schools with applicants, the legend of the pie chart fails to render. We believe this is due to a CSS bug. We intend to fix this in a future iteration.
+   Currently, a bug in the legend and the pie chart component makes it such that past 33 jobs with applicants, the legend of the pie chart fails to render. We believe this is due to a CSS bug. We intend to fix this in a future iteration.
 
 5. **Improve skill tag validation and parsing**
    Currently, the skill tag with prefix `k/` is limited through input validation to single words with no spaces, and with only `.` and `/` as special characters allowed. We plan to expand the input validation and parsing such that skills can accept multi-word inputs and more special characters, in a manner that is meaningful.
@@ -613,6 +613,10 @@ testers are expected to do more *exploratory* testing.
 
 7. **Better warnings for incorrect usage of `edit/editjob` commands**.
    Due to the manner in which both edit commands detect changes to the `Person` or `Job`, error handling is not specific to the point where we can give targeted warnings or error messages to the end user based on the actual error; instead, our warnings are quite general at the moment. We intend to improve this by improving upon the shared backend code that the `edit` commands use to detect and catch exceptions.
+
+8. **Improve UI bar chart:**
+   Currently, a bug in the legend and the bar chart component makes it such that past 5 schools with applicants, or past 4 applicants per school, the legend of the bar chart fails to render requisite schools or applicants. We believe this is due to a CSS bug. We intend to fix this in a future iteration.
+
 
 --------------------------------------------------------------------------------------------------------------------
 
