@@ -26,6 +26,7 @@ These AI tools primarily contributed to:
 * UI components development in JavaFX
 * Styling and design improvements
 * Code auto-completion across the application
+* Test code generation
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -166,111 +167,6 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Implementation**
-
-This section describes some noteworthy details on how certain features are implemented.
-
-### \[Proposed\] Undo/redo feature
-
-#### Proposed Implementation
-
-The proposed undo/redo mechanism is facilitated by `VersionedTalentMatch`. It extends `TalentMatch` with an undo/redo history, stored internally as an `TalentMatchStateList` and `currentStatePointer`. Additionally, it implements the following operations:
-
-* `VersionedTalentMatch#commit()` — Saves the current address book state in its history.
-* `VersionedTalentMatch#undo()` — Restores the previous address book state from its history.
-* `VersionedTalentMatch#redo()` — Restores a previously undone address book state from its history.
-
-
-These operations are exposed in the `Model` interface as `Model#commitTalentMatch()`, `Model#undoTalentMatch()` and `Model#redoTalentMatch()` respectively.
-
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
-
-Step 1. The user launches the application for the first time. The `VersionedTalentMatch` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
-
-<puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
-
-Step 2. The user executes `del 5` command to delete the 5th person in the address book. The `del` command calls `Model#commitTalentMatch()`, causing the modified state of the address book after the `del 5` command executes to be saved in the `TalentMatchStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
-
-<puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
-
-Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitTalentMatch()`, causing another modified address book state to be saved into the `TalentMatchStateList`.
-
-<puml src="diagrams/UndoRedoState2.puml" alt="UndoRedoState2" />
-
-<box type="info" seamless>
-
-**Note:** If a command fails its execution, it will not call `Model#commitTalentMatch()`, so the address book state will not be saved into the `TalentMatchStateList`.
-
-</box>
-
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoTalentMatch()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
-
-<puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
-
-
-<box type="info" seamless>
-
-**Note:** If the `currentStatePointer` is at index 0, pointing to the initial TalentMatch state, then there are no previous TalentMatch states to restore. The `undo` command uses `Model#canUndoTalentMatch()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
-
-</box>
-
-The following sequence diagram shows how an undo operation goes through the `Logic` component:
-
-<puml src="diagrams/UndoSequenceDiagram-Logic.puml" alt="UndoSequenceDiagram-Logic" />
-
-<box type="info" seamless>
-
-**Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
-</box>
-
-Similarly, how an undo operation goes through the `Model` component is shown below:
-
-<puml src="diagrams/UndoSequenceDiagram-Model.puml" alt="UndoSequenceDiagram-Model" />
-
-The `redo` command does the opposite — it calls `Model#redoTalentMatch()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
-
-<box type="info" seamless>
-
-**Note:** If the `currentStatePointer` is at index `TalentMatchStateList.size() - 1`, pointing to the latest address book state, then there are no undone TalentMatch states to restore. The `redo` command uses `Model#canRedoTalentMatch()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
-
-</box>
-
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitTalentMatch()`, `Model#undoTalentMatch()` or `Model#redoTalentMatch()`. Thus, the `TalentMatchStateList` remains unchanged.
-
-<puml src="diagrams/UndoRedoState4.puml" alt="UndoRedoState4" />
-
-Step 6. The user executes `clear`, which calls `Model#commitTalentMatch()`. Since the `currentStatePointer` is not pointing at the end of the `TalentMatchStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
-
-<puml src="diagrams/UndoRedoState5.puml" alt="UndoRedoState5" />
-
-The following activity diagram summarizes what happens when a user executes a new command:
-
-<puml src="diagrams/CommitActivityDiagram.puml" width="250" />
-
-#### Design considerations:
-
-**Aspect: How undo & redo executes:**
-
-* **Alternative 1 (current choice):** Saves the entire address book.
-  * Pros: Easy to implement.
-  * Cons: May have performance issues in terms of memory usage.
-
-* **Alternative 2:** Individual command knows how to undo/redo by
-  itself.
-  * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-  * Cons: We must ensure that the implementation of each individual command are correct.
-
-_{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
-
---------------------------------------------------------------------------------------------------------------------
-
 ## **Documentation, logging, testing, configuration, dev-ops**
 
 * [Documentation guide](Documentation.md)
@@ -288,8 +184,7 @@ _{Explain here how the data archiving feature will be implemented}_
 **Target user profile**:
 
 * TalentMatch is specifically tailored for recruitment professionals in Small-Medium Enterprises (SMEs) who:
-* Manage multiple university candidate pipelines simultaneously
-* Need to efficiently track skills, availability, and application statuses
+* Manage multiple university candidate pipelines simultaneously and efficiently
 * Value speed and efficiency in their workflow
 * Are comfortable with typing-based interfaces
 * Prefer lightweight, standalone solutions over complex enterprise HR systems
@@ -300,55 +195,59 @@ _{Explain here how the data archiving feature will be implemented}_
 TalentMatch enables HR recruiters to manage the full recruitment lifecycle more efficiently than typical mouse/GUI driven applications by:
 
 - Managing applicants, jobs, and applications with a streamlined command-line interface that's faster than traditional GUI applications
-- Providing specialized views for different recruiting scenarios (Person View, Job View, Application View)
+- Providing specialized views for different recruiting scenarios (Person View, Job View)
 - Supporting multi-dimensional search capabilities across skills, application status, and other candidate attributes
-- Enabling efficient tracking of candidates through interview rounds with performance feedback
+- Enabling efficient tracking of candidates through interview rounds
 - Maintaining clear relationships between applicants and the positions they've applied for
 - Offering command history functionality to speed up repetitive tasks
 - Providing visual indicators of application progress through status tracking
 - Allowing focused management of internship applications with appropriate attributes
 - Supporting skill-based matching between candidates and job requirements
 - Enabling view-specific commands that improve recruiter workflow efficiency
+- Being a self-contained, self-sufficient solution that does not impose vendor lock-in
 
 These features combine to provide HR recruiters with a comprehensive tool for managing the entire recruitment process from job creation to final candidate selection.
 
 
 ### User stories
 
-Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
+Priorities:
+- High (must have) - `* * *`
+- Medium (nice to have) - `* *`
+- Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                 | So that I can…​                                               |
-|----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | HR Recruiter   | add a new applicant          | track his/her application status easily                 |
-| `* * *`  | HR Recruiter   | delete a person        | remove his/her entry once their application is rejected       |
-| `* * *`  | HR Recruiter   | view all applicants as a list| view a summary of their applications                                   |
-| `* * *`  | HR Recruiter   | find an applicant by details | locate details of an applicant without having to go through the entire list |
-| `* * *`  | HR recruiter     | search applications by job and person | quickly locate specific applications without browsing through all records |
-| `* * *`  | HR recruiter     | have a separate view for jobs | focus on job-specific data when needed |
-| `* * *`  | HR recruiter     | search by application status | identify applications at specific stages in the recruitment process |
-| `* * *`  | HR recruiter     | search across multiple fields simultaneously | find candidates that match complex criteria |
-| `* * *`  | HR recruiter     | view the applications for each person | see all positions a candidate has applied for at once |
-| `* *`    | HR Recruiter     | filter applicants            | simplify my search for those who are more suitable for this role       |
-| `* *`    | Recruiter        | create an application to link people with roles applied | keep track of the applicants for a specific role |
-| `* *`    | HR recruiter     | create role openings  | eventually assign them to applicants and search open roles |
-| `* *`    | HR recruiter     | see the role(s) a candidate is applying for | more quickly evaluate if their qualifications align or if such roles are currently available |
-| `* *`    | Recruiter        | see an applicant's education background | ensure legitimacy of their application |
-| `* *`    | HR recruiter     | find candidates and jobs by skills | match people to positions based on skill requirements |
-| `* *`    | HR recruiter     | access my command history | reuse or modify previous commands without retyping them |
-| `* *`    | HR recruiter     | track a candidate's progress via interview rounds | record performance feedback and interview dates for each stage |
-| `* *`    | HR recruiter     | specify required skills for job postings | clearly communicate position requirements to potential applicants |
-| `* *`    | HR recruiter     | edit job fields after creation | update job details as requirements change |
-| `* *`    | HR recruiter     | see a visual progress indicator for applications | quickly gauge where each application stands in the process |
-| `* *`    | HR recruiter     | view applicants from the job view | see all candidates for a specific position at once |
-| `* *`    | HR recruiter     | use view-specific commands | have a more intuitive workflow depending on my current context |
-| `* *`    | HR recruiter     | have datetime support for applications | schedule and track interview appointments |
-| `* *`    | HR recruiter     | clearly distinguish between applications | avoid confusion when dealing with multiple applications |
-| `* *`    | HR recruiter     | focus on internship applications | manage the specific needs of intern recruitment |
-| `*`      | HR Recruiter     | sort applicants        | view the top most suitable applicants for the role I'm hiring                 |
-| `*`      | HR recruiter     | have a more user-friendly help command | quickly learn how to use the system |
-| `*`      | HR recruiter     | preview applicants for a job | get a quick overview without changing views |
-| `*`      | HR recruiter     | make JobView the primary view | streamline my workflow as I primarily work with job openings |
-| `*`      | HR recruiter     | have applications follow standard behaviors | ensure consistent interaction patterns throughout the system |
+| Priority | As a …​                       | I want to …​                                                | So that I can…​                                                                      |
+|----------|-------------------------------|-------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| `* * *`  | HR Recruiter                  | add a new person with their details                         | keep track of potential candidates for internship positions                           |
+| `* * *`  | HR Recruiter                  | edit a person's information                                 | update their details when they provide new information                                |
+| `* * *`  | HR Recruiter                  | delete a person                                             | remove entries of candidates no longer under consideration                            |
+| `* * *`  | HR Recruiter                  | find persons by various criteria                            | quickly locate specific candidates without going through the entire list              |
+| `* * *`  | HR Recruiter                  | see a list of all persons                                   | get an overview of all potential candidates                                          |
+| `* * *`  | HR Recruiter                  | add a job with title, rounds, and required skills           | create new internship positions for candidates to apply to                           |
+| `* * *`  | HR Recruiter                  | edit job details                                            | update job requirements or descriptions as needed                                    |
+| `* * *`  | HR Recruiter                  | delete a job                                                | remove positions that are no longer available                                        |
+| `* * *`  | HR Recruiter                  | find jobs by keywords                                       | quickly locate specific job positions without browsing through all listings           |
+| `* * *`  | HR Recruiter                  | list all jobs                                               | get an overview of all available positions                                           |
+| `* * *`  | HR Recruiter                  | create an application linking a person to a job             | track which candidates are applying for which positions                              |
+| `* * *`  | HR Recruiter                  | delete an application                                       | remove incorrect applications or those no longer being considered                    |
+| `* * *`  | HR Recruiter                  | advance an application to the next interview round          | track a candidate's progress through the interview process                           |
+| `* * *`  | HR Recruiter                  | find applications by status                                 | quickly locate applications at specific stages in the recruitment process            |
+| `* * *`  | HR Recruiter                  | switch between person view and job view                     | focus on different aspects of the recruitment process as needed                      |
+| `* *`    | HR Recruiter                  | view detailed information of a specific job                 | see its requirements and applicant distribution across interview rounds              |
+| `* *`    | HR Recruiter                  | view detailed information of an applicant from job view     | see their qualifications and application progress without switching views            |
+| `* *`    | HR Recruiter                  | use command history                                         | recall and reuse previous commands without retyping them                             |
+| `* *`    | HR Recruiter                  | see a visual representation of application progress         | quickly gauge where each candidate stands in the interview process                   |
+| `* *`    | HR Recruiter                  | find applications for a specific job                        | focus on managing candidates for a particular position                               |
+| `* *`    | HR Recruiter                  | find applications with a specific status for a specific job | manage candidates at the same stage in the interview process for a particular role   |
+| `* *`    | HR Recruiter                  | have context-specific commands                              | have a more intuitive workflow based on whether I'm in person view or job view       |
+| `* *`    | HR Recruiter                  | specify skills for both jobs and persons                    | match candidates to positions based on skill requirements                            |
+| `* *`    | HR Recruiter                  | view all applications for a job                             | see all candidates being considered for a specific position                          |
+| `* *`    | HR Recruiter                  | clear all data from the system                              | start fresh when beginning a new recruitment cycle                                   |
+| `*`      | HR Recruiter                  | have data automatically saved                               | not worry about losing information if the application closes unexpectedly            |
+| `*`      | HR Recruiter                  | view help information                                       | understand how to use the commands in the system                                     |
+| `*`      | HR Recruiter                  | see a graphical representation of interview round distribution | quickly understand the distribution of applications across different stages       |
+| `*`      | HR Recruiter                  | continue searches based on previously filtered results      | gradually narrow down my search to find exactly what I'm looking for                 |
+| `*`      | HR Recruiter                  | have case-insensitive search for most fields                | find results regardless of letter casing used                                        |
 
 ### Use cases
 
@@ -494,7 +393,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 500 persons without a noticeable sluggishness in performance for typical usage.
+2.  Should be able to hold up to 100 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 4.  Should respond to any user command within 2 seconds.
 5.  Should be usable by a person who has never used a contact management system before with minimal training.
@@ -503,9 +402,38 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, MacOS
-* **HR Recruiter**: Main user of TalentMatch, someone who manages the application timeline of applicants
-* **Applicant**: A prospective university student who is applying for a job opening.
+* **Mainstream OS**: Windows, Linux, macOS - the operating systems that TalentMatch is designed to run on.
+
+* **HR Recruiter**: The main user of TalentMatch; a professional responsible for managing the application timeline and recruitment process for job candidates.
+
+* **Applicant/Candidate**: A prospective university student who is applying for a job opening.
+
+* **Person**: An entity in the TalentMatch system representing a potential job candidate with attributes such as name, phone number, email, address, university, and skills.
+
+* **Job**: An entity in the TalentMatch system representing an available position with attributes such as job title, required number of interview rounds, and required skills.
+
+* **Application**: A relationship entity linking a Person to a Job, tracking the progress of a candidate through the recruitment process for a specific position.
+
+* **Interview Round**: A stage in the recruitment process that a candidate must progress through, represented by a numerical value in the Application status.
+
+* **Skill**: A capability or technical knowledge that can be possessed by a Person or required by a Job, used for matching candidates to positions.
+
+* **Person View**: A UI mode that focuses on listing and managing Person entities.
+
+* **Job View**: A UI mode that focuses on listing and managing Job entities and their associated applications.
+
+* **Application Status**: A numerical value indicating a candidate's progress through the interview process:
+  * **Status 0**: The applicant has just applied and hasn't undergone any interviews yet.
+  * **Status k** (where k is between 1 and total rounds - 1): The applicant has successfully PASSED round k and is waiting for the next round.
+  * **Status = Job Rounds**: The applicant has passed all interview rounds and has been offered the position.
+
+* **UniquePersonList**: A data structure in the Model component that stores all Person objects without duplicates.
+
+* **UniqueJobList**: A data structure in the Model component that stores all Job objects without duplicates.
+
+* **UniqueApplicationList**: A data structure in the Model component that stores all Application objects without duplicates.
+
+* **Brownfield Project**: A software development project that builds upon existing code rather than starting from scratch (as opposed to a greenfield project).
 
 ## **Appendix: Instructions for manual testing**
 
@@ -665,29 +593,48 @@ testers are expected to do more *exploratory* testing.
 
 **Team Size: 4**
 
-1. **Improve duplicate person and job detection:**
-   Currently, duplicate detection only uses the `Person.name` and `Job.jobTitle` fields for comparison in the `Person` and `Job` classes respectively, which can inconvenience users wanting to add multiple contacts with the same name. It also results in issues like multiple people being able to be added to the address book with different names but the same contact details, which may not reflect a real-world scenario faithfully. We plan to extend duplicate detection to become more robust, comparing multiple fields (such as names, phone numbers, emails etc.), only considering a contact duplicate if multiple fields match. This logic is non-trivial.
+1. **Improve duplicate person detection**
+   Currently, duplicate detection for `Person` only uses the `Person.name` fields for comparison, which can inconvenience users wanting to add multiple contacts with the same name. It also results in issues like multiple people being able to be added to the address book with different names but the same contact details, which may not reflect a real-world scenario faithfully. We plan to extend duplicate detection to become more robust, comparing multiple fields (such as names, phone numbers, emails etc.), only considering a contact duplicate if multiple fields match. This logic is non-trivial.
 
-2. **Fix multiple window display issue:**
+2. **Fix multiple window display issue**
    When using multiple screens, if users move the application to a secondary screen, and later switch to using only the primary screen, the GUI opens off-screen. We plan to implement logic to detect and remedy this scenario by ensuring the application window always appears within the bounds of available screens, eliminating the need for users to manually delete the `preferences.json` file.
 
-3. **Implement intelligent case sensitivity handling:**
-   Currently, the application has rigid case sensitivity rules that don't always align with user expectations. We plan to improve this by:
-   - Making non-critical fields (like descriptive text) case-insensitive for better usability
-   - Maintaining case sensitivity where it provides important distinctions (e.g., usernames, passwords)
-   - Adding warning prompts when users attempt actions that might create confusion due to case similarity
-   - Providing users with options to resolve potential conflicts caused by case differences
-   - Offering clearer feedback about case requirements for different fields
-   This approach will reduce friction while allowing users to make informed decisions about potential ambiguities.
+3. **Improve data recovery for corrupted storage files**
+   Currently, when storage files (`applicationsmanager.json` and `addressbook.json`) are detected to have corruption or incorrect formatting, the application wipes user data and starts with a clean slate, resulting in complete data loss even from minor formatting errors. We plan to implement a more robust data recovery mechanism that attempts to salvage uncorrupted portions of the files, creates automatic backups before wiping data, and provides users with options to restore from previous states rather than immediately discarding all data.
 
-4. **Enhance viewport management:**
-   Parts of the application may be cut off at smaller window sizes, including the default size at first startup. We plan to improve dynamic UI resizing to properly handle different window sizes and ensure all UI elements remain accessible.
+4. **Improve UI pie chart**
+   Currently, a bug in the pie chart component makes it such that past 33 jobs with applicants, or 5 schools with applicants, the legend of the pie chart fails to render. We believe this is due to a CSS bug. We intend to fix this in a future iteration.
 
-5. **Improve message display formatting:**
-   Some success and error messages are too long and become hard to read in the current interface. We plan to implement better message formatting with line breaks, improved layout, and possibly expandable/collapsible message areas for detailed information.
+5. **Improve skill tag validation and parsing**
+   Currently, the skill tag with prefix `k/` is limited through input validation to single words with no spaces, and with only `.` and `/` as special characters allowed. We plan to expand the input validation and parsing such that skills can accept multi-word inputs and more special characters, in a manner that is meaningful.
 
-6. **Improve data recovery for corrupted storage files:**
-   Currently, when storage files (`applicationsmanager.json` and `addressbook.json`) are detected to have corruption or incorrect formatting, the application wipes all data and starts with a clean slate, resulting in complete data loss even from minor formatting errors. We plan to implement a more robust data recovery mechanism that attempts to salvage uncorrupted portions of the files, creates automatic backups before wiping data, and provides users with options to restore from previous states rather than immediately discarding all data.
+6. **Improve parser to avoid misdetection of prefixes**
+   Currently, our prefixes are detected through a pattern similar to (simplified for brevity here) `<SPACE>/<PREFIX><CONTENT>`. However, in fields such as `Address` and `Name` that accept multi-word inputs and special characters, sometimes a misdetection of prefixes can be triggered (e.g. inputting a name with `s/o` will detect a school prefix). We intend to fix this by employing more robust input validation and checking as well as possibly moving to a less ubiquitous character to demarcate a prefix, such as a backslash, which should greatly reduce such conflicts.
 
-7. **Improve command parsing robustness:**
-   The current command parsing is sensitive to case and strict validation rules, causing unexpected errors when these rules aren't followed. We plan to make the command parser more robust by implementing flexible case handling, improved error detection, and more intuitive validation with better feedback to users.
+7. **Better warnings for incorrect usage of `edit/editjob` commands**.
+   Due to the manner in which both edit commands detect changes to the `Person` or `Job`, error handling is not specific to the point where we can give targeted warnings or error messages to the end user based on the actual error; instead, our warnings are quite general at the moment. We intend to improve this by improving upon the shared backend code that the `edit` commands use to detect and catch exceptions.
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Effort**
+
+### Difficulty Level
+We felt that the difficulty of the project was quite high, especially as took on quite ambitious features. We implemented a significant number of features, including, but not limited to
+* Large changes to the UI to enable custom components such as charts, progress bars etc.
+* Logic to implement multiple views that can be toggled between, with data consistency between the different views
+* `Application` and `ApplicationManager`, which served as a way for us to manage the relationship between `Person` and `Job` in an immutable, side-effect free manner
+
+### Challenges Faced
+On the project management aspect, we often faced significant merge conflicts in the earlier iterations. Since the features we were implementing were often so large, the way the core API of the application was modified by individual group members to implement their respective features was often incongruent, leading to near irreconcilable merge conflicts. We learnt our lesson and started discussing broad-level implementation plans for our features at the start of the later iterations, ensuring that there were no breaking changes introduced by any of the team members.
+
+Furthermore, on the technical side of things, since the UI features that we wanted to implement were quite involved and our experience with `JavaFX` was limited, we were often stuck at times. However, AI auto-complete tools like GitHub Copilot and Cursor were often able to provide us with direction when we were unfamiliar with syntax or the inner workings of `JavaFX`.
+
+### Effort Required
+The effort required was quite significant. By functional code, we are ranked #3 in the cohort. Everyone dedicated a significant amount of time to the project, especially in the later iterations, when we started implementing features and bug fixes at a rapid pace.
+
+### Key Achievements
+We think that we have made an application that is quite functional and one which extends upon the base AB3 significantly, while also exploring `JavaFX` UI styling and capabilities quite far. It is clear that a lot of work and effort has gone into the application, and we are very proud of it. In particular, our key achievements are:
+* Responsive UI elements
+* Many modes of visualisation such as charts and progress bars that provide significant analytical value
+* Multiple views that extend the functionality of the application
+* A well-written core API for managing applications that handles the association between `Job` and `Person` reliably
