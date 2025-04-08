@@ -362,6 +362,6 @@ with(this){return _c('p',[_v("We think that we have made an application that is 
 with(this){return _c('ul',[_c('li',[_v("Responsive UI elements")]),_v(" "),_c('li',[_v("Many modes of visualisation such as charts and progress bars that provide significant analytical value")]),_v(" "),_c('li',[_v("Multiple views that extend the functionality of the application")]),_v(" "),_c('li',[_v("A well-written core API for managing applications that handles the association between "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("Job")]),_v(" and "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("Person")]),_v(" reliably")])])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.6.0")]),_v(", generated on Tue, 8 Apr 2025, 13:16:02 GMT+8]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.6.0")]),_v(", generated on Tue, 8 Apr 2025, 13:33:14 GMT+8]")])])])}
 }];
   
