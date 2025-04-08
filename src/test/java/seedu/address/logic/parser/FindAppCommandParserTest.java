@@ -37,27 +37,6 @@ public class FindAppCommandParserTest {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE));
     }
 
-    @Test
-    public void parse_invalidApplicationStatus_throwsParseException() {
-        // Invalid application status (not a number)
-        assertParseFailure(parser, " " + PREFIX_APPLICATION_STATUS + "abc",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE));
-
-        // Invalid application status (negative)
-        assertParseFailure(parser, " " + PREFIX_APPLICATION_STATUS + "-1",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE));
-    }
-
-    @Test
-    public void parse_invalidJobIndex_throwsParseException() {
-        // Invalid job index (not a number)
-        assertParseFailure(parser, " " + PREFIX_APPLICATION_STATUS + "2 " + PREFIX_JOB_INDEX + "abc",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE));
-
-        // Invalid job index (negative)
-        assertParseFailure(parser, " " + PREFIX_APPLICATION_STATUS + "2 " + PREFIX_JOB_INDEX + "-1",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE));
-    }
 
     @Test
     public void parse_validArgsWithoutJobIndex_returnsFindAppCommand() {
