@@ -53,6 +53,6 @@ with(this){return _c('h2',{attrs:{"id":"tips-for-writing-good-tests"}},[_v("Tips
 with(this){return _c('ul',[_c('li',[_v("Write tests for both normal and boundary conditions")]),_v(" "),_c('li',[_v("Focus on TalentMatch's core HR recruitment workflows:\n"),_c('ul',[_c('li',[_v("Adding and filtering candidates")]),_v(" "),_c('li',[_v("Managing job openings")]),_v(" "),_c('li',[_v("Tracking application progress through interview rounds")])])]),_v(" "),_c('li',[_v("Test the interplay between Persons, Jobs, and Applications to ensure proper relationship management")]),_v(" "),_c('li',[_v("Structure tests to match TalentMatch's MVC architecture")]),_v(" "),_c('li',[_v("Mock dependent components when testing a specific layer")])])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.6.0")]),_v(", generated on Tue, 8 Apr 2025, 13:35:58 GMT+8]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.6.0")]),_v(", generated on Tue, 8 Apr 2025, 13:39:36 GMT+8]")])])])}
 }];
   
